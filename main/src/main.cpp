@@ -101,7 +101,7 @@ int main(int argc, char** argv) {
 			pico_mobiles[pm]->generate_channel_gain();
 
 		FOREACH_MOBILES
-			mobiles[mob]->calculate_throughputs();
+			mobiles[mob]->generate_channel_gain();
 
 		// /////////////////////////////////////////////////////////////////////
 

@@ -29,7 +29,7 @@ Mobile::Mobile(int idx, double x, double y, double qos)
 	num_picos_interfered = 0;
 }
 
-void Mobile::calculate_throughputs()
+void Mobile::generate_channel_gain()
 {
 
 	double sum_macro_channel_gain = 0.0;

@@ -69,7 +69,7 @@ public:
 	////////////////////////////////////////////////////////////////////////////
 	// PA1                                                                    //
 
-	void calculate_throughputs();
+	void generate_channel_gain();
 
 	void calculate_throughput(int mobile_state);
 

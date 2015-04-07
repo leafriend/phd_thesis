@@ -95,6 +95,7 @@
     <ClInclude Include="src\func.h" />
     <ClInclude Include="src\macro.h" />
     <ClInclude Include="src\macro_mobile.h" />
+    <ClInclude Include="src\main.h" />
     <ClInclude Include="src\mobile.h" />
     <ClInclude Include="src\pa1.h" />
     <ClInclude Include="src\pico.h" />

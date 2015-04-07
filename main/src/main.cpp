@@ -11,66 +11,17 @@
 #include "macro_mobile.h"
 #include "pico_mobile.h"
 #include "pa1.h"
+#include "main.h"
 
 int main(int argc, char** argv) {
 
-	FILE* fp;
-
-	//printf("/ Start ===============================\\\n");
-
-	//printf("= Macro ================================\n");
+	// Initialize //////////////////////////////////////////////////////////////
 	Macro* macros[NUM_MACRO];
-	fp = fopen(DATA_FILE_PREFIX "macro.txt", "r");
-	FOREACH_MACROS {
-		double x, y, tx_power = TX_POWER_MACRO;
-		fscanf(fp, "%lf", &x);
-		fscanf(fp, "%lf", &y);
-		//printf("(%12.6f, %12.6f): %6.3f\n", x, y, tx_power);
-		macros[mac] = new Macro(mac, x, y, tx_power);
-	}
-	fclose(fp);
-
-	//printf("= Pico =================================\n");
 	Pico* picos[NUM_PICO];
-	fp = fopen(DATA_FILE_PREFIX "pico.txt", "r");
-	FOREACH_PICOS {
-		double x, y, tx_power = TX_POWER_MACRO;
-		fscanf(fp, "%lf", &x);
-		fscanf(fp, "%lf", &y);
-		//printf("(%12.6f, %12.6f): %6.3f\n", x, y, tx_power);
-		picos[pic] = new Pico(pic, x, y, tx_power);
-	}
-	fclose(fp);
-
 	Macro_Mobile* macro_mobiles[NUM_MM];
 	Pico_Mobile* pico_mobiles[NUM_PICO * NUM_MOBILE];
-
-	//printf("= Mobile ===============================\n");
 	Mobile* mobiles[NUM_MOBILE];
-	fp = fopen(DATA_FILE_PREFIX "mobile.txt", "r");
-	FOREACH_MOBILES {
-		double x, y, qos = QOS;
-		fscanf(fp, "%lf", &x);
-		fscanf(fp, "%lf", &y);
-		//printf("(%12.6f, %12.6f): %6.3f\n", x, y, qos);
-		Mobile* mobile = new Mobile(mob, x, y, qos);
-		mobiles[mob] = mobile;
-
-		FOREACH_MACROS {
-			macro_mobiles[mob * NUM_MACRO + mac] = new Macro_Mobile(macros[mac], mobile);
-		}
-
-		FOREACH_PICOS {
-			pico_mobiles[mob * NUM_PICO + pic] = new Pico_Mobile(picos[pic], mobile);
-		}
-
-		if (mobile->get_macro() == NULL) printf("Mobile at (%12.6f, %12.6f): %6.3f has no service Macro\n", x, y, qos);
-		if (mobile->get_pico() == NULL) printf("Mobile at (%12.6f, %12.6f): %6.3f has no service Pico\n", x, y, qos);
-
-	}
-	fclose(fp);
-
-	// /////////////////////////////////////////////////////////////////////////
+	initialize(macros, picos, mobiles, macro_mobiles, pico_mobiles);
 
 	// Time Check //////////////////////////////////////////////////////////////
 	TIME start, stop, ellapse;
@@ -242,9 +193,73 @@ int main(int argc, char** argv) {
 	//printf("=========================%6d.%06d s\n", TIME_GETSEC(&ellapse), TIME_MSEC(&ellapse));
 	//printf("=========================%13.6f s\n", (float)(ccstop - ccstart) / CLOCKS_PER_SEC);
 
-	// ////////////////////////////////////////////////////////////////////// */
+	// Finalize ///////////////////////////////////////////////////////////// */
+	finalize(macros, picos, mobiles, macro_mobiles, pico_mobiles);
 
 	// /////////////////////////////////////////////////////////////////////////
+
+	system("pause");
+	return 0;
+
+}
+
+void initialize(Macro** macros, Pico** picos, Mobile** mobiles,
+	Macro_Mobile** macro_mobiles, Pico_Mobile** pico_mobiles) {
+
+	FILE* fp;
+
+	//printf("/ Start ===============================\\\n");
+
+	//printf("= Macro ================================\n");
+	fp = fopen(DATA_FILE_PREFIX "macro.txt", "r");
+	FOREACH_MACROS {
+		double x, y, tx_power = TX_POWER_MACRO;
+		fscanf(fp, "%lf", &x);
+		fscanf(fp, "%lf", &y);
+		//printf("(%12.6f, %12.6f): %6.3f\n", x, y, tx_power);
+		macros[mac] = new Macro(mac, x, y, tx_power);
+	}
+	fclose(fp);
+
+	//printf("= Pico =================================\n");
+	fp = fopen(DATA_FILE_PREFIX "pico.txt", "r");
+	FOREACH_PICOS {
+		double x, y, tx_power = TX_POWER_MACRO;
+		fscanf(fp, "%lf", &x);
+		fscanf(fp, "%lf", &y);
+		//printf("(%12.6f, %12.6f): %6.3f\n", x, y, tx_power);
+		picos[pic] = new Pico(pic, x, y, tx_power);
+	}
+	fclose(fp);
+
+	//printf("= Mobile ===============================\n");
+	fp = fopen(DATA_FILE_PREFIX "mobile.txt", "r");
+	FOREACH_MOBILES {
+		double x, y, qos = QOS;
+		fscanf(fp, "%lf", &x);
+		fscanf(fp, "%lf", &y);
+		//printf("(%12.6f, %12.6f): %6.3f\n", x, y, qos);
+		Mobile* mobile = new Mobile(mob, x, y, qos);
+		mobiles[mob] = mobile;
+
+		FOREACH_MACROS {
+			macro_mobiles[mob * NUM_MACRO + mac] = new Macro_Mobile(macros[mac], mobile);
+		}
+
+		FOREACH_PICOS {
+			pico_mobiles[mob * NUM_PICO + pic] = new Pico_Mobile(picos[pic], mobile);
+		}
+
+		if (mobile->get_macro() == NULL) printf("Mobile at (%12.6f, %12.6f): %6.3f has no service Macro\n", x, y, qos);
+		if (mobile->get_pico() == NULL) printf("Mobile at (%12.6f, %12.6f): %6.3f has no service Pico\n", x, y, qos);
+
+	}
+	fclose(fp);
+
+}
+
+void finalize(Macro** macros, Pico** picos, Mobile** mobiles,
+	Macro_Mobile** macro_mobiles, Pico_Mobile** pico_mobiles) {
 
 	for (int mm = 0; mm < NUM_MM; mm++)
 		delete macro_mobiles[mm];
@@ -260,8 +275,5 @@ int main(int argc, char** argv) {
 
 	FOREACH_MOBILES
 		delete mobiles[mob];
-
-	system("pause");
-	return 0;
 
 }

@@ -69,10 +69,9 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 
 					if (abs_first != NULL) {
 
-						Macro* macro = abs_first->get_macro() == NULL ? NULL : (Macro*) abs_first->get_macro()->macro;
+						Macro* macro = (Macro*) abs_first->get_macro()->macro;
 
-						if (macro != NULL
-						&& ((curr_macro_states[macro->idx] == OFF
+						if (((curr_macro_states[macro->idx] == OFF
 						||  macro->get_first_mobile(ri) != abs_first
 						))) {
 							curr_sum_lambda_r += abs_first->lambda * abs_first->get_abs_pico_throughput(ri);
@@ -95,26 +94,30 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 				FOREACH_RBS {
 
 					Mobile* first = pico->get_first_mobile(ri);
-					Macro* first_macro = first->get_macro() == NULL ? NULL : (Macro*) first->get_macro()->macro;
+					
+					if (first != NULL) {
 
-					if (first_macro != NULL
-					&&  curr_macro_states[first_macro->idx] == ON
-					&&  first_macro->get_first_mobile(ri) == first
-					) {
+						Macro* first_macro = (Macro*) first->get_macro()->macro;
 
-						Mobile* second = pico->get_second_mobile(ri);
-						if (second != NULL && curr_mobile_states[ri][second->idx] != 1) {
-							curr_sum_lambda_r += second->lambda * second->get_pico_throughput(ri);
-							curr_mobile_states[ri][second->idx] = 4;
-							//printf("non - %2d = 4\n", second->idx);
+						if (curr_macro_states[first_macro->idx] == ON
+						&&  first_macro->get_first_mobile(ri) == first
+						) {
+
+							Mobile* second = pico->get_second_mobile(ri);
+							if (second != NULL && curr_mobile_states[ri][second->idx] != 1) {
+								curr_sum_lambda_r += second->lambda * second->get_pico_throughput(ri);
+								curr_mobile_states[ri][second->idx] = 4;
+								//printf("non - %2d = 4\n", second->idx);
+							} else {
+								//printf("non\n");
+							}
+
 						} else {
-							//printf("non\n");
+
+							curr_sum_lambda_r += first->lambda * first->get_pico_throughput(ri);
+							curr_mobile_states[ri][first->idx] = 3;
+
 						}
-
-					} else {
-
-						curr_sum_lambda_r += first->lambda * first->get_pico_throughput(ri);
-						curr_mobile_states[ri][first->idx] = 3;
 
 					}
 

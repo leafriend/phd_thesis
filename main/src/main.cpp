@@ -11,11 +11,10 @@
 #include "macro_mobile.h"
 #include "pico_mobile.h"
 
-void pa1(int* best_mobile_states, Macro** macros, Pico** picos, Mobile** mobiles,
-	Macro_Mobile** macro_mobiles, Pico_Mobile** pico_mobiles);
+void pa1(int* best_mobile_states, Macro** macros, Pico** picos, Mobile** mobiles);
 
 int main(int argc, char** argv) {
-	system("pwd");
+
 	FILE* fp;
 
 	//printf("/ Start ===============================\\\n");
@@ -117,7 +116,7 @@ int main(int argc, char** argv) {
 		// PROCESS ALGORITHM ///////////////////////////////////////////////////
 
 		int best_mobile_states[NUM_MOBILE];
-		pa1(best_mobile_states, macros, picos, mobiles, macro_mobiles, pico_mobiles);
+		pa1(best_mobile_states, macros, picos, mobiles);
 
 		// /////////////////////////////////////////////////////////////////////
 
@@ -306,8 +305,7 @@ int main(int argc, char** argv) {
 
 }
 
-void pa1(int* best_mobile_states, Macro** macros, Pico** picos, Mobile** mobiles,
-	Macro_Mobile** macro_mobiles, Pico_Mobile** pico_mobiles) {
+void pa1(int* best_mobile_states, Macro** macros, Pico** picos, Mobile** mobiles) {
 
 	//int best_mobile_states[NUM_MOBILE];
 	for (int mob = 0; mob < NUM_MOBILE; mob++)

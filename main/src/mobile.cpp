@@ -154,3 +154,11 @@ Macro_Mobile* Mobile::get_macro() const {
 Pico_Mobile* Mobile::get_pico() const {
 	return pico;
 }
+
+double Mobile::get_rate_user() {
+	return rate_user;
+}
+
+double Mobile::get_result_throughput() {
+	return result_throughput;
+}

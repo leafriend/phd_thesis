@@ -52,9 +52,9 @@ private:
 
 	double abs_pico_throughput[NUM_RB];
 
-public:
 	double result_throughput;
 	double rate_user;
+public:
 	double instant_rate;
 
 	// PA1                                                                    //
@@ -82,6 +82,10 @@ public:
 	double get_pico_throughput(int ri) const;
 
 	double get_abs_pico_throughput(int ri) const;
+	
+	double get_rate_user();
+
+	double get_result_throughput();
 
 	// PA1                                                                    //
 	////////////////////////////////////////////////////////////////////////////

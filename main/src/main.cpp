@@ -119,10 +119,10 @@ int main(int argc, char** argv) {
 					"%10.6f (%10.6f)\t"
 					"%f\t"
 					"%f%s",
-					mobile->rate_user,
-					log(mobile->rate_user),
-					mobile->result_throughput / t,
-					log(mobile->result_throughput / t),
+					mobile->get_rate_user(),
+					log(mobile->get_rate_user()),
+					mobile->get_result_throughput() / t,
+					log(mobile->get_result_throughput() / t),
 					mobile->lambda,
 					mobile->mu,
 					(mob & 1 ? "\n" : "\t")
@@ -137,7 +137,7 @@ int main(int argc, char** argv) {
 			printf("QOS     %8.3f\t", QOS);
 			double sum_utility = 0.0;
 			FOREACH_MOBILES {
-				double utility = log(mobiles[mob]->result_throughput / t);
+				double utility = log(mobiles[mob]->get_result_throughput() / t);
 				//if (!isinf(utility))
 					sum_utility += utility;
 			}

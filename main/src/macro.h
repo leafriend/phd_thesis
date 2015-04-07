@@ -19,8 +19,8 @@ public:
 
 private:
 
-	Macro_Mobile* mobiles_in_range[NUM_MM];
-	int num_mobiles_in_range;
+	Macro_Mobile* mobiles_to_service[NUM_MM];
+	int num_mobiles_to_service;
 
 	Macro_Mobile* mobiles_interfered[NUM_PM];
 	int num_mobiles_interfered;

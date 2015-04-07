@@ -15,7 +15,7 @@ Macro::Macro(int idx, double x, double y, double tx_power)
 , y(y)
 , tx_power(tx_power)
 {
-	num_mobiles_in_range = 0;
+	num_mobiles_to_service = 0;
 	num_mobiles_interfered = 0;
 	allocation_count = 0;
 }
@@ -27,10 +27,10 @@ void Macro::sort_mobiles() {
 		first_mobile[ri] = NULL;
 		double first_lambda_r = DBL_MIN;
 
-		//printf("num_mobiles_in_range: %d\n", num_mobiles_in_range);
-		for (int mm = 0; mm < num_mobiles_in_range; mm++) {
+		//printf("num_mobiles_to_service: %d\n", num_mobiles_to_service);
+		for (int mm = 0; mm < num_mobiles_to_service; mm++) {
 
-			Mobile* mobile = (Mobile*) mobiles_in_range[mm]->get_mobile();
+			Mobile* mobile = (Mobile*) mobiles_to_service[mm]->get_mobile();
 			const double macro_lambda_r = mobile->lambda * mobile->get_macro_throughput(ri);
 
 			//printf("lambda: %lf\n", mobile->lambda);

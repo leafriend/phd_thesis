@@ -19,12 +19,15 @@ Macro_Mobile::Macro_Mobile(Macro* macro, Mobile* mobile)
 	macro->mobiles_interfered[macro->num_mobiles_interfered++] = this;
 	mobile->macros_interfered[mobile->num_macros_interfered++] = this;
 
-	if (distance < RANGE_MACRO)
-		macro->mobiles_in_range[macro->num_mobiles_in_range++] = this;
-
 	if (mobile->macro == NULL || distance < mobile->macro->distance)
 		mobile->macro = this;
 
+}
+
+void Macro_Mobile::register_mobile() {
+	Macro* macro = (Macro*) this->macro;
+	if (mobile->macro == this)
+		macro->mobiles_to_service[macro->num_mobiles_to_service++] = this;
 }
 
 void Macro_Mobile::generate_channel_gain() {

@@ -24,6 +24,8 @@ public:
 
 	Macro_Mobile(Macro* macro, Mobile* mobile);
 
+	void register_mobile();
+
 	void generate_channel_gain();
 	double get_channel_gain(int ri);
 

@@ -218,6 +218,14 @@ void initialize(Macro** macros, Pico** picos, Mobile** mobiles,
 		if (mobile->get_pico() == NULL) printf("Mobile at (%12.6f, %12.6f): %6.3f has no service Pico\n", x, y, qos);
 
 	}
+
+	FOREACH_MOBILES {
+		FOREACH_MACROS
+			macro_mobiles[mob * NUM_MACRO + mac]->register_mobile();
+		FOREACH_PICOS
+			pico_mobiles[mob * NUM_PICO + pic]->register_mobile();
+	}
+	
 	fclose(fp);
 
 }

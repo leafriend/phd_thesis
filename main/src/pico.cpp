@@ -13,7 +13,7 @@
 Pico::Pico(int idx, double x, double y, double tx_power)
 : idx(idx), x(x), y(y), tx_power(tx_power)
 {
-	num_mobiles_in_range = 0;
+	num_mobiles_to_service = 0;
 	num_mobiles_interfered = 0;
 }
 
@@ -37,10 +37,10 @@ void Pico::sort_mobiles() {
 		double abs_first_lambda_r = DBL_MIN;
 		double abs_second_lambda_r = DBL_MIN;
 
-		//printf("num_mobiles_in_range: %d\n", num_mobiles_in_range);
-		for (int pm = 0; pm < num_mobiles_in_range; pm++) {
+		//printf("num_mobiles_to_service: %d\n", num_mobiles_to_service);
+		for (int pm = 0; pm < num_mobiles_to_service; pm++) {
 
-			Mobile* mobile = (Mobile*) mobiles_in_range[pm]->get_mobile();
+			Mobile* mobile = (Mobile*) mobiles_to_service[pm]->get_mobile();
 
 			const double lambda_r = mobile->lambda * mobile->get_pico_throughput(ri);
 

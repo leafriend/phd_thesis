@@ -21,8 +21,8 @@ private:
 	const double y;
 	const double tx_power;
 
-	Pico_Mobile* mobiles_in_range[NUM_PM];
-	int num_mobiles_in_range;
+	Pico_Mobile* mobiles_to_service[NUM_PM];
+	int num_mobiles_to_service;
 	Pico_Mobile* mobiles_interfered[NUM_PM];
 	int num_mobiles_interfered;
 

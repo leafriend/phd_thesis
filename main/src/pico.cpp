@@ -15,10 +15,20 @@ Pico::Pico(int idx, double x, double y, double tx_power)
 {
 	num_mobiles_to_service = 0;
 	num_mobiles_interfered = 0;
+	num_macros_interfering = 0;
 }
 
-bool Pico::is_neighbor(Macro* macro) {
-	return sqrt(pow((macro->x - x), 2) + pow((macro->y - y), 2)) < MP_INT_DIST;
+void Pico::check_interfering(Macro* macro) {
+	if (sqrt(pow((macro->x - x), 2) + pow((macro->y - y), 2)) < MP_INT_DIST) {
+		macros_interfering[num_macros_interfering++] = macro;
+	}
+}
+
+bool Pico::is_abs() {
+	for (int i = 0; i < num_macros_interfering; i++)
+		if (macros_interfering[i]->get_state())
+			return false;
+	return true;
 }
 
 void Pico::sort_mobiles() {

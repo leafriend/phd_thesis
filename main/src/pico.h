@@ -23,6 +23,9 @@ public:
 
 private:
 
+	Macro* macros_interfering[NUM_MACRO];
+	int num_macros_interfering;
+
 	Pico_Mobile* mobiles_to_service[NUM_PM];
 	int num_mobiles_to_service;
 	Pico_Mobile* mobiles_interfered[NUM_PM];
@@ -44,7 +47,9 @@ public:
 
 	Pico(int idx, double x, double y, double tx_power);
 
-	bool is_neighbor(Macro* macro);
+	void check_interfering(Macro* macro);
+
+	bool is_abs();
 
 	void sort_mobiles();
 

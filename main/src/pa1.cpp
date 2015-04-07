@@ -51,16 +51,7 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 
 			Pico* pico = picos[pic];
 
-			bool is_abs = true;
-
-			FOREACH_MACROS {
-				if (pico->is_neighbor(macros[mac]) && macros[mac]->get_state() == ON) {
-					is_abs = false;
-					break;
-				}
-			}
-
-			if (is_abs) {
+			if (pico->is_abs()) {
 
 				FOREACH_RBS {
 

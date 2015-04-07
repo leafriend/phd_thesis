@@ -193,6 +193,9 @@ void initialize(Macro** macros, Pico** picos, Mobile** mobiles,
 		fscanf(fp, "%lf", &y);
 		//printf("(%12.6f, %12.6f): %6.3f\n", x, y, tx_power);
 		picos[pic] = new Pico(pic, x, y, tx_power);
+
+		FOREACH_MACROS
+			picos[pic]->check_interfering(macros[mac]);
 	}
 	fclose(fp);
 

@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 #include <stdlib.h>
 #include <float.h>
 
@@ -127,8 +129,9 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 
 		if (curr_sum_lambda_r > best_sum_lambda_r) {
 
-			//printf("BETTER  %12.6lf > %12.6lf - ", curr_sum_lambda_r, best_sum_lambda_r);
+			//printf("  BETTER%12.6lf > %12.6lf - ", curr_sum_lambda_r, best_sum_lambda_r);
 			//for (int mac = NUM_MACRO; mac --> 0;) printf("%d", curr_macro_states[mac]);
+			//printf("\n");
 
 			best_sum_lambda_r = curr_sum_lambda_r;
 
@@ -139,7 +142,6 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 				FOREACH_MOBILES
 					mobiles[mob]->set_state(ri, curr_mobile_states[ri][mob]);
 
-			//printf(" .\n");
 
 		}
 
@@ -149,8 +151,9 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 	//subtract_timeval(&ellapse, &stop, &start);
 	//printf("                        :%6d.%06d s\n", ellapse.tv_sec, ellapse.tv_usec);
 
-	//printf("BEST    %12.6lf - ", best_sum_lambda_r); for (int mac = NUM_MACRO; mac --> 0;) printf(best_macro_states[mac] ? "%d" : "-", best_macro_states[mac]); printf("\n");
-	//printf("    MOBILE             "); for (int mac = NUM_MACRO; mac --> 0;) printf(best_macro_states[mac] ? "%d" : "-", best_mobile_states[ macros[mac]->first_mobile->idx ]); printf("\n");
-	//printf("\n");
+	//printf("BEST    %12.6lf - ", best_sum_lambda_r);
+	//for (int mac = NUM_MACRO; mac --> 0;) printf(best_macro_states[mac] ? "%d" : "-", best_macro_states[mac]);
+	//printf("    MOBILE             "); FOREACH_RBS for (int mac = NUM_MACRO; mac --> 0;) printf(best_macro_states[mac] ? "%d" : "-", macros[mac]->get_first_mobile(ri)->get_state(ri) ); printf("\n");
+	//printf("\n"); printf("\n");
 
 }

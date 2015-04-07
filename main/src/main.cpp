@@ -119,64 +119,18 @@ int main(int argc, char** argv) {
 
 		// /////////////////////////////////////////////////////////////////////
 
+		FOREACH_MOBILES
+			mobiles[mob]->calculate_throughput(best_mobile_states[mob]);
+		
+		//FOREACH_MOBILES mobiles[mob]->count_cell_association(best_mobile_states[mob]));
+
+		FOREACH_MOBILES
+			mobiles[mob]->calculate_rate_user();
+
 		FOREACH_MOBILES {
-			Mobile* mobile = mobiles[mob];
 
-			switch (best_mobile_states[mob]) {
-				case 0:
-					mobile->instant_rate = 0.0;
-				case 1:
-					mobile->instant_rate = mobile->get_macro_throughput();
-					break;
-				case 2:
-					mobile->instant_rate = mobile->get_abs_pico_throughput();
-					break;
-				case 3:
-				case 4:
-					mobile->instant_rate = mobile->get_pico_throughput();
-					break;
-			}
-			mobile->result_throughput += mobile->instant_rate;
+			mobiles[mob]->calculate_dual_variable(t);
 
-			// /////////////////////////////////////////////////////////////////
-
-			if (mobile->lambda == 0.0)
-				mobile->rate_user = RATE_MAX;
-			else
-				mobile->rate_user
-					= 0.8 * mobile->rate_user
-					+ 0.2 * (1.0 + mobile->mu) / mobile->lambda
-				;
-
-			// /////////////////////////////////////////////////////////////////
-
-			const double step_size = 1.0 / ((double)(t + 1));
-			const double step_size2
-				= (t > 100000)
-				? STEPSIZE4
-				:	( (t < 10000)
-					? STEPSIZE2
-					: STEPSIZE3
-					)
-			;
-
-			//*
-			double lambda_temp, mu_temp;
-			if ((abs(mobile->result_throughput / (1 + t) - mobile->rate_user) * mobile->lambda < 0.05))
-				lambda_temp = mobile->lambda - step_size  * (mobile->instant_rate - mobile->rate_user);
-			else
-				lambda_temp = mobile->lambda - step_size2 * (mobile->instant_rate - mobile->rate_user);
-			//if (lambda_temp < 0) printf("%lf\n", lambda_temp);
-			//printf("%lf\n", mobile->lambda);
-			mobile->lambda = lambda_temp > 0 ? lambda_temp : 0.0; //(0.0 > lambda_temp) ? 0.0 : lambda_temp;
-
-			//*
-			if ((abs(log(mobile->rate_user) - mobile->qos) * mobile->mu < 0.01))
-				mu_temp = mobile->mu - step_size * (log(mobile->rate_user) - mobile->qos);
-			else
-				mu_temp = mobile->mu - step_size2 * (log(mobile->rate_user) - mobile->qos);
-			mobile->mu = (0.0 > mu_temp) ? 0.0 : mu_temp;
-			//*/
 		}
 
 		// /////////////////////////////////////////////////////////////////////

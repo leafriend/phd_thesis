@@ -71,6 +71,12 @@ public:
 
 	void calculate_throughputs();
 
+	void calculate_throughput(int mobile_state);
+
+	void calculate_rate_user();
+
+	void calculate_dual_variable(const int t);
+
 	double get_macro_throughput() const;
 
 	double get_pico_throughput() const;

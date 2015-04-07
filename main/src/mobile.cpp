@@ -71,6 +71,63 @@ void Mobile::calculate_throughputs()
 
 }
 
+void Mobile::calculate_throughput(int mobile_state) {
+	switch (mobile_state) {
+		case 0:
+			instant_rate = 0.0;
+		case 1:
+			instant_rate = macro_throughput;
+			break;
+		case 2:
+			instant_rate = abs_pico_throughput;
+			break;
+		case 3:
+		case 4:
+			instant_rate = pico_throughput;
+			break;
+	}
+	result_throughput += instant_rate;
+}
+
+
+void Mobile::calculate_rate_user() {
+	if (lambda == 0.0)
+		rate_user = RATE_MAX;
+	else
+		rate_user
+			= 0.8 * rate_user
+			+ 0.2 * (1.0 + mu) / lambda
+		;
+}
+
+void Mobile::calculate_dual_variable(const int t) {
+
+	const double step_size = 1.0 / ((double)(t + 1));
+	const double step_size2
+		= (t > 100000)
+		? STEPSIZE4
+		:	( (t < 10000)
+			? STEPSIZE2
+			: STEPSIZE3
+			)
+	;
+
+	double lambda_temp;
+	if ((abs(result_throughput / (1 + t) - rate_user) * lambda < 0.05))
+		lambda_temp = lambda - step_size  * (instant_rate - rate_user);
+	else
+		lambda_temp = lambda - step_size2 * (instant_rate - rate_user);
+	this->lambda = lambda_temp > 0 ? lambda_temp : 0.0;
+
+	double mu_temp;
+	if ((abs(log(rate_user) - qos) * mu < 0.01))
+		mu_temp = mu - step_size * (log(rate_user) - qos);
+	else
+		mu_temp = mu - step_size2 * (log(rate_user) - qos);
+	this->mu = (0.0 > mu_temp) ? 0.0 : mu_temp;
+
+}
+
 double Mobile::get_macro_throughput() const {
 	return macro_throughput;
 }

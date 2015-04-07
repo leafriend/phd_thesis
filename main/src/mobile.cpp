@@ -48,29 +48,25 @@ void Mobile::generate_channel_gain()
 
 		// TODO NULL
 
-		double macro_channel_gain = macro == NULL ? 0 : macro->get_channel_gain(ri);
-		//printf("macro_channel_gain: %lf\n", macro_channel_gain);
 		macro_throughput[ri] = THOURGHPUT(
 			BW_PER_RB,
-			macro_channel_gain,
-			sum_macro_channel_gain + sum_pico_channel_gain - macro_channel_gain,
+			macro->get_channel_gain(ri),
+			sum_macro_channel_gain + sum_pico_channel_gain - macro->get_channel_gain(ri),
 			NOISE
 		) / MEGA;
 
-		double pico_channel_gain = pico == NULL ? 0 : pico->get_channel_gain(ri);
-
 		pico_throughput[ri] = THOURGHPUT(
 			BW_PER_RB,
-			pico_channel_gain,
-			sum_macro_channel_gain + sum_pico_channel_gain - pico_channel_gain,
+			pico->get_channel_gain(ri),
+			sum_macro_channel_gain + sum_pico_channel_gain - pico->get_channel_gain(ri),
 			NOISE
 		) / MEGA;
 
 		// TODO
 		abs_pico_throughput[ri] = THOURGHPUT(
 			BW_PER_RB,
-			pico_channel_gain,
-			/*sum_macro_channel_gain +*/ sum_pico_channel_gain - pico_channel_gain,
+			pico->get_channel_gain(ri),
+			/*sum_macro_channel_gain +*/ sum_pico_channel_gain - pico->get_channel_gain(ri),
 			NOISE
 		) / MEGA;
 

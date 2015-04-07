@@ -19,16 +19,12 @@ Pico_Mobile::Pico_Mobile(Pico* pico, Mobile* mobile)
 	pico->mobiles_interfered[pico->num_mobiles_interfered++] = this;
 	mobile->picos_interfered[mobile->num_picos_interfered++] = this;
 
-	if (this->is_in_range()) {
+	if (distance < RANGE_PICO) {
 		pico->mobiles_in_range[pico->num_mobiles_in_range++] = this;
 		if (mobile->pico == NULL || distance < mobile->pico->distance)
 			mobile->pico = this;
 	}
 
-}
-
-bool Pico_Mobile::is_in_range() {
-	return distance < RANGE_PICO;
 }
 
 void Pico_Mobile::generate_channel_gain() {

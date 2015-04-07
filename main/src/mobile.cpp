@@ -102,7 +102,7 @@ void Mobile::calculate_rate_user() {
 
 void Mobile::calculate_dual_variable(const int t) {
 
-	const double step_size = 1.0 / ((double)(t + 1));
+	const double step_size = 1.0 / ((double) t);
 	const double step_size2
 		= (t > 100000)
 		? STEPSIZE4
@@ -113,7 +113,7 @@ void Mobile::calculate_dual_variable(const int t) {
 	;
 
 	double lambda_temp;
-	if ((abs(result_throughput / (1 + t) - rate_user) * lambda < 0.05))
+	if ((abs(result_throughput / t - rate_user) * lambda < 0.05))
 		lambda_temp = lambda - step_size  * (instant_rate - rate_user);
 	else
 		lambda_temp = lambda - step_size2 * (instant_rate - rate_user);

@@ -82,13 +82,13 @@ int main(int argc, char** argv) {
 	TIME_GET(&t_start);
 	// ////////////////////////////////////////////////////////////////////// */
 
-	for (int t = 0; t < SIMULATION_TIME; t++) {
+	for (int t = 1; t <= SIMULATION_TIME; t++) {
 
 		// Time Check //////////////////////////////////////////////////////////
 		/*
-		if ((t + 1) % LOG_INTERVAL_TIME == 0) {
+		if (t % LOG_INTERVAL_TIME == 0) {
 			printf("\n");
-			printf("    / T:%8d ======================\\\n", (t + 1));
+			printf("    / T:%8d ======================\\\n", t);
 			printf("                         %6d.%06d s\n", t_start.tv_sec - BASE_SEC, t_start.tv_usec);
 		}
 		//*/
@@ -145,7 +145,7 @@ int main(int argc, char** argv) {
 
 		// /////////////////////////////////////////////////////////////////////
 
-		if ((t + 1) % LOG_INTERVAL_TIME == 0) {
+		if (t % LOG_INTERVAL_TIME == 0) {
 
 			// Time Check //////////////////////////////////////////////////////
 			TIME_GET(&t_stop);
@@ -153,23 +153,32 @@ int main(int argc, char** argv) {
 
 			printf("\n");
 
+			printf(
+				"Rate User  (log)\t"
+				"Throughput (log)\t"
+				"lmabda  \t"
+				"mu\n");
 			FOREACH_MOBILES {
-				//printf("%f\t%f\t%f\t%f\n", mobiles[mob]->get_rate_user_()PA1, log(mobiles[mob]->get_rate_user_()PA1), (mobiles[mob]->get_thrp_result_()PA1 / (1 + t)), log(mobiles[mob]->get_thrp_result_()PA1 / (1 + t)));
-				printf("%f\t%f\t%f\t%f\t%f\t%f\n",
-					mobiles[mob]->rate_user,
-					mobiles[mob]->result_throughput / (1 + t),
-					log(mobiles[mob]->rate_user),
-					log(mobiles[mob]->result_throughput / (1 + t)),
-					mobiles[mob]->lambda,
-					mobiles[mob]->mu
+				Mobile* mobile = mobiles[mob];
+				printf(
+					"%10.6f (%10.6f)\t"
+					"%10.6f (%10.6f)\t"
+					"%f\t"
+					"%f\n",
+					mobile->rate_user,
+					log(mobile->rate_user),
+					mobile->result_throughput / t,
+					log(mobile->result_throughput / t),
+					mobile->lambda,
+					mobile->mu
 				);
 			}
 
 			FOREACH_MACROS {
-				printf("%8d (%f) ", macros[mac]->get_allocation_count(), macros[mac]->get_allocation_count() / (double) (t + 1));
+				printf("%7d(%5.2f%%)\t", macros[mac]->get_allocation_count(), 100 *	macros[mac]->get_allocation_count() / (double) t);
 			}
 			printf("\n");
-			printf("Time: %d\t", (1 + t));
+			printf("Time: %d\t", t);
 			printf("QOS: %f\t", QOS);
 
 			/*
@@ -177,7 +186,7 @@ int main(int argc, char** argv) {
 			for (int mac = 0; mac < MACRO_NUM; mac++)
 			{
 				printf("%d\t", abs_count_macro[mac]);
-				printf("%f\n", (double)abs_count_macro[mac] / ((double) t + 1));
+				printf("%f\n", (double)abs_count_macro[mac] / ((double) t));
 			}
 			//*/
 
@@ -191,7 +200,7 @@ int main(int argc, char** argv) {
 
 			double sum_utility = 0.0;
 			FOREACH_MOBILES {
-				double utility = log(mobiles[mob]->result_throughput / (1 + t));
+				double utility = log(mobiles[mob]->result_throughput / t);
 				if (!isinf(utility))
 					sum_utility += utility;
 			}

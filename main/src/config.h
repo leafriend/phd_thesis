@@ -2,6 +2,16 @@
 
 #include <math.h>
 
+#define ALGORITHM                       1                   // Proposed Algorithm ¹øÈ£
+
+#if ALGORITHM == 1
+#define LOG_INTERVAL_TIME               100
+#define LOG_PROGRESS_TIME               10
+#elif ALGORITHM == 2
+#define LOG_INTERVAL_TIME               10
+#define LOG_PROGRESS_TIME               1
+#endif
+
 #define DATA_FILE_PREFIX                "res\\"
 
 #define MEGA                            1048576
@@ -39,8 +49,6 @@
 //#define SIMULATION_TIME                 100000
 //#define SIMULATION_TIME                 10000
 //#define SIMULATION_TIME                 100
-#define LOG_INTERVAL_TIME               100
-#define LOG_PROGRESS_TIME               10
 
 #define STEPSIZE2                       0.0005
 #define STEPSIZE3                       0.0001

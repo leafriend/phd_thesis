@@ -58,7 +58,7 @@ void Pico::sort_mobiles() {
 				first_lambda_r = lambda_r;
 
 			} else if (lambda_r > second_lambda_r) {
-				
+
 				second_mobile = mobile;
 				second_lambda_r = lambda_r;
 
@@ -91,7 +91,7 @@ void Pico::sort_mobiles() {
 				abs_first_lambda_r = abs_lambda_r;
 
 			} else if (abs_lambda_r > abs_second_lambda_r) {
-				
+
 				abs_second_mobile = mobile;
 				abs_second_lambda_r = abs_lambda_r;
 

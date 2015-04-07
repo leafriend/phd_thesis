@@ -40,7 +40,7 @@ private: public:
 	////////////////////////////////////////////////////////////////////////////
 
 public:
-	
+
 	Pico(int idx, double x, double y, double tx_power);
 
 	bool is_neighbor(Macro* macro);

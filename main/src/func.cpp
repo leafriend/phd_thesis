@@ -3,7 +3,6 @@
 
 #include "func.h"
 
-
 // http://www.gnu.org/software/libc/manual/html_node/Elapsed-Time.html
 int subtract_timeval(TIME* result, TIME* x, TIME* y) {
 

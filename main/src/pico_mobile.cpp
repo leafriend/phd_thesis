@@ -35,7 +35,7 @@ bool Pico_Mobile::is_in_range() {
 
 void Pico_Mobile::generate_channel_gain() {
 	this->channel_gain
-		= channel_gain_factor 
+		= channel_gain_factor
 		* RAYLEIGH()
 		* LOG_NORMAL()
 	;

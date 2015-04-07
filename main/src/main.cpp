@@ -247,7 +247,6 @@ int main(int argc, char** argv) {
 			printf("Elapsed Time:%6d.%06d\t", TIME_GETSEC(&ellapse), TIME_MSEC(&ellapse));
 			// ////////////////////////////////////////////////////////////// */
 
-
 			double sum_utility = 0.0;
 			for (int mob = 0; mob < NUM_MOBILE; mob++) {
 				double utility = log(mobiles[mob]->result_throughput / (1 + t));

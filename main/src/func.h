@@ -40,7 +40,7 @@ double gaussian(double mu, double sigma);
 #define isinf(x) (!_finite(x))
 #endif
 
-// 
+//
 // Foreach.h C++ helper
 // (C) 2010 Artur Sowiński <artur.sowinski@gmail.com>
 // Released under MIT license as defined at

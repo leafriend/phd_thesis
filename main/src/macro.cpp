@@ -50,7 +50,7 @@ void Macro::sort_mobiles() {
 		if (mobile == pico_first_mobile) {
 
 			double lambda_r = macro_lambda_r - mobile->lambda * mobile->pico_throughput;
-			if (pico_second_mobile != NULL) 
+			if (pico_second_mobile != NULL)
 				lambda_r += pico_first_mobile->lambda * pico_first_mobile->pico_throughput;
 
 			if (lambda_r > first_lambda_r) {
@@ -59,7 +59,7 @@ void Macro::sort_mobiles() {
 			}
 
 		} else {
-			
+
 			if (macro_lambda_r > first_lambda_r) {
 				first_mobile = mobile;
 				first_lambda_r = macro_lambda_r;

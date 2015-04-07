@@ -225,7 +225,20 @@ void initialize(Macro** macros, Pico** picos, Mobile** mobiles,
 		FOREACH_PICOS
 			pico_mobiles[mob * NUM_PICO + pic]->register_mobile();
 	}
-	
+
+	/*
+	FOREACH_MACROS {
+		printf("\n%d\t", macros[mac]->num_mobiles_to_service);
+		for (int i = 0; i < macros[mac]->num_mobiles_to_service; i++)
+			printf("%d\t", macros[mac]->mobiles_to_service[i]->get_mobile()->idx);
+	}
+	FOREACH_PICOS {
+		printf("\n%d\t", picos[pic]->num_mobiles_to_service);
+		for (int i = 0; i < picos[pic]->num_mobiles_to_service; i++)
+			printf("%d\t", picos[pic]->mobiles_to_service[i]->get_mobile()->idx);
+	}
+	//*/
+
 	fclose(fp);
 
 }

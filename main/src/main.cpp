@@ -13,6 +13,15 @@
 #include "pa1.h"
 #include "main.h"
 
+#define PRINT_TIME(elap, exec)                              \
+	printf(                                                 \
+		"Elapsed %8.3f\t"                                    \
+		"Execute %8.3f\n",                                   \
+		(float) (clock() - elap) / CLOCKS_PER_SEC,          \
+		(float) (clock() - exec) / CLOCKS_PER_SEC           \
+	);                                                      \
+	t_execute = clock();
+
 int main(int argc, char** argv) {
 
 	// Time Check //////////////////////////////////////////////////////////////
@@ -27,6 +36,8 @@ int main(int argc, char** argv) {
 	Pico_Mobile* pico_mobiles[NUM_PICO * NUM_MOBILE];
 	Mobile* mobiles[NUM_MOBILE];
 	initialize(macros, picos, mobiles, macro_mobiles, pico_mobiles);
+
+	PRINT_TIME(t_elapsed, t_execute)
 
 	for (int t = 1; t <= SIMULATION_TIME; t++) {
 
@@ -84,10 +95,6 @@ int main(int argc, char** argv) {
 		// Time Check //////////////////////////////////////////////////////
 		if (t % LOG_INTERVAL_TIME == 0) {
 
-			clock_t t_lap = clock();
-			clock_t t_from = t_execute;
-			t_execute = clock();
-
 			printf("\n");
 
 			printf(
@@ -112,11 +119,18 @@ int main(int argc, char** argv) {
 			}
 
 			FOREACH_MACROS {
-				printf("%7d(%5.2f%%)\t", macros[mac]->get_allocation_count(), 100 *	macros[mac]->get_allocation_count() / (double) t);
+				printf("%7d(%5.2f%%)\t", macros[mac]->get_allocation_count(), 100 * macros[mac]->get_allocation_count() / (double) t);
 			}
 			printf("\n");
-			printf("Time: %d\t", t);
-			printf("QOS: %f\t", QOS);
+			printf("Time    %8d\t", t);
+			printf("QOS     %8.3f\t", QOS);
+			double sum_utility = 0.0;
+			FOREACH_MOBILES {
+				double utility = log(mobiles[mob]->result_throughput / t);
+				//if (!isinf(utility))
+					sum_utility += utility;
+			}
+			printf("Utility %8.3f\t", sum_utility);
 
 			/*
 			printf("\n");
@@ -127,28 +141,14 @@ int main(int argc, char** argv) {
 			}
 			//*/
 
-			printf("Execution Time:%13.6f\t", (float) (t_lap - t_from) / CLOCKS_PER_SEC);
-			printf("Elapsed Time:%13.6f\t", (float) (t_lap - t_elapsed) / CLOCKS_PER_SEC);
 
-			double sum_utility = 0.0;
-			FOREACH_MOBILES {
-				double utility = log(mobiles[mob]->result_throughput / t);
-				if (!isinf(utility))
-					sum_utility += utility;
-			}
-			printf("Sum Utility: %f\n", sum_utility);
+			PRINT_TIME(t_elapsed, t_execute)
 
 		}
-		// /////////////////////////////////////////////////////////////////////
 
 	}
 
-	// Time Check //////////////////////////////////////////////////////////////
-	clock_t ccstop = clock();
-	//printf("                         %6d.%06d s\n", TIME_GETSEC(&stop) - BASE_SEC, TIME_MSEC(&stop));
-	//printf("\\______________________________________/\n");
-
-	//printf("=========================%13.6f s\n", (float)(ccstop - ccstart) / CLOCKS_PER_SEC);
+	PRINT_TIME(t_elapsed, t_execute)
 
 	// Finalize ///////////////////////////////////////////////////////////// */
 	finalize(macros, picos, mobiles, macro_mobiles, pico_mobiles);

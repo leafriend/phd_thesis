@@ -18,14 +18,14 @@ private: public:
 	// Time Context
 
 	const double channel_gain_factor;
-	double channel_gain;
+	double channel_gain[NUM_RB];
 
 public:
 
 	Macro_Mobile(Macro* macro, Mobile* mobile);
 
 	void generate_channel_gain();
-	double get_channel_gain();
+	double get_channel_gain(int ri);
 
 	const Macro* get_macro() const;
 	const Mobile* get_mobile() const;

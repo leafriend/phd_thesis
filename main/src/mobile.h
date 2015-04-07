@@ -46,11 +46,11 @@ private:
 	////////////////////////////////////////////////////////////////////////////
 	// PA1                                                                    //
 
-	double macro_throughput;
+	double macro_throughput[NUM_RB];
 
-	double pico_throughput;
+	double pico_throughput[NUM_RB];
 
-	double abs_pico_throughput;
+	double abs_pico_throughput[NUM_RB];
 
 public:
 	double result_throughput;
@@ -71,17 +71,17 @@ public:
 
 	void generate_channel_gain();
 
-	void calculate_throughput(int mobile_state);
+	void calculate_throughput(int ri, int mobile_state);
 
 	void calculate_rate_user();
 
 	void calculate_dual_variable(const int t);
 
-	double get_macro_throughput() const;
+	double get_macro_throughput(int ri) const;
 
-	double get_pico_throughput() const;
+	double get_pico_throughput(int ri) const;
 
-	double get_abs_pico_throughput() const;
+	double get_abs_pico_throughput(int ri) const;
 
 	// PA1                                                                    //
 	////////////////////////////////////////////////////////////////////////////

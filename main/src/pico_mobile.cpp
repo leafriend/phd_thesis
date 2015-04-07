@@ -28,23 +28,16 @@ Pico_Mobile::Pico_Mobile(Pico* pico, Mobile* mobile)
 }
 
 void Pico_Mobile::generate_channel_gain() {
-	channel_gain
-		= channel_gain_factor
-		* RAYLEIGH()
-		* LOG_NORMAL()
-	;
-	/*
-	printf("P (%12.6f, %12.6f) - (%12.6f, %12.6f): %12.6f - %f\n",
-		pico->x, pico->y,
-		mobile->x, mobile->y,
-		distance,
-		channel_gain
-	);
-	//*/
+	FOREACH_RBS
+		channel_gain[ri]
+			= channel_gain_factor
+			* RAYLEIGH()
+			* LOG_NORMAL()
+		;
 }
 
-double Pico_Mobile::get_channel_gain() {
-	return channel_gain;
+double Pico_Mobile::get_channel_gain(int ri) {
+	return channel_gain[ri];
 }
 
 const Pico* Pico_Mobile::get_pico() const {

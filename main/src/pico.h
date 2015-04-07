@@ -29,11 +29,11 @@ private:
 	////////////////////////////////////////////////////////////////////////////
 	// PA1                                                                    //
 
-	Mobile* first_mobile;
-	Mobile* second_mobile;
+	Mobile* first_mobile[NUM_RB];
+	Mobile* second_mobile[NUM_RB];
 
-	Mobile* abs_first_mobile;
-	Mobile* abs_second_mobile;
+	Mobile* abs_first_mobile[NUM_RB];
+	Mobile* abs_second_mobile[NUM_RB];
 
 	// PA1                                                                    //
 	////////////////////////////////////////////////////////////////////////////
@@ -49,11 +49,11 @@ public:
 	////////////////////////////////////////////////////////////////////////////
 	// PA1                                                                    //
 
-	Mobile* get_first_mobile();
-	Mobile* get_second_mobile();
+	Mobile* get_first_mobile(int ri);
+	Mobile* get_second_mobile(int ri);
 
-	Mobile* get_abs_first_mobile();
-	Mobile* get_abs_second_mobile();
+	Mobile* get_abs_first_mobile(int ri);
+	Mobile* get_abs_second_mobile(int ri);
 
 	// PA1                                                                    //
 	////////////////////////////////////////////////////////////////////////////

@@ -28,27 +28,16 @@ Macro_Mobile::Macro_Mobile(Macro* macro, Mobile* mobile)
 }
 
 void Macro_Mobile::generate_channel_gain() {
-	channel_gain
-		= channel_gain_factor
-		* RAYLEIGH()
-		* LOG_NORMAL()
-	;
-	/*
-	printf("M (%12.6f, %12.6f) - (%12.6f, %12.6f): %12.6f - %f <- %lf:%lf:%lf = %lf * pow((1 / %lf), %d)\n",
-		macro->x, macro->y,
-		mobile->x, mobile->y,
-		distance,
-		channel_gain,
-		channel_gain_factor,
-		(macro->get_tx_power() * pow((1 / distance), (double) PATH_LOSS_EXPO)),
-		(pow(1 / distance, PATH_LOSS_EXPO)),
-		macro->get_tx_power(), distance, PATH_LOSS_EXPO
-	);
-	//*/
+	FOREACH_RBS
+		channel_gain[ri]
+			= channel_gain_factor
+			* RAYLEIGH()
+			* LOG_NORMAL()
+		;
 }
 
-double Macro_Mobile::get_channel_gain() {
-	return channel_gain;
+double Macro_Mobile::get_channel_gain(int ri) {
+	return channel_gain[ri];
 }
 
 const Macro* Macro_Mobile::get_macro() const {

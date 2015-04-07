@@ -28,7 +28,7 @@ private:
 	////////////////////////////////////////////////////////////////////////////
 	// PA1                                                                    //
 
-	Mobile* first_mobile;
+	Mobile* first_mobile[NUM_RB];
 
 	int allocation_count;
 
@@ -43,7 +43,7 @@ public:
 
 	void count_allocation(int* mobile_states);
 
-	Mobile* get_first_mobile();
+	Mobile* get_first_mobile(int ri);
 
 	int get_allocation_count();
 

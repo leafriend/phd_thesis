@@ -23,81 +23,85 @@ bool Pico::is_neighbor(Macro* macro) {
 
 void Pico::sort_mobiles() {
 
-	first_mobile = NULL;
-	second_mobile = NULL;
+	FOREACH_RBS {
 
-	double first_lambda_r = DBL_MIN;
-	double second_lambda_r = DBL_MIN;
+		first_mobile[ri] = NULL;
+		second_mobile[ri] = NULL;
 
-	abs_first_mobile = NULL;
-	abs_second_mobile = NULL;
+		double first_lambda_r = DBL_MIN;
+		double second_lambda_r = DBL_MIN;
 
-	double abs_first_lambda_r = DBL_MIN;
-	double abs_second_lambda_r = DBL_MIN;
+		abs_first_mobile[ri] = NULL;
+		abs_second_mobile[ri] = NULL;
 
-	//printf("num_mobiles_in_range: %d\n", num_mobiles_in_range);
-	for (int pm = 0; pm < num_mobiles_in_range; pm++) {
+		double abs_first_lambda_r = DBL_MIN;
+		double abs_second_lambda_r = DBL_MIN;
 
-		Mobile* mobile = (Mobile*) mobiles_in_range[pm]->get_mobile();
+		//printf("num_mobiles_in_range: %d\n", num_mobiles_in_range);
+		for (int pm = 0; pm < num_mobiles_in_range; pm++) {
 
-		const double lambda_r = mobile->lambda * mobile->get_pico_throughput();
+			Mobile* mobile = (Mobile*) mobiles_in_range[pm]->get_mobile();
 
-		if (first_mobile == NULL) {
+			const double lambda_r = mobile->lambda * mobile->get_pico_throughput(ri);
 
-			first_mobile = mobile;
-			first_lambda_r = lambda_r;
+			if (first_mobile[ri] == NULL) {
 
-		} else {
-
-			if (lambda_r > first_lambda_r) {
-
-				second_mobile = first_mobile;
-				second_lambda_r = first_lambda_r;
-
-				first_mobile = mobile;
+				first_mobile[ri] = mobile;
 				first_lambda_r = lambda_r;
-
-			} else if (lambda_r > second_lambda_r) {
-
-				second_mobile = mobile;
-				second_lambda_r = lambda_r;
 
 			} else {
 
-				// DO NOTHING
+				if (lambda_r > first_lambda_r) {
+
+					second_mobile[ri] = first_mobile[ri];
+					second_lambda_r = first_lambda_r;
+
+					first_mobile[ri] = mobile;
+					first_lambda_r = lambda_r;
+
+				} else if (lambda_r > second_lambda_r) {
+
+					second_mobile[ri] = mobile;
+					second_lambda_r = lambda_r;
+
+				} else {
+
+					// DO NOTHING
+
+				}
 
 			}
 
-		}
+			// /////////////////////////////////////////////////////////////////////
+			// ABS
 
-		// /////////////////////////////////////////////////////////////////////
-		// ABS
+			const double abs_lambda_r = mobile->lambda * mobile->get_abs_pico_throughput(ri);
 
-		const double abs_lambda_r = mobile->lambda * mobile->get_abs_pico_throughput();
+			if (abs_first_mobile[ri] == NULL) {
 
-		if (abs_first_mobile == NULL) {
-
-			abs_first_mobile = mobile;
-			abs_first_lambda_r = lambda_r;
-
-		} else {
-
-			if (abs_lambda_r > abs_first_lambda_r) {
-
-				abs_second_mobile = abs_first_mobile;
-				abs_second_lambda_r = abs_first_lambda_r;
-
-				abs_first_mobile = mobile;
-				abs_first_lambda_r = abs_lambda_r;
-
-			} else if (abs_lambda_r > abs_second_lambda_r) {
-
-				abs_second_mobile = mobile;
-				abs_second_lambda_r = abs_lambda_r;
+				abs_first_mobile[ri] = mobile;
+				abs_first_lambda_r = lambda_r;
 
 			} else {
 
-				// DO NOTHING
+				if (abs_lambda_r > abs_first_lambda_r) {
+
+					abs_second_mobile[ri] = abs_first_mobile[ri];
+					abs_second_lambda_r = abs_first_lambda_r;
+
+					abs_first_mobile[ri] = mobile;
+					abs_first_lambda_r = abs_lambda_r;
+
+				} else if (abs_lambda_r > abs_second_lambda_r) {
+
+					abs_second_mobile[ri] = mobile;
+					abs_second_lambda_r = abs_lambda_r;
+
+				} else {
+
+					// DO NOTHING
+
+				}
 
 			}
 
@@ -107,18 +111,18 @@ void Pico::sort_mobiles() {
 
 }
 
-Mobile* Pico::get_first_mobile() {
-	return first_mobile;
+Mobile* Pico::get_first_mobile(int ri) {
+	return first_mobile[ri];
 }
 
-Mobile* Pico::get_second_mobile() {
-	return second_mobile;
+Mobile* Pico::get_second_mobile(int ri) {
+	return second_mobile[ri];
 }
 
-Mobile* Pico::get_abs_first_mobile() {
-	return abs_first_mobile;
+Mobile* Pico::get_abs_first_mobile(int ri) {
+	return abs_first_mobile[ri];
 }
 
-Mobile* Pico::get_abs_second_mobile() {
-	return abs_second_mobile;
+Mobile* Pico::get_abs_second_mobile(int ri) {
+	return abs_second_mobile[ri];
 }

@@ -17,6 +17,7 @@
 #define NUM_MOBILE                      50
 #define NUM_MM                          350                 // = NUM_MACRO * NUM_MOBILE
 #define NUM_PM                          750                 // = NUM_PICO * NUM_MOBILE
+#define NUM_RM                          5000                // = NUM_RB * NUM_MOBILE
 
 #define TX_POWER_MACRO                  40                  // watt
 #define TX_POWER_PICO                   1                   // watt

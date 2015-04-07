@@ -32,61 +32,66 @@ Mobile::Mobile(int idx, double x, double y, double qos)
 void Mobile::generate_channel_gain()
 {
 
-	double sum_macro_channel_gain = 0.0;
-	for (int mac = 0; mac < num_macros_interfered; mac++) {
-		sum_macro_channel_gain += macros_interfered[mac]->get_channel_gain();
+	FOREACH_RBS {
+
+		double sum_macro_channel_gain = 0.0;
+		for (int mac = 0; mac < num_macros_interfered; mac++) {
+			sum_macro_channel_gain += macros_interfered[mac]->get_channel_gain(ri);
+		}
+
+		double sum_pico_channel_gain = 0.0;
+		for (int pic = 0; pic < num_picos_interfered; pic++) {
+			sum_pico_channel_gain += picos_interfered[pic]->get_channel_gain(ri);
+		}
+
+		// /////////////////////////////////
+
+		// TODO NULL
+
+		double macro_channel_gain = macro == NULL ? 0 : macro->get_channel_gain(ri);
+		//printf("macro_channel_gain: %lf\n", macro_channel_gain);
+		macro_throughput[ri] = THOURGHPUT(
+			BW_PER_RB,
+			macro_channel_gain,
+			sum_macro_channel_gain + sum_pico_channel_gain - macro_channel_gain,
+			NOISE
+		) / MEGA;
+
+		double pico_channel_gain = pico == NULL ? 0 : pico->get_channel_gain(ri);
+
+		pico_throughput[ri] = THOURGHPUT(
+			BW_PER_RB,
+			pico_channel_gain,
+			sum_macro_channel_gain + sum_pico_channel_gain - pico_channel_gain,
+			NOISE
+		) / MEGA;
+
+		// TODO
+		abs_pico_throughput[ri] = THOURGHPUT(
+			BW_PER_RB,
+			pico_channel_gain,
+			/*sum_macro_channel_gain +*/ sum_pico_channel_gain - pico_channel_gain,
+			NOISE
+		) / MEGA;
+
 	}
-
-	double sum_pico_channel_gain = 0.0;
-	for (int pic = 0; pic < num_picos_interfered; pic++) {
-		sum_pico_channel_gain += picos_interfered[pic]->get_channel_gain();
-	}
-
-	// /////////////////////////////////
-
-	// TODO NULL
-
-	double macro_channel_gain = macro == NULL ? 0 : macro->get_channel_gain();
-	//printf("macro_channel_gain: %lf\n", macro_channel_gain);
-	macro_throughput = THOURGHPUT(
-		BW_PER_RB,
-		macro_channel_gain,
-		sum_macro_channel_gain + sum_pico_channel_gain - macro_channel_gain,
-		NOISE
-	) / MEGA;
-
-	double pico_channel_gain = pico == NULL ? 0 : pico->get_channel_gain();
-
-	pico_throughput = THOURGHPUT(
-		BW_PER_RB,
-		pico_channel_gain,
-		sum_macro_channel_gain + sum_pico_channel_gain - pico_channel_gain,
-		NOISE
-	) / MEGA;
-
-	// TODO
-	abs_pico_throughput = THOURGHPUT(
-		BW_PER_RB,
-		pico_channel_gain,
-		/*sum_macro_channel_gain +*/ sum_pico_channel_gain - pico_channel_gain,
-		NOISE
-	) / MEGA;
 
 }
 
-void Mobile::calculate_throughput(int mobile_state) {
+void Mobile::calculate_throughput(int ri, int mobile_state) {
+	instant_rate = 0.0;
 	switch (mobile_state) {
 		case 0:
-			instant_rate = 0.0;
+			instant_rate += 0.0;
 		case 1:
-			instant_rate = macro_throughput;
+			instant_rate += macro_throughput[ri];
 			break;
 		case 2:
-			instant_rate = abs_pico_throughput;
+			instant_rate += abs_pico_throughput[ri];
 			break;
 		case 3:
 		case 4:
-			instant_rate = pico_throughput;
+			instant_rate += pico_throughput[ri];
 			break;
 	}
 	result_throughput += instant_rate;
@@ -131,16 +136,16 @@ void Mobile::calculate_dual_variable(const int t) {
 
 }
 
-double Mobile::get_macro_throughput() const {
-	return macro_throughput;
+double Mobile::get_macro_throughput(int ri) const {
+	return macro_throughput[ri];
 }
 
-double Mobile::get_pico_throughput() const {
-	return pico_throughput;
+double Mobile::get_pico_throughput(int ri) const {
+	return pico_throughput[ri];
 }
 
-double Mobile::get_abs_pico_throughput() const {
-	return abs_pico_throughput;
+double Mobile::get_abs_pico_throughput(int ri) const {
+	return abs_pico_throughput[ri];
 }
 
 Macro_Mobile* Mobile::get_macro() const {

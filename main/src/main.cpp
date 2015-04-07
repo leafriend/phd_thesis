@@ -60,16 +60,17 @@ int main(int argc, char** argv) {
 			macros[mac]->sort_mobiles();
 
 		// /////////////////////////////////////////////////////////////////////
-		// PROCESS ALGORITHM ///////////////////////////////////////////////////
+		// PROCESS ALGORITHM
 
-		int best_mobile_states[NUM_MOBILE];
+		int best_mobile_states[NUM_RM];
 		pa1(best_mobile_states, macros, picos, mobiles);
 
 		// /////////////////////////////////////////////////////////////////////
 
 		FOREACH_MOBILES
-			mobiles[mob]->calculate_throughput(best_mobile_states[mob]);
-		
+			FOREACH_RBS
+				mobiles[mob]->calculate_throughput(ri, best_mobile_states[mob * NUM_RB + ri]);
+
 		//FOREACH_MOBILES mobiles[mob]->count_cell_association(best_mobile_states[mob]));
 
 		FOREACH_MOBILES
@@ -97,7 +98,7 @@ int main(int argc, char** argv) {
 		if (t % LOG_INTERVAL_TIME == 0) {
 
 			printf("\n");
-			
+
 			printf(
 				"Rate User  (log)\t"
 				"Throughput (log)\t"

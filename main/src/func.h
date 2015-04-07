@@ -46,6 +46,8 @@ double gaussian(double mu, double sigma);
 #define FOREACH_PICOS for (int pic = 0; pic < NUM_PICO; pic++)
 #define FOREACH_MOBILES for (int mob = 0; mob < NUM_MOBILE; mob++)
 
+#define FOREACH_RBS for (int ri = 0; ri < NUM_RB; ri++)
+
 //
 // Foreach.h C++ helper
 // (C) 2010 Artur Sowiński <artur.sowinski@gmail.com>

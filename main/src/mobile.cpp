@@ -79,7 +79,6 @@ void Mobile::generate_channel_gain()
 }
 
 void Mobile::calculate_throughput(int ri, int mobile_state) {
-	instant_rate = 0.0;
 	switch (mobile_state) {
 		case 0:
 			instant_rate += 0.0;

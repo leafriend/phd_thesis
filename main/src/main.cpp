@@ -67,9 +67,11 @@ int main(int argc, char** argv) {
 
 		// /////////////////////////////////////////////////////////////////////
 
-		FOREACH_MOBILES
+		FOREACH_MOBILES {
+			mobiles[mob]->instant_rate = 0.0;
 			FOREACH_RBS
 				mobiles[mob]->calculate_throughput(ri, best_mobile_states[mob * NUM_RB + ri]);
+		}
 
 		//FOREACH_MOBILES mobiles[mob]->count_cell_association(best_mobile_states[mob]));
 

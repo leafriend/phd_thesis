@@ -54,7 +54,7 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 			bool is_abs = true;
 
 			FOREACH_MACROS {
-				if (curr_macro_states[mac] == ON && pico->is_neighbor(macros[mac])) {
+				if (pico->is_neighbor(macros[mac]) && curr_macro_states[mac] == ON) {
 					is_abs = false;
 					break;
 				}

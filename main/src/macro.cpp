@@ -75,6 +75,14 @@ void Macro::sort_mobiles() {
 
 }
 
+void Macro::set_state(bool state) {
+	this->state = state;
+}
+
+bool Macro::get_state() {
+	return state;
+}
+
 void Macro::count_allocation() {
 	for (int mob = 0; mob < num_mobiles_in_range; mob++) {
 		Mobile* mobile = (Mobile*) mobiles_in_range[mob]->get_mobile();

@@ -30,6 +30,8 @@ private:
 
 	Mobile* first_mobile[NUM_RB];
 
+	bool state;
+
 	int allocation_count;
 
 	// PA1                                                                    //
@@ -40,6 +42,10 @@ public:
 	Macro(int idx, double x, double y, double tx_power);
 
 	void sort_mobiles();
+
+	void set_state(bool state);
+
+	bool get_state();
 
 	void count_allocation();
 

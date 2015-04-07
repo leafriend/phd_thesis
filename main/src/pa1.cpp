@@ -14,9 +14,8 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 
 	double best_sum_lambda_r = DBL_MIN;
 
-	bool best_macro_states[NUM_MACRO];
 	FOREACH_MACROS
-		best_macro_states[mac] = false;
+		macros[mac]->set_state(false);
 
 	// 가능한 모든 Macro 상태(2 ^ NUM_MACRO = 1 << NUM_MACRO)에 대한 반복문
 	int num_macro_state = 1 << NUM_MACRO;
@@ -136,7 +135,7 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 			best_sum_lambda_r = curr_sum_lambda_r;
 
 			FOREACH_MACROS
-				best_macro_states[mac] = curr_macro_states[mac];
+				macros[mac]->set_state(curr_macro_states[mac]);
 
 			FOREACH_RBS
 				FOREACH_MOBILES
@@ -152,8 +151,8 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 	//printf("                        :%6d.%06d s\n", ellapse.tv_sec, ellapse.tv_usec);
 
 	//printf("BEST    %12.6lf - ", best_sum_lambda_r);
-	//for (int mac = NUM_MACRO; mac --> 0;) printf(best_macro_states[mac] ? "%d" : "-", best_macro_states[mac]);
-	//printf("    MOBILE             "); FOREACH_RBS for (int mac = NUM_MACRO; mac --> 0;) printf(best_macro_states[mac] ? "%d" : "-", macros[mac]->get_first_mobile(ri)->get_state(ri) ); printf("\n");
+	//for (int mac = NUM_MACRO; mac --> 0;) printf(macros[mac]->get_state() ? "%d" : "-", macros[mac]->get_state());
+	//printf("    MOBILE             "); FOREACH_RBS for (int mac = NUM_MACRO; mac --> 0;) printf(macros[mac]->get_state() ? "%d" : "-", macros[mac]->get_first_mobile(ri)->get_state(ri) ); printf("\n");
 	//printf("\n"); printf("\n");
 
 }

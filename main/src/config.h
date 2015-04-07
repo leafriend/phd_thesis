@@ -2,13 +2,13 @@
 
 #include <math.h>
 
-#define ALGORITHM                       1                   // Proposed Algorithm 번호
+#define ALGORITHM                       2                   // Proposed Algorithm 번호
 
 #if ALGORITHM == 1
 #define LOG_INTERVAL_TIME               100
-#define LOG_PROGRESS_TIME               10
+#define LOG_PROGRESS_TIME               1
 #elif ALGORITHM == 2
-#define LOG_INTERVAL_TIME               10
+#define LOG_INTERVAL_TIME               100
 #define LOG_PROGRESS_TIME               1
 #endif
 

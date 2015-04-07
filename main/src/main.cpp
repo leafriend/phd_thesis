@@ -15,6 +15,11 @@
 
 int main(int argc, char** argv) {
 
+	// Time Check //////////////////////////////////////////////////////////////
+	clock_t t_elapsed = clock();
+	clock_t t_execute = clock();
+	// /////////////////////////////////////////////////////////////////////////
+
 	// Initialize //////////////////////////////////////////////////////////////
 	Macro* macros[NUM_MACRO];
 	Pico* picos[NUM_PICO];
@@ -23,29 +28,7 @@ int main(int argc, char** argv) {
 	Mobile* mobiles[NUM_MOBILE];
 	initialize(macros, picos, mobiles, macro_mobiles, pico_mobiles);
 
-	// Time Check //////////////////////////////////////////////////////////////
-	TIME start, stop, ellapse;
-	TIME_GET(&start);
-	//printf("/ Start ===============================\\\n");
-	//printf("                         %6d.%06d s\n", TIME_GETSEC(&start) - BASE_SEC, TIME_MSEC(&start));
-
-	TIME t_start, t_stop;
-	clock_t ccstart = clock(), ccstop;
-	clock_t c_start = clock(), c_stop;
-	TIME_GET(&t_start);
-	// ////////////////////////////////////////////////////////////////////// */
-
 	for (int t = 1; t <= SIMULATION_TIME; t++) {
-
-		// Time Check //////////////////////////////////////////////////////////
-		/*
-		if (t % LOG_INTERVAL_TIME == 0) {
-			printf("\n");
-			printf("    / T:%8d ======================\\\n", t);
-			printf("                         %6d.%06d s\n", t_start.tv_sec - BASE_SEC, t_start.tv_usec);
-		}
-		//*/
-		// /////////////////////////////////////////////////////////////////////
 
 		for (int mm = 0; mm < NUM_MM; mm++)
 			macro_mobiles[mm]->generate_channel_gain();
@@ -98,12 +81,12 @@ int main(int argc, char** argv) {
 
 		// /////////////////////////////////////////////////////////////////////
 
+		// Time Check //////////////////////////////////////////////////////
 		if (t % LOG_INTERVAL_TIME == 0) {
 
-			// Time Check //////////////////////////////////////////////////////
-			TIME_GET(&t_stop);
-			c_stop = clock();
-			// ////////////////////////////////////////////////////////////// */
+			clock_t t_lap = clock();
+			clock_t t_from = t_execute;
+			t_execute = clock();
 
 			printf("\n");
 
@@ -144,15 +127,8 @@ int main(int argc, char** argv) {
 			}
 			//*/
 
-			// Time Check //////////////////////////////////////////////////////
-			subtract_timeval(&ellapse, &t_stop, &t_start);
-			//printf("Execution Time:%6d.%06d\t", TIME_GETSEC(&ellapse), TIME_MSEC(&ellapse));
-			printf("Execution Time:%13.6f\t", (float)(c_stop - c_start) / CLOCKS_PER_SEC);
-
-			subtract_timeval(&ellapse, &t_stop, &start);
-			//printf("Elapsed Time:%6d.%06d\t", TIME_GETSEC(&ellapse), TIME_MSEC(&ellapse));
-			printf("Elapsed Time:%13.6f\t", (float)(c_stop - ccstart) / CLOCKS_PER_SEC);
-			// ////////////////////////////////////////////////////////////// */
+			printf("Execution Time:%13.6f\t", (float) (t_lap - t_from) / CLOCKS_PER_SEC);
+			printf("Elapsed Time:%13.6f\t", (float) (t_lap - t_elapsed) / CLOCKS_PER_SEC);
 
 			double sum_utility = 0.0;
 			FOREACH_MOBILES {
@@ -162,35 +138,16 @@ int main(int argc, char** argv) {
 			}
 			printf("Sum Utility: %f\n", sum_utility);
 
-			/*
-			gettimeofday(&t_stop, NULL);
-			printf("                         %6d.%06d s\n", t_stop.tv_sec - BASE_SEC, t_stop.tv_usec);
-			printf("    \\__________________________________/\n");
-
-			subtract_timeval(&ellapse, &t_stop, &t_start);
-			printf("    ---------------------%6d.%06d s\n", ellapse.tv_sec, ellapse.tv_usec);
-
-			subtract_timeval(&ellapse, &t_stop, &start);
-			printf("    =====================%6d.%06d s\n", ellapse.tv_sec, ellapse.tv_usec);
-			printf("\n");
-			//*/
-
-			c_start = clock();
-			TIME_GET(&t_start);
-
 		}
 		// /////////////////////////////////////////////////////////////////////
 
 	}
 
 	// Time Check //////////////////////////////////////////////////////////////
-	ccstop = clock();
-	TIME_GET(&stop);
+	clock_t ccstop = clock();
 	//printf("                         %6d.%06d s\n", TIME_GETSEC(&stop) - BASE_SEC, TIME_MSEC(&stop));
 	//printf("\\______________________________________/\n");
 
-	subtract_timeval(&ellapse, &stop, &start);
-	//printf("=========================%6d.%06d s\n", TIME_GETSEC(&ellapse), TIME_MSEC(&ellapse));
 	//printf("=========================%13.6f s\n", (float)(ccstop - ccstart) / CLOCKS_PER_SEC);
 
 	// Finalize ///////////////////////////////////////////////////////////// */

@@ -38,6 +38,7 @@
 //#define SIMULATION_TIME                 10000
 //#define SIMULATION_TIME                 100
 #define LOG_INTERVAL_TIME               10000
+#define LOG_PROGRESS_TIME               100
 
 #define NUM_RES_BLK_MAC                 1
 #define NUM_RES_BLK_PIC                 1

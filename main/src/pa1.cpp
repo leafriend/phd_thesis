@@ -13,6 +13,7 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 			mobiles[mob]->set_state(ri, 0);
 
 	double best_sum_lambda_r = DBL_MIN;
+	bool best_macro_states[NUM_MACRO];
 
 	FOREACH_MACROS
 		macros[mac]->set_state(false);
@@ -22,13 +23,12 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 	for (int s = 0; s < num_macro_state; s++) {
 
 		// Macro 상태(ON/OFF) 지정
-		bool curr_macro_states[NUM_MACRO];
 		FOREACH_MACROS
-			curr_macro_states[mac] = 1 == ((1 << mac) & s) >> mac;
+			macros[mac]->set_state(1 == ((1 << mac) & s) >> mac);
 
 		double curr_sum_lambda_r = 0.0;
 
-		//printf("SATAE   "); for (int mac = NUM_MACRO; mac --> 0;) printf("%d", curr_macro_states[mac]); printf("\n");
+		//printf("SATAE   "); for (int mac = NUM_MACRO; mac --> 0;) printf("%d", macros[mac]->get_state()); printf("\n");
 
 		// 이용자 (연결) 상태 초기화
 		int curr_mobile_states[NUM_RB][NUM_MOBILE];
@@ -37,7 +37,7 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 				curr_mobile_states[ri][mob] = 0;
 
 		FOREACH_MACROS {
-			if (curr_macro_states[mac]) {
+			if (macros[mac]->get_state()) {
 				FOREACH_RBS {
 					Mobile* mobile = macros[mac]->get_first_mobile(ri);
 
@@ -54,7 +54,7 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 			bool is_abs = true;
 
 			FOREACH_MACROS {
-				if (pico->is_neighbor(macros[mac]) && curr_macro_states[mac] == ON) {
+				if (pico->is_neighbor(macros[mac]) && macros[mac]->get_state() == ON) {
 					is_abs = false;
 					break;
 				}
@@ -69,11 +69,11 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 
 					if (abs_first != NULL) {
 
-						Macro* macro = (Macro*) abs_first->get_macro()->macro;
+						Macro* first_macro = (Macro*) abs_first->get_macro()->macro;
 
-						if (((curr_macro_states[macro->idx] == OFF
-						||  macro->get_first_mobile(ri) != abs_first
-						))) {
+						if (first_macro->get_state() == OFF
+							|| first_macro->get_first_mobile(ri) != abs_first
+						) {
 							curr_sum_lambda_r += abs_first->lambda * abs_first->get_abs_pico_throughput(ri);
 							curr_mobile_states[ri][abs_first->idx] = 2;
 							//printf("ABS - %2d = 2\n", abs_first->idx);
@@ -99,8 +99,8 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 
 						Macro* first_macro = (Macro*) first->get_macro()->macro;
 
-						if (curr_macro_states[first_macro->idx] == ON
-						&&  first_macro->get_first_mobile(ri) == first
+						if (first_macro->get_state() == ON
+							&& first_macro->get_first_mobile(ri) == first
 						) {
 
 							Mobile* second = pico->get_second_mobile(ri);
@@ -132,13 +132,13 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 		if (curr_sum_lambda_r > best_sum_lambda_r) {
 
 			//printf("  BETTER%12.6lf > %12.6lf - ", curr_sum_lambda_r, best_sum_lambda_r);
-			//for (int mac = NUM_MACRO; mac --> 0;) printf("%d", curr_macro_states[mac]);
+			//for (int mac = NUM_MACRO; mac --> 0;) printf("%d", macros[mac]->get_state());
 			//printf("\n");
 
 			best_sum_lambda_r = curr_sum_lambda_r;
 
 			FOREACH_MACROS
-				macros[mac]->set_state(curr_macro_states[mac]);
+				best_macro_states[mac] = macros[mac]->get_state();
 
 			FOREACH_RBS
 				FOREACH_MOBILES
@@ -148,6 +148,9 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 		}
 
 	}
+
+	FOREACH_MACROS
+		macros[mac]->set_state(best_macro_states[mac]);
 
 	//gettimeofday(&stop, NULL);
 	//subtract_timeval(&ellapse, &stop, &start);

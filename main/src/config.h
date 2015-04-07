@@ -39,7 +39,7 @@
 //#define SIMULATION_TIME                 100000
 //#define SIMULATION_TIME                 10000
 //#define SIMULATION_TIME                 100
-#define LOG_INTERVAL_TIME               1000
+#define LOG_INTERVAL_TIME               100
 #define LOG_PROGRESS_TIME               10
 
 #define STEPSIZE2                       0.0005

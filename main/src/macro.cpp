@@ -84,15 +84,8 @@ bool Macro::get_state() {
 }
 
 void Macro::count_allocation() {
-	for (int mob = 0; mob < num_mobiles_in_range; mob++) {
-		Mobile* mobile = (Mobile*) mobiles_in_range[mob]->get_mobile();
-		FOREACH_RBS {
-			if (mobile->get_state(ri)) {
-				allocation_count++;
-				return;
-			}
-		}
-	}
+	if (state)
+		allocation_count++;
 }
 
 Mobile* Macro::get_first_mobile(int ri) {

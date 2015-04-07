@@ -97,7 +97,7 @@ int main(int argc, char** argv) {
 		for (int mm = 0; mm < NUM_MM; mm++)
 			macro_mobiles[mm]->generate_channel_gain();
 
-		for (int pm = 0; pm < NUM_MM; pm++)
+		for (int pm = 0; pm < NUM_PM; pm++)
 			pico_mobiles[pm]->generate_channel_gain();
 
 		FOREACH_MOBILES

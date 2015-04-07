@@ -1,5 +1,7 @@
 ﻿#pragma once
 
+#include "config.h"
+
 #ifdef _MSC_VER
 #include <Windows.h>
 typedef SYSTEMTIME TIME;
@@ -39,6 +41,10 @@ double gaussian(double mu, double sigma);
 #ifndef isinf
 #define isinf(x) (!_finite(x))
 #endif
+
+#define FOREACH_MACROS for (int mac = 0; mac < NUM_MACRO; mac++)
+#define FOREACH_PICOS for (int pic = 0; pic < NUM_PICO; pic++)
+#define FOREACH_MOBILES for (int mob = 0; mob < NUM_MOBILE; mob++)
 
 //
 // Foreach.h C++ helper

@@ -21,7 +21,7 @@ int main(int argc, char** argv) {
 	//printf("= Macro ================================\n");
 	Macro* macros[NUM_MACRO];
 	fp = fopen(DATA_FILE_PREFIX "macro.txt", "r");
-	for (int mac = 0; mac < NUM_MACRO; mac++) {
+	FOREACH_MACROS {
 		double x, y, tx_power = TX_POWER_MACRO;
 		fscanf(fp, "%lf", &x);
 		fscanf(fp, "%lf", &y);
@@ -33,7 +33,7 @@ int main(int argc, char** argv) {
 	//printf("= Pico =================================\n");
 	Pico* picos[NUM_PICO];
 	fp = fopen(DATA_FILE_PREFIX "pico.txt", "r");
-	for (int pic = 0; pic < NUM_PICO; pic++) {
+	FOREACH_PICOS {
 		double x, y, tx_power = TX_POWER_MACRO;
 		fscanf(fp, "%lf", &x);
 		fscanf(fp, "%lf", &y);
@@ -48,7 +48,7 @@ int main(int argc, char** argv) {
 	//printf("= Mobile ===============================\n");
 	Mobile* mobiles[NUM_MOBILE];
 	fp = fopen(DATA_FILE_PREFIX "mobile.txt", "r");
-	for (int mob = 0; mob < NUM_MOBILE; mob++) {
+	FOREACH_MOBILES {
 		double x, y, qos = QOS;
 		fscanf(fp, "%lf", &x);
 		fscanf(fp, "%lf", &y);
@@ -56,11 +56,11 @@ int main(int argc, char** argv) {
 		Mobile* mobile = new Mobile(mob, x, y, qos);
 		mobiles[mob] = mobile;
 
-		for (int mac = 0; mac < NUM_MACRO; mac++) {
+		FOREACH_MACROS {
 			macro_mobiles[mob * NUM_MACRO + mac] = new Macro_Mobile(macros[mac], mobile);
 		}
 
-		for (int pic = 0; pic < NUM_PICO; pic++) {
+		FOREACH_PICOS {
 			pico_mobiles[mob * NUM_PICO + pic] = new Pico_Mobile(picos[pic], mobile);
 		}
 
@@ -100,15 +100,15 @@ int main(int argc, char** argv) {
 		for (int pm = 0; pm < NUM_MM; pm++)
 			pico_mobiles[pm]->generate_channel_gain();
 
-		for (int mob = 0; mob < NUM_MOBILE; mob++)
+		FOREACH_MOBILES
 			mobiles[mob]->calculate_throughputs();
 
 		// /////////////////////////////////////////////////////////////////////
 
-		for (int pic = 0; pic < NUM_PICO; pic++)
+		FOREACH_PICOS
 			picos[pic]->sort_mobiles();
 
-		for (int mac = 0; mac < NUM_MACRO; mac++)
+		FOREACH_MACROS
 			macros[mac]->sort_mobiles();
 
 		// /////////////////////////////////////////////////////////////////////
@@ -119,7 +119,7 @@ int main(int argc, char** argv) {
 
 		// /////////////////////////////////////////////////////////////////////
 
-		for (int mob = 0; mob < NUM_MOBILE; mob++) {
+		FOREACH_MOBILES {
 			Mobile* mobile = mobiles[mob];
 
 			switch (best_mobile_states[mob]) {
@@ -181,9 +181,9 @@ int main(int argc, char** argv) {
 
 		// /////////////////////////////////////////////////////////////////////
 
-		// for (int mob = 0; mob < NUM_MOBILE; mob++) printf("%d", best_mobile_states[mob]); printf("\n");
+		// FOREACH_MOBILES printf("%d", best_mobile_states[mob]); printf("\n");
 
-		for (int mac = 0; mac < NUM_MACRO; mac++) {
+		FOREACH_MACROS {
 			Macro* macro = macros[mac];
 			for (int mob = 0; mob < macro->num_mobiles_in_range; mob++) {
 				Mobile* mobile = (Mobile*) macro->mobiles_in_range[mob]->get_mobile();
@@ -209,7 +209,7 @@ int main(int argc, char** argv) {
 
 			printf("\n");
 
-			for (int mob = 0; mob < NUM_MOBILE; mob++) {
+			FOREACH_MOBILES {
 				//printf("%f\t%f\t%f\t%f\n", mobiles[mob]->get_rate_user_()PA1, log(mobiles[mob]->get_rate_user_()PA1), (mobiles[mob]->get_thrp_result_()PA1 / (1 + t)), log(mobiles[mob]->get_thrp_result_()PA1 / (1 + t)));
 				printf("%f\t%f\t%f\t%f\t%f\t%f\n",
 					mobiles[mob]->rate_user,
@@ -221,7 +221,7 @@ int main(int argc, char** argv) {
 				);
 			}
 
-			for (int mac = 0; mac < NUM_MACRO; mac++) {
+			FOREACH_MACROS {
 				printf("%8d (%f) ", macros[mac]->allocation_count, macros[mac]->allocation_count / (double) (t + 1));
 			}
 			printf("\n");
@@ -246,7 +246,7 @@ int main(int argc, char** argv) {
 			// ////////////////////////////////////////////////////////////// */
 
 			double sum_utility = 0.0;
-			for (int mob = 0; mob < NUM_MOBILE; mob++) {
+			FOREACH_MOBILES {
 				double utility = log(mobiles[mob]->result_throughput / (1 + t));
 				if (!isinf(utility))
 					sum_utility += utility;
@@ -290,13 +290,13 @@ int main(int argc, char** argv) {
 	for (int pm = 0; pm < NUM_PM; pm++)
 		delete pico_mobiles[pm];
 
-	for (int mac = 0; mac < NUM_MACRO; mac++)
+	FOREACH_MACROS
 		delete macros[mac];
 
-	for (int pic = 0; pic < NUM_PICO; pic++)
+	FOREACH_PICOS
 		delete picos[pic];
 
-	for (int mob = 0; mob < NUM_MOBILE; mob++)
+	FOREACH_MOBILES
 		delete mobiles[mob];
 
 	system("pause");

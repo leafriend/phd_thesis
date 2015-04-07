@@ -6,13 +6,13 @@
 void pa1(int* best_mobile_states, Macro** macros, Pico** picos, Mobile** mobiles) {
 
 	//int best_mobile_states[NUM_MOBILE];
-	for (int mob = 0; mob < NUM_MOBILE; mob++)
+	FOREACH_MOBILES
 		best_mobile_states[mob] = 0;
 
 	double best_sum_lambda_r = DBL_MIN;
 
 	bool best_macro_states[NUM_MACRO];
-	for (int mac = 0; mac < NUM_MACRO; mac++)
+	FOREACH_MACROS
 		best_macro_states[mac] = false;
 
 	int num_macro_state = 1 << NUM_MACRO;
@@ -25,16 +25,16 @@ void pa1(int* best_mobile_states, Macro** macros, Pico** picos, Mobile** mobiles
 		double curr_sum_lambda_r = 0.0;
 
 		bool curr_macro_states[NUM_MACRO];
-		for (int mac = 0; mac < NUM_MACRO; mac++)
+		FOREACH_MACROS
 			curr_macro_states[mac] = 1 == ((1 << mac) & s) >> mac;
 
 		int curr_mobile_states[NUM_MOBILE];
-		for (int mob = 0; mob < NUM_MOBILE; mob++)
+		FOREACH_MOBILES
 			curr_mobile_states[mob] = 0;
 
 		//printf("SATAE   "); for (int mac = NUM_MACRO; mac --> 0;) printf("%d", curr_macro_states[mac]); printf("\n");
 
-		for (int mac = 0; mac < NUM_MACRO; mac++) {
+		FOREACH_MACROS {
 			if (curr_macro_states[mac]) {
 				Mobile* mobile = macros[mac]->get_first_mobile();
 
@@ -43,13 +43,13 @@ void pa1(int* best_mobile_states, Macro** macros, Pico** picos, Mobile** mobiles
 			}
 		}
 
-		for (int pic = 0; pic < NUM_PICO; pic++) {
+		FOREACH_PICOS {
 
 			Pico* pico = picos[pic];
 
 			bool is_abs = true;
 
-			for (int mac = 0; mac < NUM_MACRO; mac++) {
+			FOREACH_MACROS {
 				if (curr_macro_states[mac] == ON && pico->is_neighbor(macros[mac])) {
 					is_abs = false;
 					break;
@@ -115,7 +115,7 @@ void pa1(int* best_mobile_states, Macro** macros, Pico** picos, Mobile** mobiles
 
 			}
 
-			//for (int mob = 0; mob < NUM_MOBILE; mob++) printf("%d", curr_mobile_states[mob]); printf("\n");
+			//FOREACH_MOBILES printf("%d", curr_mobile_states[mob]); printf("\n");
 
 		}
 
@@ -126,10 +126,10 @@ void pa1(int* best_mobile_states, Macro** macros, Pico** picos, Mobile** mobiles
 
 			best_sum_lambda_r = curr_sum_lambda_r;
 
-			for (int mac = 0; mac < NUM_MACRO; mac++)
+			FOREACH_MACROS
 				best_macro_states[mac] = curr_macro_states[mac];
 
-			for (int mob = 0; mob < NUM_MOBILE; mob++)
+			FOREACH_MOBILES
 				best_mobile_states[mob] = curr_mobile_states[mob];
 
 			//printf(" .\n");

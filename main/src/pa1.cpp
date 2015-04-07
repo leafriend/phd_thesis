@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <float.h>
 
+#include "func.h"
 #include "pa1.h"
 
 void pa1(int* best_mobile_states, Macro** macros, Pico** picos, Mobile** mobiles) {

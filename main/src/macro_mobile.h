@@ -24,8 +24,6 @@ public:
 
 	Macro_Mobile(Macro* macro, Mobile* mobile);
 
-	bool is_in_range();
-
 	void generate_channel_gain();
 	double get_channel_gain();
 

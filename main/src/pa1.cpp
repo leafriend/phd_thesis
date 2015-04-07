@@ -16,22 +16,21 @@ void pa1(int* best_mobile_states, Macro** macros, Pico** picos, Mobile** mobiles
 	FOREACH_MACROS
 		best_macro_states[mac] = false;
 
+	// 가능한 모든 Macro 상태(2 ^ NUM_MACRO = 1 << NUM_MACRO)에 대한 반복문
 	int num_macro_state = 1 << NUM_MACRO;
-
-	//struct timeval start, stop, ellapse;
-	//gettimeofday(&start, NULL);
-
 	for (int s = 0; s < num_macro_state; s++) {
 
-		double curr_sum_lambda_r = 0.0;
-
+		// Macro 상태(ON/OFF) 지정
 		bool curr_macro_states[NUM_MACRO];
 		FOREACH_MACROS
 			curr_macro_states[mac] = 1 == ((1 << mac) & s) >> mac;
 
+		// 이용자 (연결) 상태 초기화
 		int curr_mobile_states[NUM_MOBILE];
 		FOREACH_MOBILES
 			curr_mobile_states[mob] = 0;
+
+		double curr_sum_lambda_r = 0.0;
 
 		//printf("SATAE   "); for (int mac = NUM_MACRO; mac --> 0;) printf("%d", curr_macro_states[mac]); printf("\n");
 

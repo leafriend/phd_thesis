@@ -86,6 +86,7 @@
     <ClCompile Include="src\macro_mobile.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\mobile.cpp" />
+    <ClCompile Include="src\pa1.cpp" />
     <ClCompile Include="src\pico.cpp" />
     <ClCompile Include="src\pico_mobile.cpp" />
   </ItemGroup>
@@ -95,6 +96,7 @@
     <ClInclude Include="src\macro.h" />
     <ClInclude Include="src\macro_mobile.h" />
     <ClInclude Include="src\mobile.h" />
+    <ClInclude Include="src\pa1.h" />
     <ClInclude Include="src\pico.h" />
     <ClInclude Include="src\pico_mobile.h" />
   </ItemGroup>

@@ -1,7 +1,6 @@
 #pragma once
 
-//#include "pico.h"
-//#include "mobile.h"
+#include "config.h"
 
 class Pico;
 class Mobile;

@@ -75,6 +75,14 @@ void Macro::sort_mobiles() {
 
 }
 
+int Macro::get_num_mobiles_to_service() const {
+	return num_mobiles_to_service;
+}
+
+Macro_Mobile** Macro::get_mobiles_to_service() {
+	return mobiles_to_service;
+}
+
 void Macro::set_state(bool state) {
 	this->state = state;
 }

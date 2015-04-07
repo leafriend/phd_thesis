@@ -43,8 +43,10 @@ public:
 
 	void sort_mobiles();
 
-	void set_state(bool state);
+	int get_num_mobiles_to_service() const;
+	Macro_Mobile** Macro::get_mobiles_to_service();
 
+	void set_state(bool state);
 	bool get_state();
 
 	void count_allocation();

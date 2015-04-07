@@ -24,7 +24,7 @@ void Pico::check_interfering(Macro* macro) {
 	}
 }
 
-bool Pico::is_abs() {
+bool Pico::is_abs() const {
 	for (int i = 0; i < num_macros_interfering; i++)
 		if (macros_interfering[i]->get_state())
 			return false;

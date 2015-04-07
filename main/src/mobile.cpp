@@ -158,7 +158,7 @@ void Mobile::set_state(int ri, int state) {
 	states[ri] = state;
 }
 
-int Mobile::get_state(int ri) {
+int Mobile::get_state(int ri) const {
 	return states[ri];
 }
 

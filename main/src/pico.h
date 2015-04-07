@@ -49,7 +49,7 @@ public:
 
 	void check_interfering(Macro* macro);
 
-	bool is_abs();
+	bool is_abs() const;
 
 	void sort_mobiles();
 

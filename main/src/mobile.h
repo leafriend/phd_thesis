@@ -86,7 +86,7 @@ public:
 
 	void set_state(int ri, int state);
 
-	int get_state(int ri);
+	int get_state(int ri) const;
 
 	double get_rate_user();
 

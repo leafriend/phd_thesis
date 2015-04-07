@@ -75,10 +75,12 @@ int main(int argc, char** argv) {
 	// Time Check //////////////////////////////////////////////////////////////
 	TIME start, stop, ellapse;
 	TIME_GET(&start);
-	printf("/ Start ===============================\\\n");
-	printf("                         %6d.%06d s\n", TIME_GETSEC(&start) - BASE_SEC, TIME_MSEC(&start));
+	//printf("/ Start ===============================\\\n");
+	//printf("                         %6d.%06d s\n", TIME_GETSEC(&start) - BASE_SEC, TIME_MSEC(&start));
 
 	TIME t_start, t_stop;
+	clock_t ccstart = clock(), ccstop;
+	clock_t c_start = clock(), c_stop;
 	TIME_GET(&t_start);
 	// ////////////////////////////////////////////////////////////////////// */
 
@@ -149,6 +151,7 @@ int main(int argc, char** argv) {
 
 			// Time Check //////////////////////////////////////////////////////
 			TIME_GET(&t_stop);
+			c_stop = clock();
 			// ////////////////////////////////////////////////////////////// */
 
 			printf("\n");
@@ -192,10 +195,12 @@ int main(int argc, char** argv) {
 
 			// Time Check //////////////////////////////////////////////////////
 			subtract_timeval(&ellapse, &t_stop, &t_start);
-			printf("Execution Time:%6d.%06d\t", TIME_GETSEC(&ellapse), TIME_MSEC(&ellapse));
+			//printf("Execution Time:%6d.%06d\t", TIME_GETSEC(&ellapse), TIME_MSEC(&ellapse));
+			printf("Execution Time:%13.6f\t", (float)(c_stop - c_start) / CLOCKS_PER_SEC);
 
 			subtract_timeval(&ellapse, &t_stop, &start);
-			printf("Elapsed Time:%6d.%06d\t", TIME_GETSEC(&ellapse), TIME_MSEC(&ellapse));
+			//printf("Elapsed Time:%6d.%06d\t", TIME_GETSEC(&ellapse), TIME_MSEC(&ellapse));
+			printf("Elapsed Time:%13.6f\t", (float)(c_stop - ccstart) / CLOCKS_PER_SEC);
 			// ////////////////////////////////////////////////////////////// */
 
 			double sum_utility = 0.0;
@@ -219,6 +224,7 @@ int main(int argc, char** argv) {
 			printf("\n");
 			//*/
 
+			c_start = clock();
 			TIME_GET(&t_start);
 
 		}
@@ -227,12 +233,15 @@ int main(int argc, char** argv) {
 	}
 
 	// Time Check //////////////////////////////////////////////////////////////
+	ccstop = clock();
 	TIME_GET(&stop);
-	printf("                         %6d.%06d s\n", TIME_GETSEC(&stop) - BASE_SEC, TIME_MSEC(&stop));
-	printf("\\______________________________________/\n");
+	//printf("                         %6d.%06d s\n", TIME_GETSEC(&stop) - BASE_SEC, TIME_MSEC(&stop));
+	//printf("\\______________________________________/\n");
 
 	subtract_timeval(&ellapse, &stop, &start);
-	printf("=========================%6d.%06d s\n", TIME_GETSEC(&ellapse), TIME_MSEC(&ellapse));
+	//printf("=========================%6d.%06d s\n", TIME_GETSEC(&ellapse), TIME_MSEC(&ellapse));
+	//printf("=========================%13.6f s\n", (float)(ccstop - ccstart) / CLOCKS_PER_SEC);
+
 	// ////////////////////////////////////////////////////////////////////// */
 
 	// /////////////////////////////////////////////////////////////////////////

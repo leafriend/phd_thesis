@@ -21,9 +21,9 @@ Pico_Mobile::Pico_Mobile(Pico* pico, Mobile* mobile)
 
 	if (distance < RANGE_PICO) {
 		pico->mobiles_in_range[pico->num_mobiles_in_range++] = this;
-		if (mobile->pico == NULL || distance < mobile->pico->distance)
-			mobile->pico = this;
 	}
+	if (mobile->pico == NULL || distance < mobile->pico->distance)
+		mobile->pico = this;
 
 }
 

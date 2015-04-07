@@ -21,10 +21,9 @@ Macro_Mobile::Macro_Mobile(Macro* macro, Mobile* mobile)
 
 	if (distance < RANGE_MACRO)
 		macro->mobiles_in_range[macro->num_mobiles_in_range++] = this;
-		if (mobile->macro == NULL || distance < mobile->macro->distance)
-			mobile->macro = this;
-	}
 
+	if (mobile->macro == NULL || distance < mobile->macro->distance)
+		mobile->macro = this;
 
 }
 

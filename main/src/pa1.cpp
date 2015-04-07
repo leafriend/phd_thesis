@@ -8,12 +8,12 @@
 
 void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 
+	double best_sum_lambda_r = DBL_MIN;
+	bool best_macro_states[NUM_MACRO];
+
 	FOREACH_MOBILES
 		FOREACH_RBS
 			mobiles[mob]->set_state(ri, 0);
-
-	double best_sum_lambda_r = DBL_MIN;
-	bool best_macro_states[NUM_MACRO];
 
 	FOREACH_MACROS
 		macros[mac]->set_state(false);

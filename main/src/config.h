@@ -9,7 +9,8 @@
 #define OFF                             0
 
 #define BW                              20000000            // 전체 Bandwidth, Hz 단위
-#define BW_PER_RB                       15000               // 할당하는 단위 자원의 Bandwidth, Hz 단위, noise 계산시 사용
+#define BW_PER_RB                         180000            // 할당하는 단위 자원의 Bandwidth, Hz 단위, noise 계산시 사용
+#define NUM_RB                                 1            // Resource Block 갯수
 
 #define NUM_MACRO                       7
 #define NUM_PICO                        15
@@ -39,9 +40,6 @@
 //#define SIMULATION_TIME                 100
 #define LOG_INTERVAL_TIME               10000
 #define LOG_PROGRESS_TIME               100
-
-#define NUM_RES_BLK_MAC                 1
-#define NUM_RES_BLK_PIC                 1
 
 #define STEPSIZE2                       0.0005
 #define STEPSIZE3                       0.0001

@@ -9,8 +9,8 @@
 #include "pico.h"
 #include "mobile.h"
 
-#define THOURGHPUT(channel_gain, interference, noise) \
-	(BW * log(1 + ((channel_gain) / ((interference) + (noise)))))
+#define THOURGHPUT(bandwidth, channel_gain, interference, noise) \
+	((bandwidth) * log(1 + ((channel_gain) / ((interference) + (noise)))))
 
 Mobile::Mobile(int idx, double x, double y, double qos)
 : idx(idx), x(x), y(y), qos(qos)
@@ -49,6 +49,7 @@ void Mobile::generate_channel_gain()
 	double macro_channel_gain = macro == NULL ? 0 : macro->get_channel_gain();
 	//printf("macro_channel_gain: %lf\n", macro_channel_gain);
 	macro_throughput = THOURGHPUT(
+		BW_PER_RB,
 		macro_channel_gain,
 		sum_macro_channel_gain + sum_pico_channel_gain - macro_channel_gain,
 		NOISE
@@ -57,6 +58,7 @@ void Mobile::generate_channel_gain()
 	double pico_channel_gain = pico == NULL ? 0 : pico->get_channel_gain();
 
 	pico_throughput = THOURGHPUT(
+		BW_PER_RB,
 		pico_channel_gain,
 		sum_macro_channel_gain + sum_pico_channel_gain - pico_channel_gain,
 		NOISE
@@ -64,6 +66,7 @@ void Mobile::generate_channel_gain()
 
 	// TODO
 	abs_pico_throughput = THOURGHPUT(
+		BW_PER_RB,
 		pico_channel_gain,
 		/*sum_macro_channel_gain +*/ sum_pico_channel_gain - pico_channel_gain,
 		NOISE

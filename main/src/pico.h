@@ -14,12 +14,14 @@ class Pico {
 
 	friend class Pico_Mobile;
 
-private:
+public:
 
 	const int idx;
 	const double x;
 	const double y;
 	const double tx_power;
+
+private:
 
 	Pico_Mobile* mobiles_to_service[NUM_PM];
 	int num_mobiles_to_service;

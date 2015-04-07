@@ -41,7 +41,7 @@ public:
 
 	void sort_mobiles();
 
-	void count_allocation(int* mobile_states);
+	void count_allocation();
 
 	Mobile* get_first_mobile(int ri);
 

@@ -4,4 +4,4 @@
 #include "pico.h"
 #include "mobile.h"
 
-void pa1(int* best_mobile_states, Macro** macros, Pico** picos, Mobile** mobiles);
+void pa1(Macro** macros, Pico** picos, Mobile** mobiles);

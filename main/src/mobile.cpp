@@ -78,20 +78,23 @@ void Mobile::generate_channel_gain()
 
 }
 
-void Mobile::calculate_throughput(int ri, int mobile_state) {
-	switch (mobile_state) {
-		case 0:
-			instant_rate += 0.0;
-		case 1:
-			instant_rate += macro_throughput[ri];
-			break;
-		case 2:
-			instant_rate += abs_pico_throughput[ri];
-			break;
-		case 3:
-		case 4:
-			instant_rate += pico_throughput[ri];
-			break;
+void Mobile::calculate_throughput() {
+	instant_rate = 0.0;
+	FOREACH_RBS {
+		switch (states[ri]) {
+			case 0:
+				instant_rate += 0.0;
+			case 1:
+				instant_rate += macro_throughput[ri];
+				break;
+			case 2:
+				instant_rate += abs_pico_throughput[ri];
+				break;
+			case 3:
+			case 4:
+				instant_rate += pico_throughput[ri];
+				break;
+		}
 	}
 	result_throughput += instant_rate;
 }
@@ -153,6 +156,14 @@ Macro_Mobile* Mobile::get_macro() const {
 
 Pico_Mobile* Mobile::get_pico() const {
 	return pico;
+}
+
+void Mobile::set_state(int ri, int state) {
+	states[ri] = state;
+}
+
+int Mobile::get_state(int ri) {
+	return states[ri];
 }
 
 double Mobile::get_rate_user() {

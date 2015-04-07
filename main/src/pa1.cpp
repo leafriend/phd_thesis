@@ -4,12 +4,11 @@
 #include "func.h"
 #include "pa1.h"
 
-void pa1(int* best_mobile_states, Macro** macros, Pico** picos, Mobile** mobiles) {
+void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 
-	//int best_mobile_states[NUM_MOBILE];
 	FOREACH_MOBILES
 		FOREACH_RBS
-			best_mobile_states[mob * NUM_RB + ri] = 0;
+			mobiles[mob]->set_state(ri, 0);
 
 	double best_sum_lambda_r = DBL_MIN;
 
@@ -31,9 +30,10 @@ void pa1(int* best_mobile_states, Macro** macros, Pico** picos, Mobile** mobiles
 		//printf("SATAE   "); for (int mac = NUM_MACRO; mac --> 0;) printf("%d", curr_macro_states[mac]); printf("\n");
 
 		// 이용자 (연결) 상태 초기화
-		int curr_mobile_states[NUM_MOBILE];
-		FOREACH_MOBILES
-			curr_mobile_states[mob] = 0;
+		int curr_mobile_states[NUM_RB][NUM_MOBILE];
+		FOREACH_RBS
+			FOREACH_MOBILES
+				curr_mobile_states[ri][mob] = 0;
 
 		FOREACH_MACROS {
 			if (curr_macro_states[mac]) {
@@ -41,7 +41,7 @@ void pa1(int* best_mobile_states, Macro** macros, Pico** picos, Mobile** mobiles
 					Mobile* mobile = macros[mac]->get_first_mobile(ri);
 
 					curr_sum_lambda_r += mobile->lambda * mobile->get_macro_throughput(ri);
-					curr_mobile_states[mobile->idx] = 1;
+					curr_mobile_states[ri][mobile->idx] = 1;
 				}
 			}
 		}
@@ -75,12 +75,12 @@ void pa1(int* best_mobile_states, Macro** macros, Pico** picos, Mobile** mobiles
 						||  macro->get_first_mobile(ri) != abs_first
 						))) {
 							curr_sum_lambda_r += abs_first->lambda * abs_first->get_abs_pico_throughput(ri);
-							curr_mobile_states[abs_first->idx] = 2;
+							curr_mobile_states[ri][abs_first->idx] = 2;
 							//printf("ABS - %2d = 2\n", abs_first->idx);
 
 						} else if (abs_second != NULL) {
 							curr_sum_lambda_r += abs_second->lambda * abs_second->get_abs_pico_throughput(ri);
-							curr_mobile_states[abs_second->idx] = 2;
+							curr_mobile_states[ri][abs_second->idx] = 2;
 							//printf("ABS - %2d = 2\n", abs_second->idx);
 
 						}
@@ -102,9 +102,9 @@ void pa1(int* best_mobile_states, Macro** macros, Pico** picos, Mobile** mobiles
 					) {
 
 						Mobile* second = pico->get_second_mobile(ri);
-						if (second != NULL && curr_mobile_states[second->idx] != 1) {
+						if (second != NULL && curr_mobile_states[ri][second->idx] != 1) {
 							curr_sum_lambda_r += second->lambda * second->get_pico_throughput(ri);
-							curr_mobile_states[second->idx] = 4;
+							curr_mobile_states[ri][second->idx] = 4;
 							//printf("non - %2d = 4\n", second->idx);
 						} else {
 							//printf("non\n");
@@ -113,12 +113,7 @@ void pa1(int* best_mobile_states, Macro** macros, Pico** picos, Mobile** mobiles
 					} else {
 
 						curr_sum_lambda_r += first->lambda * first->get_pico_throughput(ri);
-						//if (curr_mobile_states[first->idx] != 3) {
-						//	printf("non - %2d @ %d[%d] = 3   ", first->idx, first_macro->idx, curr_macro_states[first_macro->idx]);
-						//	for (int mac = NUM_MACRO; mac --> 0;) printf("%d", curr_macro_states[mac]);
-						//	printf(" (%p == %p)\n", first_macro->first_mobile, first);
-						//}
-						curr_mobile_states[first->idx] = 3;
+						curr_mobile_states[ri][first->idx] = 3;
 
 					}
 
@@ -126,7 +121,7 @@ void pa1(int* best_mobile_states, Macro** macros, Pico** picos, Mobile** mobiles
 
 			}
 
-			//FOREACH_MOBILES printf("%d", curr_mobile_states[mob]); printf("\n");
+			//FOREACH_RBS FOREACH_MOBILES printf("%d", curr_mobile_states[ri][mob]); printf("\n");
 
 		}
 
@@ -140,9 +135,9 @@ void pa1(int* best_mobile_states, Macro** macros, Pico** picos, Mobile** mobiles
 			FOREACH_MACROS
 				best_macro_states[mac] = curr_macro_states[mac];
 
-			FOREACH_MOBILES
-				FOREACH_RBS
-					best_mobile_states[mob * NUM_RB + ri] = curr_mobile_states[mob];
+			FOREACH_RBS
+				FOREACH_MOBILES
+					mobiles[mob]->set_state(ri, curr_mobile_states[ri][mob]);
 
 			//printf(" .\n");
 

@@ -62,16 +62,12 @@ int main(int argc, char** argv) {
 		// /////////////////////////////////////////////////////////////////////
 		// PROCESS ALGORITHM
 
-		int best_mobile_states[NUM_RM];
-		pa1(best_mobile_states, macros, picos, mobiles);
+		pa1(macros, picos, mobiles);
 
 		// /////////////////////////////////////////////////////////////////////
 
-		FOREACH_MOBILES {
-			mobiles[mob]->instant_rate = 0.0;
-			FOREACH_RBS
-				mobiles[mob]->calculate_throughput(ri, best_mobile_states[mob * NUM_RB + ri]);
-		}
+		FOREACH_MOBILES
+			mobiles[mob]->calculate_throughput();
 
 		//FOREACH_MOBILES mobiles[mob]->count_cell_association(best_mobile_states[mob]));
 
@@ -86,7 +82,7 @@ int main(int argc, char** argv) {
 		// FOREACH_MOBILES printf("%d", best_mobile_states[mob]); printf("\n");
 
 		FOREACH_MACROS {
-			macros[mac]->count_allocation(best_mobile_states);
+			macros[mac]->count_allocation();
 		}
 
 		// /////////////////////////////////////////////////////////////////////

@@ -52,6 +52,7 @@ private:
 
 	double abs_pico_throughput[NUM_RB];
 
+	int states[NUM_RB];
 	double result_throughput;
 	double rate_user;
 public:
@@ -71,7 +72,7 @@ public:
 
 	void generate_channel_gain();
 
-	void calculate_throughput(int ri, int mobile_state);
+	void calculate_throughput();
 
 	void calculate_rate_user();
 
@@ -82,7 +83,11 @@ public:
 	double get_pico_throughput(int ri) const;
 
 	double get_abs_pico_throughput(int ri) const;
-	
+
+	void set_state(int ri, int state);
+
+	int get_state(int ri);
+
 	double get_rate_user();
 
 	double get_result_throughput();

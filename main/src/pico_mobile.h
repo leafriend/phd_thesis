@@ -8,8 +8,7 @@ class Mobile;
 
 class Pico_Mobile {
 
-public:
-private: public:
+private:
 
 	const Pico* pico;
 	const Mobile* mobile;

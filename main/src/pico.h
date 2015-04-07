@@ -14,8 +14,7 @@ class Pico {
 
 	friend class Pico_Mobile;
 
-public:
-private: public:
+private:
 
 	const int idx;
 	const double x;

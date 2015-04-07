@@ -21,9 +21,7 @@ Macro_Mobile::Macro_Mobile(Macro* macro, Mobile* mobile)
 
 	if (this->is_in_range()) {
 		macro->mobiles_in_range[macro->num_mobiles_in_range++] = this;
-		if (mobile->macro == NULL)
-			mobile->macro = this;
-		else if (distance < mobile->macro->distance)
+		if (mobile->macro == NULL || distance < mobile->macro->distance)
 			mobile->macro = this;
 	}
 
@@ -34,7 +32,7 @@ bool Macro_Mobile::is_in_range() {
 }
 
 void Macro_Mobile::generate_channel_gain() {
-	this->channel_gain
+	channel_gain
 		= channel_gain_factor
 		* RAYLEIGH()
 		* LOG_NORMAL()
@@ -46,9 +44,9 @@ void Macro_Mobile::generate_channel_gain() {
 		distance,
 		channel_gain,
 		channel_gain_factor,
-		(macro->tx_power * pow((1 / distance), (double) PATH_LOSS_EXPO)),
+		(macro->get_tx_power() * pow((1 / distance), (double) PATH_LOSS_EXPO)),
 		(pow(1 / distance, PATH_LOSS_EXPO)),
-		macro->tx_power, distance, PATH_LOSS_EXPO
+		macro->get_tx_power(), distance, PATH_LOSS_EXPO
 	);
 	//*/
 }

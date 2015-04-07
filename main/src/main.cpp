@@ -64,8 +64,8 @@ int main(int argc, char** argv) {
 			pico_mobiles[mob * NUM_PICO + pic] = new Pico_Mobile(picos[pic], mobile);
 		}
 
-		if (mobile->macro == NULL) printf("Mobile at (%12.6f, %12.6f): %6.3f has no service Macro\n", x, y, qos);
-		if (mobile->pico == NULL) printf("Mobile at (%12.6f, %12.6f): %6.3f has no service Pico\n", x, y, qos);
+		if (mobile->get_macro() == NULL) printf("Mobile at (%12.6f, %12.6f): %6.3f has no service Macro\n", x, y, qos);
+		if (mobile->get_pico() == NULL) printf("Mobile at (%12.6f, %12.6f): %6.3f has no service Pico\n", x, y, qos);
 
 	}
 	fclose(fp);
@@ -126,14 +126,14 @@ int main(int argc, char** argv) {
 				case 0:
 					mobile->instant_rate = 0.0;
 				case 1:
-					mobile->instant_rate = mobile->macro_throughput;
+					mobile->instant_rate = mobile->get_macro_throughput();
 					break;
 				case 2:
-					mobile->instant_rate = mobile->abs_pico_throughput;
+					mobile->instant_rate = mobile->get_abs_pico_throughput();
 					break;
 				case 3:
 				case 4:
-					mobile->instant_rate = mobile->pico_throughput;
+					mobile->instant_rate = mobile->get_pico_throughput();
 					break;
 			}
 			mobile->result_throughput += mobile->instant_rate;
@@ -186,7 +186,7 @@ int main(int argc, char** argv) {
 		for (int mac = 0; mac < NUM_MACRO; mac++) {
 			Macro* macro = macros[mac];
 			for (int mob = 0; mob < macro->num_mobiles_in_range; mob++) {
-				Mobile* mobile = (Mobile*) macro->mobiles_in_range[mob]->mobile;
+				Mobile* mobile = (Mobile*) macro->mobiles_in_range[mob]->get_mobile();
 				if (best_mobile_states[mobile->idx] == 1) {
 					macro->allocation_count++;
 					break;
@@ -210,7 +210,7 @@ int main(int argc, char** argv) {
 			printf("\n");
 
 			for (int mob = 0; mob < NUM_MOBILE; mob++) {
-				//printf("%f\t%f\t%f\t%f\n", mobiles[mob]->rate_user_PA1, log(mobiles[mob]->rate_user_PA1), (mobiles[mob]->thrp_result_PA1 / (1 + t)), log(mobiles[mob]->thrp_result_PA1 / (1 + t)));
+				//printf("%f\t%f\t%f\t%f\n", mobiles[mob]->get_rate_user_()PA1, log(mobiles[mob]->get_rate_user_()PA1), (mobiles[mob]->get_thrp_result_()PA1 / (1 + t)), log(mobiles[mob]->get_thrp_result_()PA1 / (1 + t)));
 				printf("%f\t%f\t%f\t%f\t%f\t%f\n",
 					mobiles[mob]->rate_user,
 					mobiles[mob]->result_throughput / (1 + t),

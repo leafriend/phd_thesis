@@ -36,9 +36,9 @@ void pa1(int* best_mobile_states, Macro** macros, Pico** picos, Mobile** mobiles
 
 		for (int mac = 0; mac < NUM_MACRO; mac++) {
 			if (curr_macro_states[mac]) {
-				Mobile* mobile = macros[mac]->first_mobile;
+				Mobile* mobile = macros[mac]->get_first_mobile();
 
-				curr_sum_lambda_r += mobile->lambda * mobile->macro_throughput;
+				curr_sum_lambda_r += mobile->lambda * mobile->get_macro_throughput();
 				curr_mobile_states[mobile->idx] = 1;
 			}
 		}
@@ -58,23 +58,23 @@ void pa1(int* best_mobile_states, Macro** macros, Pico** picos, Mobile** mobiles
 
 			if (is_abs) {
 
-				Mobile* abs_first = pico->abs_first_mobile;
-				Mobile* abs_second = pico->abs_second_mobile;
+				Mobile* abs_first = pico->get_abs_first_mobile();
+				Mobile* abs_second = pico->get_abs_second_mobile();
 
 				if (abs_first != NULL) {
 
-					Macro* macro = abs_first->macro == NULL ? NULL : (Macro*) abs_first->macro->macro;
+					Macro* macro = abs_first->get_macro() == NULL ? NULL : (Macro*) abs_first->get_macro()->macro;
 
 					if (macro != NULL
 					&& ((curr_macro_states[macro->idx] == OFF
-					||  macro->first_mobile != abs_first
+					||  macro->get_first_mobile() != abs_first
 					))) {
-						curr_sum_lambda_r += abs_first->lambda * abs_first->abs_pico_throughput;
+						curr_sum_lambda_r += abs_first->lambda * abs_first->get_abs_pico_throughput();
 						curr_mobile_states[abs_first->idx] = 2;
 						//printf("ABS - %2d = 2\n", abs_first->idx);
 
 					} else if (abs_second != NULL) {
-						curr_sum_lambda_r += abs_second->lambda * abs_second->abs_pico_throughput;
+						curr_sum_lambda_r += abs_second->lambda * abs_second->get_abs_pico_throughput();
 						curr_mobile_states[abs_second->idx] = 2;
 						//printf("ABS - %2d = 2\n", abs_second->idx);
 
@@ -84,17 +84,17 @@ void pa1(int* best_mobile_states, Macro** macros, Pico** picos, Mobile** mobiles
 
 			} else {
 
-				Mobile* first = pico->first_mobile;
-				Macro* first_macro = first->macro == NULL ? NULL : (Macro*) first->macro->macro;
+				Mobile* first = pico->get_first_mobile();
+				Macro* first_macro = first->get_macro() == NULL ? NULL : (Macro*) first->get_macro()->macro;
 
 				if (first_macro != NULL
 				&&  curr_macro_states[first_macro->idx] == ON
-				&&  first_macro->first_mobile == first
+				&&  first_macro->get_first_mobile() == first
 				) {
 
-					Mobile* second = pico->second_mobile;
+					Mobile* second = pico->get_second_mobile();
 					if (second != NULL && curr_mobile_states[second->idx] != 1) {
-						curr_sum_lambda_r += second->lambda * second->pico_throughput;
+						curr_sum_lambda_r += second->lambda * second->get_pico_throughput();
 						curr_mobile_states[second->idx] = 4;
 						//printf("non - %2d = 4\n", second->idx);
 					} else {
@@ -103,7 +103,7 @@ void pa1(int* best_mobile_states, Macro** macros, Pico** picos, Mobile** mobiles
 
 				} else {
 
-					curr_sum_lambda_r += first->lambda * first->pico_throughput;
+					curr_sum_lambda_r += first->lambda * first->get_pico_throughput();
 					//if (curr_mobile_states[first->idx] != 3) {
 					//	printf("non - %2d @ %d[%d] = 3   ", first->idx, first_macro->idx, curr_macro_states[first_macro->idx]);
 					//	for (int mac = NUM_MACRO; mac --> 0;) printf("%d", curr_macro_states[mac]);

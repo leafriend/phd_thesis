@@ -15,15 +15,15 @@
 Mobile::Mobile(int idx, double x, double y, double qos)
 : idx(idx), x(x), y(y), qos(qos)
 {
-	this->macro = NULL;
-	this->pico = NULL;
+	macro = NULL;
+	pico = NULL;
 
 	result_throughput = 0.0;
 	rate_user = 0.0;
 	instant_rate = 0.0;
 
-	this->lambda = 0.1;
-	this->mu = 0.0;
+	lambda = 0.1;
+	mu = 0.0;
 
 	num_macros_interfered = 0;
 	num_picos_interfered = 0;
@@ -34,19 +34,19 @@ void Mobile::calculate_throughputs()
 
 	double sum_macro_channel_gain = 0.0;
 	for (int mac = 0; mac < num_macros_interfered; mac++) {
-		sum_macro_channel_gain += macros_interfered[mac]->channel_gain;
+		sum_macro_channel_gain += macros_interfered[mac]->get_channel_gain();
 	}
 
 	double sum_pico_channel_gain = 0.0;
 	for (int pic = 0; pic < num_picos_interfered; pic++) {
-		sum_pico_channel_gain += picos_interfered[pic]->channel_gain;
+		sum_pico_channel_gain += picos_interfered[pic]->get_channel_gain();
 	}
 
 	// /////////////////////////////////
 
 	// TODO NULL
 
-	double macro_channel_gain = macro == NULL ? 0 : macro->channel_gain;
+	double macro_channel_gain = macro == NULL ? 0 : macro->get_channel_gain();
 	//printf("macro_channel_gain: %lf\n", macro_channel_gain);
 	macro_throughput = THOURGHPUT(
 		macro_channel_gain,
@@ -54,7 +54,7 @@ void Mobile::calculate_throughputs()
 		NOISE
 	) / MEGA;
 
-	double pico_channel_gain = pico == NULL ? 0 : pico->channel_gain;
+	double pico_channel_gain = pico == NULL ? 0 : pico->get_channel_gain();
 
 	pico_throughput = THOURGHPUT(
 		pico_channel_gain,

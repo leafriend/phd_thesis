@@ -18,6 +18,11 @@ class Mobile {
 	friend class Pico_Mobile;
 
 public:
+	
+	const int idx;
+	const double x;
+	const double y;
+	const double qos;
 
 	////////////////////////////////////////////////////////////////////////////
 	// State Variable                                                         //
@@ -28,12 +33,7 @@ public:
 	// State Variable                                                         //
 	////////////////////////////////////////////////////////////////////////////
 
-private: public:
-
-	const int idx;
-	const double x;
-	const double y;
-	const double qos;
+private:
 
 	Macro_Mobile* macro;
 	Pico_Mobile* pico;
@@ -52,6 +52,7 @@ private: public:
 
 	double abs_pico_throughput;
 
+public:
 	double result_throughput;
 	double rate_user;
 	double instant_rate;

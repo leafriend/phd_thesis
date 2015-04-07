@@ -38,9 +38,9 @@ void Pico::sort_mobiles() {
 	//printf("num_mobiles_in_range: %d\n", num_mobiles_in_range);
 	for (int pm = 0; pm < num_mobiles_in_range; pm++) {
 
-		Mobile* mobile = (Mobile*) mobiles_in_range[pm]->mobile;
+		Mobile* mobile = (Mobile*) mobiles_in_range[pm]->get_mobile();
 
-		const double lambda_r = mobile->lambda * mobile->pico_throughput;
+		const double lambda_r = mobile->lambda * mobile->get_pico_throughput();
 
 		if (first_mobile == NULL) {
 
@@ -73,7 +73,7 @@ void Pico::sort_mobiles() {
 		// /////////////////////////////////////////////////////////////////////
 		// ABS
 
-		const double abs_lambda_r = mobile->lambda * mobile->abs_pico_throughput;
+		const double abs_lambda_r = mobile->lambda * mobile->get_abs_pico_throughput();
 
 		if (abs_first_mobile == NULL) {
 

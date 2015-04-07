@@ -21,9 +21,7 @@ Pico_Mobile::Pico_Mobile(Pico* pico, Mobile* mobile)
 
 	if (this->is_in_range()) {
 		pico->mobiles_in_range[pico->num_mobiles_in_range++] = this;
-		if (mobile->pico == NULL)
-			mobile->pico = this;
-		else if (distance < mobile->pico->distance)
+		if (mobile->pico == NULL || distance < mobile->pico->distance)
 			mobile->pico = this;
 	}
 
@@ -34,7 +32,7 @@ bool Pico_Mobile::is_in_range() {
 }
 
 void Pico_Mobile::generate_channel_gain() {
-	this->channel_gain
+	channel_gain
 		= channel_gain_factor
 		* RAYLEIGH()
 		* LOG_NORMAL()

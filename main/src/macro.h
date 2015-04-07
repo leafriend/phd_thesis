@@ -17,11 +17,10 @@ public:
 	const double y;
 	const double tx_power;
 
-	// TODO private으로 변경
+private:
+
 	Macro_Mobile* mobiles_in_range[NUM_MM];
 	int num_mobiles_in_range;
-
-private:
 
 	Macro_Mobile* mobiles_interfered[NUM_PM];
 	int num_mobiles_interfered;
@@ -30,9 +29,8 @@ private:
 	// PA1                                                                    //
 
 	Mobile* first_mobile;
-public:
+
 	int allocation_count;
-private:
 
 	// PA1                                                                    //
 	////////////////////////////////////////////////////////////////////////////
@@ -43,6 +41,10 @@ public:
 
 	void sort_mobiles();
 
+	void count_allocation(int* mobile_states);
+
 	Mobile* get_first_mobile();
+
+	int get_allocation_count();
 
 };

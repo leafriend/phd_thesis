@@ -127,25 +127,15 @@ int main(int argc, char** argv) {
 		FOREACH_MOBILES
 			mobiles[mob]->calculate_rate_user();
 
-		FOREACH_MOBILES {
-
+		FOREACH_MOBILES
 			mobiles[mob]->calculate_dual_variable(t);
-
-		}
 
 		// /////////////////////////////////////////////////////////////////////
 
 		// FOREACH_MOBILES printf("%d", best_mobile_states[mob]); printf("\n");
 
 		FOREACH_MACROS {
-			Macro* macro = macros[mac];
-			for (int mob = 0; mob < macro->num_mobiles_in_range; mob++) {
-				Mobile* mobile = (Mobile*) macro->mobiles_in_range[mob]->get_mobile();
-				if (best_mobile_states[mobile->idx] == 1) {
-					macro->allocation_count++;
-					break;
-				}
-			}
+			macros[mac]->count_allocation(best_mobile_states);
 		}
 
 		// /////////////////////////////////////////////////////////////////////
@@ -176,7 +166,7 @@ int main(int argc, char** argv) {
 			}
 
 			FOREACH_MACROS {
-				printf("%8d (%f) ", macros[mac]->allocation_count, macros[mac]->allocation_count / (double) (t + 1));
+				printf("%8d (%f) ", macros[mac]->get_allocation_count(), macros[mac]->get_allocation_count() / (double) (t + 1));
 			}
 			printf("\n");
 			printf("Time: %d\t", (1 + t));

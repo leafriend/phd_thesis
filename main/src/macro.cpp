@@ -71,6 +71,20 @@ void Macro::sort_mobiles() {
 
 }
 
+void Macro::count_allocation(int* mobile_states) {
+	for (int mob = 0; mob < num_mobiles_in_range; mob++) {
+		Mobile* mobile = (Mobile*) mobiles_in_range[mob]->get_mobile();
+		if (mobile_states[mobile->idx] == 1) {
+			allocation_count++;
+			break;
+		}
+	}
+}
+
 Mobile* Macro::get_first_mobile() {
 	return first_mobile;
+}
+
+int Macro::get_allocation_count() {
+	return allocation_count;
 }

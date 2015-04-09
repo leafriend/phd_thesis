@@ -54,7 +54,20 @@ void pa2(Macro** macros, Pico** picos, Mobile** mobiles) {
 	FOREACH_MACROS
 		macros[mac]->set_state(best_macro_states[mac]);
 	
-	printf("SATAE   "); for (int mac = NUM_MACRO; mac --> 0;) printf("%d", macros[mac]->get_state()); printf("\n");
+	FOREACH_MOBILES {
+		Mobile* mobile = mobiles[mob];
+		if (mobile->conn_macro) {
+			FOREACH_RBS mobile->set_state(ri, 1);
+		} else {
+			if (mobile->get_pico()->get_pico()->is_abs()) {
+				FOREACH_RBS mobile->set_state(ri, 2);
+			} else {
+				FOREACH_RBS mobile->set_state(ri, 3);
+			}
+		}
+	}
+
+	//printf("SATAE   "); for (int mac = NUM_MACRO; mac --> 0;) printf("%d", macros[mac]->get_state()); printf("\n");
 
 }
 

@@ -122,7 +122,7 @@ void pa2_find_best_mobile_state(Macro* macro, double* macro_best_sum_lambda_r) {
 			}
 
 		}
-		
+
 		// ������� ��ũ�� ���� ���θ� �ִ� ������ ����
 		FOREACH_MOBILES_TS {
 			Mobile* mobile = (Mobile*) mmobiles[mob]->get_mobile();

@@ -64,8 +64,6 @@ void pa2_find_best_mobile_state(Macro* macro, double* macro_best_sum_lambda_r) {
 	int NUM_MOBILE_TS = macro->get_num_mobiles_to_service();
 	if (NUM_MOBILE_TS > sizeof(long) * 8)
 		fprintf(stderr, "Number of Mobile in range is over %d\n", sizeof(long));
-	// °¡´ÉÇÑ ¸ðµç Mobile Cell Association »óÅÂ
-	long num_mobile_state = 1 << NUM_MOBILE_TS;
 
 	Macro_Mobile** mmobiles = macro->get_mobiles_to_service();
 
@@ -75,6 +73,8 @@ void pa2_find_best_mobile_state(Macro* macro, double* macro_best_sum_lambda_r) {
 
 		bool* best_mobile_conn_macros = (bool*) malloc(sizeof(bool) * NUM_MOBILE_TS);
 
+		// °¡´ÉÇÑ ¸ðµç Mobile Cell Association »óÅÂ
+		long num_mobile_state = 1 << NUM_MOBILE_TS;
 		for (int S = 0; S < num_mobile_state; S++) {
 
 			double curr_sum_lambda_r = 0.0;
@@ -123,7 +123,7 @@ void pa2_find_best_mobile_state(Macro* macro, double* macro_best_sum_lambda_r) {
 
 		}
 
-		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î¸ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		// ¸ð¹ÙÀÏÀÇ ¸ÅÅ©·Î ¿¬°á ¿©ºÎ¸¦ ÃÖ´ë °ªÀ¸·Î º¹±¸
 		FOREACH_MOBILES_TS {
 			Mobile* mobile = (Mobile*) mmobiles[mob]->get_mobile();
 			mobile->conn_macro = best_mobile_conn_macros[mob];
@@ -155,7 +155,7 @@ void pa2_find_best_mobile_state(Macro* macro, double* macro_best_sum_lambda_r) {
 
 		}
 
-		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ -- ï¿½ï¿½Å©ï¿½Î°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½
+		// ¸ð¹ÙÀÏÀÇ ¸ÅÅ©·Î ¿¬°á ¿©ºÎ¸¦ °ÅÁþÀ¸·Î ÁöÁ¤ -- ¸ÅÅ©·Î°¡ ²¨Á® ÀÖÀ¸¹Ç·Î
 		FOREACH_MOBILES_TS {
 			Mobile* mobile = (Mobile*) mmobiles[mob]->get_mobile();
 			mobile->conn_macro = false;

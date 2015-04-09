@@ -51,7 +51,7 @@ public:
 
 	void count_allocation();
 
-	Mobile* get_first_mobile(int ri);
+	Mobile* get_first_mobile(int ri) const;
 
 	int get_allocation_count();
 

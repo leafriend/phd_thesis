@@ -96,7 +96,7 @@ void Macro::count_allocation() {
 		allocation_count++;
 }
 
-Mobile* Macro::get_first_mobile(int ri) {
+Mobile* Macro::get_first_mobile(int ri) const {
 	return first_mobile[ri];
 }
 

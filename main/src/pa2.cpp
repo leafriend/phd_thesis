@@ -125,12 +125,11 @@ void pa2_find_best_mobile_state(Macro* macro, double* macro_best_sum_lambda_r) {
 			}
 
 		}
-
-		FOREACH_RBS {
-			FOREACH_MOBILES_TS {
-				Mobile* mobile = (Mobile*) mmobiles[mob]->get_mobile();
-				mobile->conn_macro = best_mobile_conn_macros[mob];
-			}
+		
+		// ������� ��ũ�� ���� ���θ� �ִ� ������ ����
+		FOREACH_MOBILES_TS {
+			Mobile* mobile = (Mobile*) mmobiles[mob]->get_mobile();
+			mobile->conn_macro = best_mobile_conn_macros[mob];
 		}
 		
 		free(best_mobile_conn_macros);

@@ -33,3 +33,5 @@
 *.suo
 Release
 Debug
+bin
+

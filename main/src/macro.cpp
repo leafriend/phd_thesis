@@ -37,17 +37,11 @@ void Macro::sort_mobiles() {
 			//printf("mobile->get_get_macro_throughput(): %lf\n", mobile->get_macro_throughput());
 			//printf("macro_lambda_r: %lf\n", macro_lambda_r);
 
-			Pico* pico = NULL;
-			if (mobile->get_pico() != NULL)
-				pico = (Pico*) mobile->get_pico()->get_pico();
+			Pico* pico = (Pico*) mobile->get_pico()->get_pico();
 
-			Mobile* pico_first_mobile = NULL;
-			if (pico != NULL)
-				pico_first_mobile = pico->get_first_mobile(ri);
+			Mobile* pico_first_mobile = pico->get_first_mobile(ri);
 
-			Mobile* pico_second_mobile = NULL;
-			if (pico != NULL)
-				pico_second_mobile = pico->get_second_mobile(ri);
+			Mobile* pico_second_mobile = pico->get_second_mobile(ri);
 
 			if (mobile == pico_first_mobile) {
 

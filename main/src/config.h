@@ -6,7 +6,7 @@
 
 #if ALGORITHM == 1
 #define LOG_INTERVAL_TIME               100
-#define LOG_PROGRESS_TIME               1
+#define LOG_PROGRESS_TIME               10
 #elif ALGORITHM == 2
 #define LOG_INTERVAL_TIME               100
 #define LOG_PROGRESS_TIME               1

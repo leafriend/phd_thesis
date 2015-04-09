@@ -57,7 +57,8 @@ void pa2(Macro** macros, Pico** picos, Mobile** mobiles) {
 	FOREACH_MOBILES {
 		Mobile* mobile = mobiles[mob];
 		if (mobile->conn_macro) {
-			FOREACH_RBS mobile->set_state(ri, 1);
+			FOREACH_RBS
+				((Mobile*) mobile->get_macro()->get_macro()->get_first_mobile(ri))->set_state(ri, 1);
 		} else {
 			if (mobile->get_pico()->get_pico()->is_abs()) {
 				FOREACH_RBS mobile->set_state(ri, 2);

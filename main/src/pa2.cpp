@@ -30,9 +30,6 @@ void pa2(Macro** macros, Pico** picos, Mobile** mobiles) {
 
 		FOREACH_MACROS {
 
-			if (!macros[mac]->get_state())
-				;//continue;
-
 			double macro_best_sum_lambda_r = DBL_MIN;
 			pa2_find_best_mobile_state(macros[mac], &macro_best_sum_lambda_r);
 			curr_sum_lambda_r += macro_best_sum_lambda_r;

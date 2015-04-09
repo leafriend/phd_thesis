@@ -120,7 +120,7 @@ int main(int argc, char** argv) {
 				"mu      \n");
 			FOREACH_MOBILES {
 				Mobile* mobile = mobiles[mob];
-				char* split = mob & 1 ? "\n" : "\t";
+				const char* split = mob & 1 ? "\n" : "\t";
 				printf(
 					"%10.6f (%10.6f)\t"
 					"%10.6f (%10.6f)\t"

@@ -44,7 +44,7 @@ public:
 	void sort_mobiles();
 
 	int get_num_mobiles_to_service() const;
-	Macro_Mobile** Macro::get_mobiles_to_service();
+	Macro_Mobile** get_mobiles_to_service();
 
 	void set_state(bool state);
 	bool get_state();

@@ -48,7 +48,7 @@ private:
 
 	double macro_throughput[NUM_RB];
 
-	double pico_throughput[NUM_RB];
+	double non_pico_throughput[NUM_RB];
 
 	double abs_pico_throughput[NUM_RB];
 
@@ -88,7 +88,7 @@ public:
 
 	double get_macro_throughput(int ri) const;
 
-	double get_pico_throughput(int ri) const;
+	double get_non_pico_throughput(int ri) const;
 
 	double get_abs_pico_throughput(int ri) const;
 

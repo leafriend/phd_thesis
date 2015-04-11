@@ -54,7 +54,7 @@ void Mobile::generate_channel_gain()
 			NOISE
 		) / MEGA;
 
-		pico_throughput[ri] = THOURGHPUT(
+		non_pico_throughput[ri] = THOURGHPUT(
 			BW_PER_RB,
 			pico->get_channel_gain(ri),
 			sum_macro_channel_gain + sum_pico_channel_gain - pico->get_channel_gain(ri),
@@ -87,7 +87,7 @@ void Mobile::calculate_throughput() {
 				break;
 			case 3:
 			case 4:
-				instant_rate += pico_throughput[ri];
+				instant_rate += non_pico_throughput[ri];
 				break;
 		}
 	}
@@ -137,8 +137,8 @@ double Mobile::get_macro_throughput(int ri) const {
 	return macro_throughput[ri];
 }
 
-double Mobile::get_pico_throughput(int ri) const {
-	return pico_throughput[ri];
+double Mobile::get_non_pico_throughput(int ri) const {
+	return non_pico_throughput[ri];
 }
 
 double Mobile::get_abs_pico_throughput(int ri) const {

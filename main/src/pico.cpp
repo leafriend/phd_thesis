@@ -52,7 +52,7 @@ void Pico::sort_mobiles() {
 
 			Mobile* mobile = (Mobile*) mobiles_to_service[pm]->get_mobile();
 
-			const double lambda_r = mobile->lambda * mobile->get_pico_throughput(ri);
+			const double lambda_r = mobile->lambda * mobile->get_abs_pico_throughput(ri);
 
 			if (first_mobile[ri] == NULL) {
 

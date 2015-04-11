@@ -137,7 +137,7 @@ void pa2_find_best_mobile_state(Macro* macro, double* macro_best_sum_lambda_r) {
 
 							} else {
 								// non-ABS인 경우
-								curr_sum_lambda_r += mobile->lambda * mobile->get_pico_throughput(ri);
+								curr_sum_lambda_r += mobile->lambda * mobile->get_abs_pico_throughput(ri);
 							}
 
 						} else {
@@ -187,7 +187,7 @@ void pa2_find_best_mobile_state(Macro* macro, double* macro_best_sum_lambda_r) {
 
 				} else {
 					// non-ABS인 경우
-					curr_sum_lambda_r += mobile->lambda * mobile->get_pico_throughput(ri);
+					curr_sum_lambda_r += mobile->lambda * mobile->get_abs_pico_throughput(ri);
 				}
 
 			}

@@ -96,7 +96,7 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 
 							Mobile* second = pico->get_second_mobile(ri);
 							if (second != NULL && curr_mobile_states[ri][second->idx] != 1) {
-								curr_sum_lambda_r += second->lambda * second->get_pico_throughput(ri);
+								curr_sum_lambda_r += second->lambda * second->get_abs_pico_throughput(ri);
 								curr_mobile_states[ri][second->idx] = 4;
 								//printf("non - %2d = 4\n", second->idx);
 							} else {
@@ -105,7 +105,7 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 
 						} else {
 
-							curr_sum_lambda_r += first->lambda * first->get_pico_throughput(ri);
+							curr_sum_lambda_r += first->lambda * first->get_abs_pico_throughput(ri);
 							curr_mobile_states[ri][first->idx] = 3;
 
 						}

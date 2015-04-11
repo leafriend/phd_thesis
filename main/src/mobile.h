@@ -71,7 +71,7 @@ public:
 
 public:
 
-	Mobile(int idx, double x, double y, double tx_power);
+	Mobile(int idx, double x, double y, double lambda, double tx_power);
 
 	void locate_on_macro(Macro* marco);
 

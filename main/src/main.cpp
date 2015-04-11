@@ -227,11 +227,12 @@ void initialize(Macro** macros, Pico** picos, Mobile** mobiles,
 	//printf("= Mobile ===============================\n");
 	fp = fopen(DATA_FILE_PREFIX "mobile.txt", "r");
 	FOREACH_MOBILES {
-		double x, y, qos = QOS;
+		double x, y, lambda, qos = QOS;
 		fscanf(fp, "%lf", &x);
 		fscanf(fp, "%lf", &y);
+		fscanf(fp, "%lf", &lambda);
 		//printf("(%12.6f, %12.6f): %6.3f\n", x, y, qos);
-		Mobile* mobile = new Mobile(mob, x, y, qos);
+		Mobile* mobile = new Mobile(mob, x, y, lambda, qos);
 		mobiles[mob] = mobile;
 
 		FOREACH_MACROS {

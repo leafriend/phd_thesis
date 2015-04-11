@@ -12,8 +12,8 @@
 #define THOURGHPUT(bandwidth, channel_gain, interference, noise) \
 	((bandwidth) * log(1 + ((channel_gain) / ((interference) + (noise)))))
 
-Mobile::Mobile(int idx, double x, double y, double qos)
-: idx(idx), x(x), y(y), qos(qos)
+Mobile::Mobile(int idx, double x, double y, double lambda, double qos)
+: idx(idx), x(x), y(y), lambda(lambda), qos(qos)
 {
 	macro = NULL;
 	pico = NULL;
@@ -22,7 +22,6 @@ Mobile::Mobile(int idx, double x, double y, double qos)
 	rate_user = 0.0;
 	instant_rate = 0.0;
 
-	lambda = 0.1;
 	mu = 0.0;
 
 	num_macros_interfered = 0;

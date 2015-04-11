@@ -3,7 +3,7 @@
 #include <math.h>
 
 #define ALGORITHM                       2                   // Proposed Algorithm 번호
-#define PRINT_STATE
+//#define PRINT_STATE
 
 #if ALGORITHM == 1
 #define LOG_INTERVAL_TIME               1000
@@ -36,7 +36,7 @@
 #define QOS                             log(QOS_FACTOR)
 
 #define RANGE_MACRO                     1000                // 모바일과 매크로, 간섭 관계 설정, 거리 기준
-#define RANGE_PICO                      1000                // 모바일과 피코, 간섭 관계 설정, 거리 기준
+#define RANGE_PICO                      -1                 // 모바일과 피코, 간섭 관계 설정, 거리 기준
 
 #define MP_INT_DIST                     1000                // 매크로와 피코 간섭 범위
 

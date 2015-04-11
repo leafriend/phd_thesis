@@ -37,28 +37,39 @@ void Macro::sort_mobiles() {
 			//printf("mobile->get_get_macro_throughput(): %lf\n", mobile->get_macro_throughput());
 			//printf("macro_lambda_r: %lf\n", macro_lambda_r);
 
-			Pico* pico = (Pico*) mobile->get_pico()->get_pico();
-
-			Mobile* pico_first_mobile = pico->get_first_mobile(ri);
-
-			Mobile* pico_second_mobile = pico->get_second_mobile(ri);
-
-			if (mobile == pico_first_mobile) {
-
-				double lambda_r = macro_lambda_r - mobile->lambda * mobile->get_abs_pico_throughput(ri);
-				if (pico_second_mobile != NULL)
-					lambda_r += pico_second_mobile->lambda * pico_second_mobile->get_abs_pico_throughput(ri);
-
-				if (lambda_r > first_lambda_r) {
-					first_mobile[ri] = mobile;
-					first_lambda_r = lambda_r;
-				}
-
-			} else {
+			if (mobile->get_pico() == NULL) {
 
 				if (macro_lambda_r > first_lambda_r) {
 					first_mobile[ri] = mobile;
 					first_lambda_r = macro_lambda_r;
+				}
+
+			} else {
+
+				Pico* pico = (Pico*) mobile->get_pico()->get_pico();
+
+				Mobile* pico_first_mobile = pico->get_first_mobile(ri);
+
+				Mobile* pico_second_mobile = pico->get_second_mobile(ri);
+
+				if (mobile == pico_first_mobile) {
+
+					double lambda_r = macro_lambda_r - mobile->lambda * mobile->get_abs_pico_throughput(ri);
+					if (pico_second_mobile != NULL)
+						lambda_r += pico_second_mobile->lambda * pico_second_mobile->get_abs_pico_throughput(ri);
+
+					if (lambda_r > first_lambda_r) {
+						first_mobile[ri] = mobile;
+						first_lambda_r = lambda_r;
+					}
+
+				} else {
+
+					if (macro_lambda_r > first_lambda_r) {
+						first_mobile[ri] = mobile;
+						first_lambda_r = macro_lambda_r;
+					}
+
 				}
 
 			}

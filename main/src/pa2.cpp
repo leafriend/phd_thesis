@@ -90,16 +90,20 @@ void pa2(Macro** macros, Pico** picos, Mobile** mobiles) {
 					}
 					//printf("[%d] 1 ", mobile->idx);
 				} else {
-					if (((Pico*) mobile->get_pico()->get_pico())->get_first_mobile(ri) == mobile) {
-						if (mobile->get_pico()->get_pico()->is_abs()) {
-							mobile->set_state(ri, 2);
-							//printf("[%d] 2 ", mobile->idx);
-						} else {
-							mobile->set_state(ri, 3);
-							//printf("[%d] 3 ", mobile->idx);
-						}
-					} else {
+					if (mobile->get_pico() == NULL) {
 						mobile->set_state(ri, 0);
+					} else {
+						if (((Pico*) mobile->get_pico()->get_pico())->get_first_mobile(ri) == mobile) {
+							if (mobile->get_pico()->get_pico()->is_abs()) {
+								mobile->set_state(ri, 2);
+								//printf("[%d] 2 ", mobile->idx);
+							} else {
+								mobile->set_state(ri, 3);
+								//printf("[%d] 3 ", mobile->idx);
+							}
+						} else {
+							mobile->set_state(ri, 0);
+						}
 					}
 				}
 			}
@@ -160,21 +164,29 @@ void pa2_find_best_mobile_state(Macro* macro, double* macro_best_sum_lambda_r) {
 						}
 
 					} else {
-						// Pico에 연결한 경우
 
-						if (((Pico*) mobile->get_pico()->get_pico())->get_first_mobile(ri) == mobile) {
+						if (mobile->get_pico() == NULL) {
+							// 모바일이 피코에 연결되지 않은 경우
+							// : 아무것도 하지 않는다.
+						} else {
+							
+							// Pico에 연결한 경우
 
-							if (mobile->get_pico()->get_pico()->is_abs()) {
-								// ABS인 경우
-								curr_sum_lambda_r += mobile->lambda * mobile->get_abs_pico_throughput(ri);
+							if (((Pico*) mobile->get_pico()->get_pico())->get_first_mobile(ri) == mobile) {
+
+								if (mobile->get_pico()->get_pico()->is_abs()) {
+									// ABS인 경우
+									curr_sum_lambda_r += mobile->lambda * mobile->get_abs_pico_throughput(ri);
+
+								} else {
+									// non-ABS인 경우
+									curr_sum_lambda_r += mobile->lambda * mobile->get_abs_pico_throughput(ri);
+								}
 
 							} else {
-								// non-ABS인 경우
-								curr_sum_lambda_r += mobile->lambda * mobile->get_abs_pico_throughput(ri);
-							}
+								// 매크로가 버린 이용자가 피코에 첫번째 유저로 연결되지 않았으므로 버림
 
-						} else {
-							// 매크로가 버린 이용자가 피코에 첫번째 유저로 연결되지 않았으므로 버림
+							}
 
 						}
 
@@ -214,13 +226,17 @@ void pa2_find_best_mobile_state(Macro* macro, double* macro_best_sum_lambda_r) {
 				Mobile* mobile = (Mobile*) mmobiles[mob]->get_mobile();
 				// Pico에 연결한 경우
 
-				if (mobile->get_pico()->get_pico()->is_abs()) {
-					// ABS인 경우
-					curr_sum_lambda_r += mobile->lambda * mobile->get_abs_pico_throughput(ri);
+				if (mobile->get_pico() != NULL) {
 
-				} else {
-					// non-ABS인 경우
-					curr_sum_lambda_r += mobile->lambda * mobile->get_abs_pico_throughput(ri);
+					if (mobile->get_pico()->get_pico()->is_abs()) {
+						// ABS인 경우
+						curr_sum_lambda_r += mobile->lambda * mobile->get_abs_pico_throughput(ri);
+
+					} else {
+						// non-ABS인 경우
+						curr_sum_lambda_r += mobile->lambda * mobile->get_abs_pico_throughput(ri);
+					}
+
 				}
 
 			}

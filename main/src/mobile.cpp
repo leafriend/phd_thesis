@@ -51,20 +51,31 @@ void Mobile::generate_channel_gain()
 			NOISE
 		) / MEGA;
 
-		non_pico_throughput[ri] = THOURGHPUT(
-			BW_PER_RB,
-			pico->get_channel_gain(ri),
-			sum_macro_channel_gain + sum_pico_channel_gain - pico->get_channel_gain(ri),
-			NOISE
-		) / MEGA;
+		if (pico == NULL) {
+			
+			non_pico_throughput[ri] = 0.0;
 
-		// TODO
-		abs_pico_throughput[ri] = THOURGHPUT(
-			BW_PER_RB,
-			pico->get_channel_gain(ri),
-			/*sum_macro_channel_gain +*/ sum_pico_channel_gain - pico->get_channel_gain(ri),
-			NOISE
-		) / MEGA;
+			// TODO
+			abs_pico_throughput[ri] = 0.0;
+
+		} else {
+			
+			non_pico_throughput[ri] = THOURGHPUT(
+				BW_PER_RB,
+				pico->get_channel_gain(ri),
+				sum_macro_channel_gain + sum_pico_channel_gain - pico->get_channel_gain(ri),
+				NOISE
+			) / MEGA;
+
+			// TODO
+			abs_pico_throughput[ri] = THOURGHPUT(
+				BW_PER_RB,
+				pico->get_channel_gain(ri),
+				/*sum_macro_channel_gain +*/ sum_pico_channel_gain - pico->get_channel_gain(ri),
+				NOISE
+			) / MEGA;
+
+		}
 
 	}
 

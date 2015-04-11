@@ -105,14 +105,13 @@ void pa2_find_best_mobile_state(Macro* macro, double* macro_best_sum_lambda_r) {
 		long num_mobile_state = 1 << NUM_MOBILE_TS;
 		for (int S = 0; S < num_mobile_state; S++) {
 
-			double curr_sum_lambda_r = 0.0;
-
 			// Mobile 연결 상태 지정
 			FOREACH_MOBILES_TS {
 				Mobile* mobile = (Mobile*) mmobiles[mob]->get_mobile();
 				mobile->conn_macro = 1 == ((1 << mob) & S) >> mob;
 			}
 
+			double curr_sum_lambda_r = 0.0;
 			FOREACH_RBS {
 
 				FOREACH_MOBILES_TS {
@@ -120,18 +119,30 @@ void pa2_find_best_mobile_state(Macro* macro, double* macro_best_sum_lambda_r) {
 
 					if (mobile->conn_macro) {
 						// Macro에 연결한 경우
-						curr_sum_lambda_r += mobile->lambda * mobile->get_macro_throughput(ri);
+
+						// 현재 모바일이 현재 리소스블록에 연갤했을 때 쓰루풋
+						double curr_lambda_r = mobile->lambda * mobile->get_macro_throughput(ri);
+						if (curr_sum_lambda_r < curr_lambda_r) {
+							curr_sum_lambda_r = curr_lambda_r;
+						}
 
 					} else {
 						// Pico에 연결한 경우
 
-						if (mobile->get_pico()->get_pico()->is_abs()) {
-							// ABS인 경우
-							curr_sum_lambda_r += mobile->lambda * mobile->get_abs_pico_throughput(ri);
+						if (((Pico*) mobile->get_pico()->get_pico())->get_first_mobile(ri) == mobile) {
+
+							if (mobile->get_pico()->get_pico()->is_abs()) {
+								// ABS인 경우
+								curr_sum_lambda_r += mobile->lambda * mobile->get_abs_pico_throughput(ri);
+
+							} else {
+								// non-ABS인 경우
+								curr_sum_lambda_r += mobile->lambda * mobile->get_pico_throughput(ri);
+							}
 
 						} else {
-							// non-ABS인 경우
-							curr_sum_lambda_r += mobile->lambda * mobile->get_pico_throughput(ri);
+							// 매크로가 버린 이용자가 피코에 첫번째 유저로 연결되지 않았으므로 버림
+
 						}
 
 					}

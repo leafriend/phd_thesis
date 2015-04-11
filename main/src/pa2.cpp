@@ -68,7 +68,7 @@ void pa2(Macro** macros, Pico** picos, Mobile** mobiles) {
 		}
 	}
 
-	//printf("SATAE   "); for (int mac = NUM_MACRO; mac --> 0;) printf("%d", macros[mac]->get_state()); printf("\n");
+	//printf(" SATAE "); FOREACH_MACROS printf("%d", macros[mac]->get_state()); printf(" ");
 
 }
 

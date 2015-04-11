@@ -12,17 +12,14 @@
 #define THOURGHPUT(bandwidth, channel_gain, interference, noise) \
 	((bandwidth) * log(1 + ((channel_gain) / ((interference) + (noise)))))
 
-Mobile::Mobile(int idx, double x, double y, double lambda, double qos)
-: idx(idx), x(x), y(y), lambda(lambda), qos(qos)
+Mobile::Mobile(int idx, double x, double y, double lambda, double mu, double rate_user, double qos)
+: idx(idx), x(x), y(y), lambda(lambda), mu(mu), rate_user(rate_user), qos(qos)
 {
 	macro = NULL;
 	pico = NULL;
 
 	result_throughput = 0.0;
-	rate_user = 0.0;
 	instant_rate = 0.0;
-
-	mu = 0.0;
 
 	num_macros_interfered = 0;
 	num_picos_interfered = 0;

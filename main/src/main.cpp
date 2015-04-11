@@ -137,7 +137,8 @@ int main(int argc, char** argv) {
 			}
 
 			FOREACH_MACROS {
-				printf("%7d(%5.2f%%)\t", macros[mac]->get_allocation_count(), 100 * macros[mac]->get_allocation_count() / (double) t);
+				int count = t - macros[mac]->get_allocation_count();
+				printf("%7d(%5.2f%%)\t", count, 100 * count / (double) t);
 			}
 			printf("\n");
 			printf("Time    %8d\t", t);

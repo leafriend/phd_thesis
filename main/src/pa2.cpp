@@ -103,7 +103,7 @@ void pa2_find_best_mobile_state(Macro* macro, double* macro_best_sum_lambda_r) {
 
 		// 가능한 모든 Mobile Cell Association 상태
 		long num_mobile_state = 1 << NUM_MOBILE_TS;
-		for (int S = 0; S < num_mobile_state; S++) {
+		for (int S = 1; S < num_mobile_state; S++) {
 
 			// Mobile 연결 상태 지정
 			FOREACH_MOBILES_TS {

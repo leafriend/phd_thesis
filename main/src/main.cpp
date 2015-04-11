@@ -99,7 +99,20 @@ int main(int argc, char** argv) {
 		// /////////////////////////////////////////////////////////////////////
 
 		if (t % LOG_PROGRESS_TIME == 0)
-			printf("^");
+			printf(
+				"\b\b\b\b\b\b\b\b"
+				"\b"
+				"\b\b\b\b\b\b\b\b"
+				"\b\b\b\b\b\b\b"
+				"%8d"
+				"/"
+				"%8d"
+				"       ",
+				((t % LOG_INTERVAL_TIME) / LOG_PROGRESS_TIME) == 0
+				? (LOG_INTERVAL_TIME / LOG_PROGRESS_TIME)
+				: ((t % LOG_INTERVAL_TIME) / LOG_PROGRESS_TIME),
+				(LOG_INTERVAL_TIME / LOG_PROGRESS_TIME)
+			);
 
 		// /////////////////////////////////////////////////////////////////////
 

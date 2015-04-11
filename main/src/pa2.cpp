@@ -16,6 +16,11 @@ void pa2(Macro** macros, Pico** picos, Mobile** mobiles) {
 	FOREACH_MACROS
 		macros[mac]->set_state(false);
 
+#ifdef PRINT_STATE
+	FOREACH_MACROS printf("%d", macros[mac]->get_state()); printf(" %12.6f", best_sum_lambda_r);
+	FOREACH_MOBILES printf("%d", mobiles[mob]->conn_macro);
+#endif
+
 	// 가능한 모든 Macro 상태(2 ^ NUM_MACRO = 1 << NUM_MACRO)에 대한 반복문
 	int num_macro_state = 1 << NUM_MACRO;
 	for (int s = 0; s < num_macro_state; s++) {
@@ -39,14 +44,20 @@ void pa2(Macro** macros, Pico** picos, Mobile** mobiles) {
 		if (curr_sum_lambda_r > best_sum_lambda_r) {
 
 			//printf("  BETTER%12.6lf > %12.6lf - ", curr_sum_lambda_r, best_sum_lambda_r);
-			//for (int mac = NUM_MACRO; mac --> 0;) printf("%d", macros[mac]->get_state());
-			//printf("\n");
+			//FOREACH_MACROS printf("%d", macros[mac]->get_state()); printf("\n");
 
 			best_sum_lambda_r = curr_sum_lambda_r;
 
 			FOREACH_MACROS
 				best_macro_states[mac] = macros[mac]->get_state();
-			
+
+#ifdef PRINT_STATE
+			FOREACH_MOBILES printf("\b");
+			FOREACH_MACROS printf("\b"); printf("\b" "\b\b\b\b\b\b\b\b\b\b\b\b" "\b");
+			FOREACH_MACROS printf("%d", macros[mac]->get_state()); printf(" %12.6f ", best_sum_lambda_r);
+			FOREACH_MOBILES printf("%d", mobiles[mob]->conn_macro);
+#endif
+
 		}
 
 	}
@@ -68,8 +79,11 @@ void pa2(Macro** macros, Pico** picos, Mobile** mobiles) {
 		}
 	}
 
-	//printf(" SATAE "); FOREACH_MACROS printf("%d", macros[mac]->get_state()); printf(" ");
-
+#ifdef PRINT_STATE
+	FOREACH_MOBILES printf("\b");
+	FOREACH_MACROS printf("\b"); printf("\b\b\b\b\b\b\b\b\b\b\b\b\b");
+	//printf("\n");
+#endif
 }
 
 void pa2_find_best_mobile_state(Macro* macro, double* macro_best_sum_lambda_r) {

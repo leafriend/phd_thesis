@@ -2,7 +2,8 @@
 
 #include <math.h>
 
-#define ALGORITHM                       1                   // Proposed Algorithm 번호
+#define ALGORITHM                       2                   // Proposed Algorithm 번호
+#define PRINT_STATE
 
 #if ALGORITHM == 1
 #define LOG_INTERVAL_TIME               1000

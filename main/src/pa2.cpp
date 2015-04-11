@@ -17,7 +17,8 @@ void pa2(Macro** macros, Pico** picos, Mobile** mobiles) {
 		macros[mac]->set_state(false);
 
 #ifdef PRINT_STATE
-	FOREACH_MACROS printf("%d", macros[mac]->get_state()); printf(" %12.6f", best_sum_lambda_r);
+	printf("\n");
+	FOREACH_MACROS printf("-"); printf(" " "            " "    " "            " "   ");
 	FOREACH_MOBILES printf("%d", mobiles[mob]->conn_macro);
 #endif
 
@@ -51,39 +52,71 @@ void pa2(Macro** macros, Pico** picos, Mobile** mobiles) {
 			FOREACH_MACROS
 				best_macro_states[mac] = macros[mac]->get_state();
 
+		}
+
 #ifdef PRINT_STATE
 			FOREACH_MOBILES printf("\b");
-			FOREACH_MACROS printf("\b"); printf("\b" "\b\b\b\b\b\b\b\b\b\b\b\b" "\b");
-			FOREACH_MACROS printf("%d", macros[mac]->get_state()); printf(" %12.6f ", best_sum_lambda_r);
+			FOREACH_MACROS printf("\b"); printf("\b" "\b\b\b\b\b\b\b\b\b\b\b\b" "\b\b\b\b" "\b\b\b\b\b\b\b\b\b\b\b\b" "\b\b\b");
+			//printf("\n");
+			FOREACH_MACROS printf("%d", macros[mac]->get_state()); printf(" %12.6f vs %12.6f - ", best_sum_lambda_r, curr_sum_lambda_r);
 			FOREACH_MOBILES printf("%d", mobiles[mob]->conn_macro);
 #endif
 
-		}
-
 	}
-
-	FOREACH_MACROS
-		macros[mac]->set_state(best_macro_states[mac]);
 	
-	FOREACH_MOBILES {
-		Mobile* mobile = mobiles[mob];
-		if (mobile->conn_macro) {
-			FOREACH_RBS
-				((Mobile*) mobile->get_macro()->get_macro()->get_first_mobile(ri))->set_state(ri, 1);
-		} else {
-			if (mobile->get_pico()->get_pico()->is_abs()) {
-				FOREACH_RBS mobile->set_state(ri, 2);
-			} else {
-				FOREACH_RBS mobile->set_state(ri, 3);
-			}
-		}
+	FOREACH_MACROS {
+		Macro* macro = macros[mac];
+		int NUM_MOBILE_TS = macro->get_num_mobiles_to_service();
+		Macro_Mobile** mobiles_to_service = macro->get_mobiles_to_service();
+		macro->set_state(best_macro_states[mac]);
 	}
 
+	FOREACH_MACROS {
+		Macro* macro = macros[mac];
+		int NUM_MOBILE_TS = macro->get_num_mobiles_to_service();
+		Macro_Mobile** mobiles_to_service = macro->get_mobiles_to_service();
+		//printf("\n");
+		//printf("[%d] %d : ", mac, best_macro_states[mac]);
+
+		FOREACH_RBS {
+
+			FOREACH_MOBILES_TS {
+				Mobile* mobile = (Mobile*) mobiles_to_service[mob]->get_mobile();
+				if (best_macro_states[mac]) {
+					if (macro->get_first_mobile(ri) == mobile) {
+						mobile->set_state(ri, 1);
+					} else {
+						mobile->set_state(ri, 0);
+					}
+					//printf("[%d] 1 ", mobile->idx);
+				} else {
+					if (((Pico*) mobile->get_pico()->get_pico())->get_first_mobile(ri) == mobile) {
+						if (mobile->get_pico()->get_pico()->is_abs()) {
+							mobile->set_state(ri, 2);
+							//printf("[%d] 2 ", mobile->idx);
+						} else {
+							mobile->set_state(ri, 3);
+							//printf("[%d] 3 ", mobile->idx);
+						}
+					} else {
+						mobile->set_state(ri, 0);
+					}
+				}
+			}
+
+		}
+
+	}
+	//printf("\n");
+	
 #ifdef PRINT_STATE
 	FOREACH_MOBILES printf("\b");
-	FOREACH_MACROS printf("\b"); printf("\b\b\b\b\b\b\b\b\b\b\b\b\b");
-	//printf("\n");
+	FOREACH_MACROS printf("\b"); printf("\b" "\b\b\b\b\b\b\b\b\b\b\b\b" "\b\b\b\b" "\b\b\b\b\b\b\b\b\b\b\b\b" "\b\b\b");
+	FOREACH_MACROS printf("%d", macros[mac]->get_state()); printf(" %12.6f" "    " "            " "   ", best_sum_lambda_r);
+	FOREACH_MOBILES printf("%d", mobiles[mob]->get_state(0));
+	printf("\n");
 #endif
+
 }
 
 void pa2_find_best_mobile_state(Macro* macro, double* macro_best_sum_lambda_r) {

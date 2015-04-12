@@ -126,11 +126,11 @@ int Pico::get_num_mobiles_to_service() const {
 }
 
 Pico_Mobile* Pico::get_non_sorted_mobile(int ri, int mob) const {
-	return non_sorted_mobile[ri][mob];
+	return non_sorted_mobiles[ri][mob];
 }
 
 Pico_Mobile* Pico::get_abs_sorted_mobile(int ri, int mob) const {
-	return abs_sorted_mobile[ri][mob];
+	return abs_sorted_mobiles[ri][mob];
 }
 
 Mobile* Pico::get_first_mobile(int ri) {

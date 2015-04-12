@@ -12,6 +12,7 @@
 #include "pico_mobile.h"
 #include "pa1.h"
 #include "pa2.h"
+#include "pa3.h"
 #include "main.h"
 
 #define PRINT_TIME(elap, exec)                              \
@@ -25,11 +26,7 @@
 
 int main(int argc, char** argv) {
 
-#if ALGORITHM == 1
-		printf("Proposed Algorithm 1 ===========================================================\n");
-#elif ALGORITHM == 2
-		printf("Proposed Algorithm 2 ===========================================================\n");
-#endif
+	printf("Proposed Algorithm %d ===========================================================\n", ALGORITHM);
 
 	// Time Check //////////////////////////////////////////////////////////////
 	clock_t t_elapsed = clock();
@@ -69,6 +66,8 @@ int main(int argc, char** argv) {
 		pa1(macros, picos, mobiles);
 #elif ALGORITHM == 2
 		pa2(macros, picos, mobiles);
+#elif ALGORITHM == 3
+		pa3(macros, picos, mobiles);
 #endif
 
 		// /////////////////////////////////////////////////////////////////////

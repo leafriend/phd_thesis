@@ -4,13 +4,16 @@
 
 #define M_PI 3.141592
 
-#define ALGORITHM                       2                   // Proposed Algorithm 번호
+#define ALGORITHM                       3                   // Proposed Algorithm 번호
 //#define PRINT_STATE
 
 #if ALGORITHM == 1
 #define LOG_INTERVAL_TIME               1000
 #define LOG_PROGRESS_TIME               10
 #elif ALGORITHM == 2
+#define LOG_INTERVAL_TIME               100
+#define LOG_PROGRESS_TIME               1
+#elif ALGORITHM == 3
 #define LOG_INTERVAL_TIME               100
 #define LOG_PROGRESS_TIME               1
 #endif

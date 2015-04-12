@@ -99,6 +99,23 @@ void Pico::sort_mobiles() {
 		sort_mobiles(ri, mobiles_to_service, num_mobiles_to_service,
 			abs_sorted_mobiles[ri], abs_cmp);
 
+		/*
+		for (int mob = 0; mob < num_mobiles_to_service; mob++) {
+
+			const Mobile* mobile = mobiles_to_service[mob]->get_mobile();
+			printf("%2d:%f/%f\t", mobile->idx,
+				mobile->get_non_pico_lambda_r(ri),
+				mobile->get_abs_pico_lambda_r(ri)
+			);
+
+			const Mobile* non_mobile = non_sorted_mobiles[ri][mob]->get_mobile();
+			printf("%2d:%f\t", non_mobile->idx, non_mobile->get_non_pico_lambda_r(ri));
+
+			const Mobile* abs_mobile = abs_sorted_mobiles[ri][mob]->get_mobile();
+			printf("%2d:%f\n", abs_mobile->idx, abs_mobile->get_abs_pico_lambda_r(ri));
+		}
+		//*/
+
 		first_mobile[ri] = NULL;
 		second_mobile[ri] = NULL;
 
@@ -180,6 +197,24 @@ void Pico::sort_mobiles() {
 			}
 
 		}
+
+		//*
+		if (first_mobile[ri] != NULL &&
+			first_mobile[ri] != non_sorted_mobiles[ri][0]->get_mobile())
+			printf("ERROR: non first\n");
+
+		if (second_mobile[ri] != NULL &&
+			second_mobile[ri] != non_sorted_mobiles[ri][1]->get_mobile())
+			printf("ERROR: non second\n");
+
+		if (abs_first_mobile[ri] != NULL &&
+			abs_first_mobile[ri] != abs_sorted_mobiles[ri][0]->get_mobile())
+			printf("ERROR: abs first\n");
+
+		if (abs_second_mobile[ri] != NULL &&
+			abs_second_mobile[ri] != abs_sorted_mobiles[ri][1]->get_mobile())
+			printf("ERROR: abs second\n");
+		//*/
 
 	}
 

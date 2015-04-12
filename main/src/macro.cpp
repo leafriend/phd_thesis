@@ -48,9 +48,9 @@ void Macro::sort_mobiles() {
 
 				Pico* pico = (Pico*) mobile->get_pico()->get_pico();
 
-				Mobile* pico_first_mobile = pico->get_first_mobile(ri);
+				const Mobile* pico_first_mobile = pico->get_non_sorted_mobile(ri, 0)->get_mobile();
 
-				Mobile* pico_second_mobile = pico->get_second_mobile(ri);
+				const Mobile* pico_second_mobile = pico->get_non_sorted_mobile(ri, 1)->get_mobile();
 
 				if (mobile == pico_first_mobile) {
 

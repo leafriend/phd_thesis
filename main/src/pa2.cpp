@@ -93,7 +93,7 @@ void pa2(Macro** macros, Pico** picos, Mobile** mobiles) {
 					if (mobile->get_pico() == NULL) {
 						mobile->set_state(ri, 0);
 					} else {
-						if (((Pico*) mobile->get_pico()->get_pico())->get_first_mobile(ri) == mobile) {
+						if (((Pico*) mobile->get_pico()->get_pico())->get_non_sorted_mobile(ri, 0)->get_mobile() == mobile) {
 							if (mobile->get_pico()->get_pico()->is_abs()) {
 								mobile->set_state(ri, 2);
 								//printf("[%d] 2 ", mobile->idx);
@@ -172,7 +172,7 @@ void pa2_find_best_mobile_state(Macro* macro, double* macro_best_sum_lambda_r) {
 							
 							// Pico에 연결한 경우
 
-							if (((Pico*) mobile->get_pico()->get_pico())->get_first_mobile(ri) == mobile) {
+							if (((Pico*) mobile->get_pico()->get_pico())->get_non_sorted_mobile(ri, 0)->get_mobile() == mobile) {
 
 								if (mobile->get_pico()->get_pico()->is_abs()) {
 									// ABS인 경우

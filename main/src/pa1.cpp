@@ -5,6 +5,7 @@
 
 #include "func.h"
 #include "pa1.h"
+#include "pico_mobile.h"
 
 void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 
@@ -50,14 +51,14 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 
 		FOREACH_PICOS {
 
-			Pico* pico = picos[pic];
+			const Pico* pico = picos[pic];
 
 			if (pico->is_abs()) {
 
 				FOREACH_RBS {
 
-					Mobile* abs_first = pico->get_abs_first_mobile(ri);
-					Mobile* abs_second = pico->get_abs_second_mobile(ri);
+					const Mobile* abs_first = pico->get_abs_sorted_mobile(ri, 0)->get_mobile();
+					const Mobile* abs_second = pico->get_abs_sorted_mobile(ri, 1)->get_mobile();
 
 					if (abs_first != NULL) {
 
@@ -85,7 +86,7 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 
 				FOREACH_RBS {
 
-					Mobile* first = pico->get_first_mobile(ri);
+					const Mobile* first = pico->get_non_sorted_mobile(ri, 0)->get_mobile();
 					
 					if (first != NULL) {
 
@@ -95,7 +96,7 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 							&& first_macro->get_first_mobile(ri) == first
 						) {
 
-							Mobile* second = pico->get_second_mobile(ri);
+							const Mobile* second = pico->get_non_sorted_mobile(ri, 1)->get_mobile();
 							if (second != NULL && curr_mobile_states[ri][second->idx] != 1) {
 								curr_sum_lambda_r += second->lambda * second->get_abs_pico_throughput(ri);
 								curr_mobile_states[ri][second->idx] = 4;

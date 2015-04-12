@@ -37,18 +37,6 @@ private:
 	Pico_Mobile* mobiles_interfered[NUM_PM];
 	int num_mobiles_interfered;
 
-	////////////////////////////////////////////////////////////////////////////
-	// PA1                                                                    //
-
-	Mobile* first_mobile[NUM_RB];
-	Mobile* second_mobile[NUM_RB];
-
-	Mobile* abs_first_mobile[NUM_RB];
-	Mobile* abs_second_mobile[NUM_RB];
-
-	// PA1                                                                    //
-	////////////////////////////////////////////////////////////////////////////
-
 public:
 
 	Pico(int idx, double x, double y, double tx_power);
@@ -66,17 +54,5 @@ public:
 	Pico_Mobile* get_non_sorted_mobile(int ri, int mob) const;
 
 	Pico_Mobile* get_abs_sorted_mobile(int ri, int mob) const;
-
-	////////////////////////////////////////////////////////////////////////////
-	// PA1                                                                    //
-
-	Mobile* get_first_mobile(int ri);
-	Mobile* get_second_mobile(int ri);
-
-	Mobile* get_abs_first_mobile(int ri);
-	Mobile* get_abs_second_mobile(int ri);
-
-	// PA1                                                                    //
-	////////////////////////////////////////////////////////////////////////////
 
 };

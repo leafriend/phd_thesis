@@ -150,6 +150,7 @@ void pa2_find_best_mobile_state(Macro* macro, double* macro_best_sum_lambda_r) {
 			double curr_sum_lambda_r = 0.0;
 			FOREACH_RBS {
 
+				double best_allocated_mobile = DBL_MIN;
 				FOREACH_MOBILES_TS {
 					Mobile* mobile = (Mobile*) mmobiles[mob]->get_mobile();
 
@@ -158,8 +159,8 @@ void pa2_find_best_mobile_state(Macro* macro, double* macro_best_sum_lambda_r) {
 
 						// 현재 모바일이 현재 리소스블록에 연갤했을 때 쓰루풋
 						double curr_lambda_r = mobile->lambda * mobile->get_macro_throughput(ri);
-						if (curr_sum_lambda_r < curr_lambda_r) {
-							curr_sum_lambda_r = curr_lambda_r;
+						if (best_allocated_mobile < curr_lambda_r) {
+							best_allocated_mobile = curr_lambda_r;
 						}
 
 					} else {
@@ -177,7 +178,7 @@ void pa2_find_best_mobile_state(Macro* macro, double* macro_best_sum_lambda_r) {
 									curr_sum_lambda_r += mobile->lambda * mobile->get_abs_pico_throughput(ri);
 								} else {
 									// non-ABS인 경우
-									curr_sum_lambda_r += mobile->lambda * mobile->get_abs_pico_throughput(ri);
+									curr_sum_lambda_r += mobile->lambda * mobile->get_non_pico_throughput(ri);
 								}
 							} else {
 								// 매크로가 버린 이용자가 피코에 첫번째 유저로 연결되지 않았으므로 버림
@@ -188,6 +189,7 @@ void pa2_find_best_mobile_state(Macro* macro, double* macro_best_sum_lambda_r) {
 					}
 
 				}
+				curr_sum_lambda_r += best_allocated_mobile;
 
 			}
 

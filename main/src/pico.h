@@ -28,7 +28,8 @@ private:
 
 	Pico_Mobile* mobiles_to_service[NUM_PM];
 	int num_mobiles_to_service;
-	Pico_Mobile* sorted_mobile[NUM_PM];
+	Pico_Mobile* non_sorted_mobile[NUM_PM];
+	Pico_Mobile* abs_sorted_mobile[NUM_PM];
 	Pico_Mobile* mobiles_interfered[NUM_PM];
 	int num_mobiles_interfered;
 
@@ -56,7 +57,9 @@ public:
 
 	int get_num_mobiles_to_service() const;
 
-	Pico_Mobile* get_sorted_mobile(int mob) const;
+	Pico_Mobile* get_non_sorted_mobile(int mob) const;
+
+	Pico_Mobile* get_abs_sorted_mobile(int mob) const;
 
 	////////////////////////////////////////////////////////////////////////////
 	// PA1                                                                    //

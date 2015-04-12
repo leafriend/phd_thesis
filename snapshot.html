@@ -1,0 +1,874 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<title>filter</title>
+<style type="text/css">
+* {
+    font-family: 'Andale Mono';
+    font-size: 9pt;
+}
+table, th, td {
+    border: 1px solid;
+    border-collapse: collapse;
+}
+th {
+    background-color: #f0f0f0;
+}
+th, td {
+    padding: 0.125em 0.25em;
+}
+.macro-state {
+    cursor: pointer;
+}
+.numeric {
+    text-align: right;
+}
+.state {
+    text-align: center;
+}
+.active {
+    background-color: #ffffcc;
+}
+.inactive {
+    background-color: #ffcccc;
+}
+.alternative {
+    background-color: #ccffcc;
+}
+</style>
+</head>
+<body>
+
+<textarea id="t-macros">
+     0.0    0.0 40.0
+  1000.0    0.0 40.0
+ -1000.0    0.0 40.0
+   500.0  866.0 40.0
+   500.0 -866.0 40.0
+  -500.0  866.0 40.0
+  -500.0 -866.0 40.0
+</textarea>
+<textarea id="t-picos">
+-1041.497573   802.908497 1.0
+ -100.837619   551.830212 1.0
+ -562.572003 -1397.813615 1.0
+  581.696875  -190.344307 1.0
+   72.063620  1310.591131 1.0
+  -27.987101  -713.733112 1.0
+  717.470528   309.236500 1.0
+ -520.683272  -421.340865 1.0
+  149.637435 -1419.484113 1.0
+ -333.646995     1.257577 1.0
+ 1190.487022   981.044723 1.0
+ 1228.360243  -723.052738 1.0
+  985.190845 -1362.344980 1.0
+-1169.733457  -760.585188 1.0
+ -662.317996   482.196434 1.0
+</textarea>
+<textarea id="t-mobiles">
+ -982.148006   709.553996 0.038225 0.0 0.0
+-1190.788775  -889.897618 0.020936 0.0 0.0
+  318.443095   804.481105 0.032471 0.0 0.0
+ -264.329542  -776.159569 0.054696 0.0 0.0
+ -732.651726   341.200463 0.037692 0.0 0.0
+ -894.945463  -462.684575 0.105250 0.0 0.0
+ -936.932267   667.895404 0.059919 0.0 0.0
+ 1151.317341 -1148.330655 0.045078 0.0 0.0
+  194.241374 -1157.634845 0.049175 0.0 0.0
+  367.279292 -1218.406616 0.050210 0.0 0.0
+  474.806053  -418.354667 0.054361 0.0 0.0
+ -968.746588  -286.818826 0.052459 0.0 0.0
+  377.546127  -822.659674 0.018199 0.0 0.0
+ 1129.366961   507.171235 0.097415 0.0 0.0
+ -965.391064  1371.638539 0.097400 0.0 0.0
+  436.721638  -205.004612 0.028496 0.0 0.0
+ 1152.366355   911.442630 0.018044 0.0 0.0
+ -748.451292   894.567589 0.053470 0.0 0.0
+  258.663467  1485.723040 0.033959 0.0 0.0
+  -39.380751  -864.586794 0.034827 0.0 0.0
+ 1017.258861  -512.943451 0.058218 0.0 0.0
+-1344.973341   787.025540 0.064876 0.0 0.0
+  718.417731   770.278492 0.036565 0.0 0.0
+  163.548201  1383.829760 0.018200 0.0 0.0
+ -211.582685   209.676993 0.066444 0.0 0.0
+  839.167628   325.518353 0.027600 0.0 0.0
+ -309.998052  -404.723340 0.064718 0.0 0.0
+ -428.312803  -469.357305 0.027355 0.0 0.0
+  478.417339   299.963861 0.061222 0.0 0.0
+ -317.484347    76.887064 0.021573 0.0 0.0
+ -964.567381   -45.100444 0.008761 0.0 0.0
+-1337.114908   466.950898 0.094496 0.0 0.0
+ -758.636277 -1385.244032 0.026144 0.0 0.0
+ 1205.440026  -930.231693 0.031187 0.0 0.0
+ 1447.329280  1286.235834 0.049748 0.0 0.0
+  -47.673029   248.939118 0.057664 0.0 0.0
+-1065.751281 -1453.768760 0.075123 0.0 0.0
+   34.999721  -618.974120 0.026600 0.0 0.0
+ 1480.582853 -1364.219454 0.065456 0.0 0.0
+  787.706704   884.194589 0.046873 0.0 0.0
+ 1398.071318   634.097910 0.069741 0.0 0.0
+ 1289.641650   109.083804 0.039145 0.0 0.0
+ -790.528310   260.383955 0.060308 0.0 0.0
+-1207.433526  -867.157900 0.018769 0.0 0.0
+ -270.677024  -258.254976 0.088715 0.0 0.0
+-1106.482174    47.461990 0.013695 0.0 0.0
+  763.700185  1015.004632 0.046033 0.0 0.0
+ -455.690583   479.731916 0.059530 0.0 0.0
+ -150.648826   -56.471755 0.038358 0.0 0.0
+ -901.993555  1058.294122 0.068479 0.0 0.0
+</textarea>
+
+<div style="
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #fff;
+">
+<label><input type="checkbox" checked id="check-macro-pico" />Macro-Pico</label>
+<label><input type="checkbox" checked id="check-macro-mobile" />Macro-Mobile</label>
+
+<label><input type="checkbox" checked id="check-pico-macro" />Pico-Macro</label>
+<label><input type="checkbox" checked id="check-pico-mobile" />Pico-Mobile</label>
+
+<label><input type="checkbox" checked id="check-mobile-macro" />Mobile-Macro</label>
+<label><input type="checkbox" checked id="check-mobile-pico" />Mobile-Pico</label>
+
+/ all_sum: <span id="all_sum"></span>
+/ on_sum: <span id="on_sum"></span>
+
+<input type="button" id="button-gen" value="gen">
+</div>
+
+<div style="margin-top: 2em;">
+
+<div id="div-macro"></div>
+<div id="div-pico"></div>
+<div id="div-mobile"></div>
+
+</div>
+
+<script type="text/javascript">
+
+var MACRO_RANGE = 1000;
+var PATH_LOSS_EXPO = 4;
+var BW_PER_RB = 180000;
+var MEGA = 1048576;
+var NOISE_FACTOR = -174;
+var LN_SHAD = 8;
+var NOISE = (BW_PER_RB * Math.pow(10, (NOISE_FACTOR / 10)));
+
+var NUM_RB = 100;
+var RBS = [];
+for (var i = 0; i < NUM_RB; i++)
+    RBS[i] = i;
+
+(function(ctx) {
+    function gaussian(mu, sigma)
+    {
+        var U1, U2, W, mult;
+
+        if (this.call) {
+            this.call = !this.call;
+            return (mu + sigma * this.X2);
+        }
+
+        do {
+            U1 = -1 + (Math.random()) * 2;
+            U2 = -1 + (Math.random()) * 2;
+            W = Math.pow(U1, 2) + Math.pow(U2, 2);
+        }
+        while (W >= 1 || W == 0);
+
+        mult = Math.sqrt((-2 * Math.log(W)) / W);
+        this.X1 = U1 * mult;
+        this.X2 = U2 * mult;
+
+        this.call = !this.call;
+
+        return (mu + sigma * X1);
+
+    }
+    gaussian.call = 0;
+    ctx.gaussian = gaussian;
+})(this);
+
+function rayleigh() {
+    return Math.sqrt(
+        Math.pow(gaussian(0, 1 / 1.2533), 2)
+        +
+        Math.pow(gaussian(0, 1 / 1.2533), 2)
+    );
+}
+
+function log_normal() {
+    return Math.pow(10, gaussian(0, LN_SHAD) * 0.1);
+}
+
+function $id(id) {
+    return document.getElementById(id);
+}
+
+function $css(css) {
+    return [].slice.call(document.getElementsByClassName(css));
+}
+
+function $removeCss(el, cssName) {
+    var names = el.className.split(/ +/).filter(function (name) {
+        return name != cssName;
+    });
+    el.className = names.join(" ");
+    return el;
+}
+
+function $addCss(el, cssName) {
+    var names = el.className.split(/ +/).filter(function (name) {
+        return name != cssName;
+    });
+    names.push(cssName);
+    el.className = names.join(" ");
+    return el;
+}
+
+function distance_of(f, t) {
+    return Math.sqrt(
+        Math.pow(f.x - t.x, 2) +
+        Math.pow(f.y - t.y, 2)
+    );
+}
+
+function round(n, l) {
+    if (arguments.length < 2)
+        l = 6;
+    var number = Math.round(n * Math.pow(10, l));
+    var sign = "";
+    if (number < 0)
+        sign = "-";
+    var str = Math.abs(number).toString();
+    if (str.length > l) {
+        return sign + str.substring(0, str.length - l) + "." + str.substring(str.length - l);
+    } else {
+        var s = "0.";
+        for (var i = 0; i < l - str.length; i++)
+            s += "0";
+        return sign + s + str;
+    }
+}
+
+function round6(n, l) {
+    if (arguments.length < 2)
+        l = 6;
+    return round(n * Math.pow(10, 6), l);
+}
+
+function round9(n, l) {
+    if (arguments.length < 2)
+        l = 6;
+    return round(n * Math.pow(10, 9), l);
+}
+
+function round12(n, l) {
+    if (arguments.length < 2)
+        l = 6;
+    return round(n * Math.pow(10, 12), l);
+}
+
+function load_objects(id, func) {
+    return $id(id).value.split("\n")
+    .filter(function (l) { return l.trim().length > 0; })
+    .map(function (l, idx) {
+        var values = l.trim().split(/ +/);
+        return func(values, idx);
+    });
+}
+
+function calc_thourghput(bandwidth, channel_gain, interference, noise) {
+    return bandwidth * Math.log(1 + (channel_gain / (interference + noise)));
+}
+
+$id("t-macros").style.display = "none";
+$id("t-picos").style.display = "none";
+$id("t-mobiles").style.display = "none";
+
+var macros = load_objects("t-macros", function (values, idx) {
+    var macro = {
+        idx: idx,
+        x: parseFloat(values[0]),
+        y: parseFloat(values[1]),
+        tx_power: parseFloat(values[2]),
+        state: true,
+        picos_interfered: [],
+        mobiles_to_service: [],
+        sorted_mobiles: [],
+    };
+    return macro;
+});
+
+var picos = load_objects("t-picos", function (values, idx) {
+    var pico = {
+        idx: idx,
+        x: parseFloat(values[0]),
+        y: parseFloat(values[1]),
+        tx_power: parseFloat(values[2]),
+        is_abs: false,
+        macros_interfering: [],
+        mobiles_to_service: [],
+        non_sorted_mobiles: [],
+        abs_sorted_mobiles: [],
+        update_abs: function() {
+            this.is_abs = true;
+            var pico = this;
+            this.macros_interfering.forEach(function (macro) {
+                if (macro.state) {
+                    pico.is_abs = false;
+                }
+            });
+            $css("pico-state-" + this.idx).forEach(function (checkbox) {
+                checkbox.innerText = pico.is_abs ? "ABS" : "non";
+            });
+        },
+    };
+
+    macros.forEach(function (macro) {
+        if (distance_of(pico, macro) < MACRO_RANGE) {
+            pico.macros_interfering.push(macro);
+            macro.picos_interfered.push(pico);
+        }
+    });
+
+    return pico;
+});
+
+var mobiles = load_objects("t-mobiles", function (values, idx) {
+
+    var mobile = {
+        idx: idx,
+        x: parseFloat(values[0]),
+        y: parseFloat(values[1]),
+        lambda: parseFloat(values[2]),
+        mu: parseFloat(values[3]),
+        user_rate: parseFloat(values[4]),
+
+        macro_edge: null,
+        macro_edges: [],
+        macro_throughputs: [],
+        sum_macro_throughput: NaN,
+
+        pico_edge: null,
+        pico_edges: [],
+        abs_pico_throughputs: [],
+        non_pico_throughputs: [],
+        sum_abs_pico_througput: NaN,
+        sum_non_pico_througput: NaN,
+
+    };
+
+    mobile.macro_edges = macros.map(function (macro) {
+        var distance = distance_of(mobile, macro);
+        var macro_edge = {
+            macro: macro,
+            mobile: mobile,
+            distance: distance,
+            channel_gain_factor: macro.tx_power / Math.pow(distance, PATH_LOSS_EXPO),
+            channel_gains: [],
+        };
+        if (mobile.macro_edge == null)
+            mobile.macro_edge = macro_edge;
+        else if (distance < mobile.macro_edge.distance)
+            mobile.macro_edge = macro_edge;
+        return macro_edge;
+    });
+    mobile.macro_edge.macro.mobiles_to_service.push(mobile);
+
+    mobile.pico_edges = picos.map(function (pico) {
+        var distance = distance_of(mobile, pico);
+        var pico_edge = {
+            pico: pico,
+            mobile: mobile,
+            distance: distance,
+            channel_gain_factor: pico.tx_power / Math.pow(distance, PATH_LOSS_EXPO),
+            channel_gains: [],
+        };
+        if (mobile.pico_edge == null)
+            mobile.pico_edge = pico_edge;
+        else if (distance < mobile.pico_edge.distance)
+            mobile.pico_edge = pico_edge;
+        return pico_edge;
+    });
+    mobile.pico_edge.pico.mobiles_to_service.push(mobile);
+
+    return mobile;
+});
+
+var div_macro_html = "";
+div_macro_html += "<table>";
+{
+    div_macro_html += "<tr>";
+    {
+        div_macro_html += "<th>Macro</th>";
+        div_macro_html += "<th>x</th>";
+        div_macro_html += "<th>y</th>";
+        div_macro_html += "<th>tx_power</th>";
+        div_macro_html += "<th>state</th>";
+        picos.forEach(function (pico) {
+            div_macro_html += "<th class='macro-pico'>" + pico.idx + "</th>";
+        });
+        mobiles.forEach(function (mobile) {
+            div_macro_html += "<th class='macro-mobile'>" + mobile.idx + "</th>";
+        });
+    }
+    div_macro_html += "</tr>";
+    // - - -
+    macros.forEach(function (macro) {
+        div_macro_html += "<tr>";
+        {
+            div_macro_html += "<td>" + macro.idx + "</td>";
+            div_macro_html += "<td class='numeric'>" + round(macro.x, 2) + "</td>";
+            div_macro_html += "<td class='numeric'>" + round(macro.y, 2) + "</td>";
+            div_macro_html += "<td class='numeric'>" + round(macro.tx_power, 2) + "</td>";
+            div_macro_html += "<td class='state macro-state macro-state-" + macro.idx + "' id='macro-" + macro.idx + "-state'>" + (macro.state ? "ON" : "OFF") + "</td>";
+            picos.forEach(function (pico) {
+                var css = "numeric macro-pico";
+                for (var i = 0; i < pico.macros_interfering.length; i++) {
+                    if (pico.macros_interfering[i].idx == macro.idx) {
+                        css += " active";
+                        break;
+                    }
+                }
+                div_macro_html += "<td class='" + css + "'>" + round(distance_of(macro, pico), 2) + "</td>";
+            });
+            mobiles.forEach(function (mobile) {
+                var css = "numeric macro-mobile";
+                if (mobile.macro_edge.macro.idx == macro.idx)
+                    css += " active";
+                div_macro_html += "<td class='" + css + "'>" + round(distance_of(macro, mobile), 2) + "</td>";
+            });
+        }
+        div_macro_html += "</tr>";
+    });
+}
+div_macro_html += "</table>";
+$id("div-macro").innerHTML = div_macro_html;
+
+// - - -
+
+var div_pico_html = "";
+div_pico_html += "<table>";
+{
+    div_pico_html += "<tr>";
+    {
+        div_pico_html += "<th>Pico</th>";
+        div_pico_html += "<th>x</th>";
+        div_pico_html += "<th>y</th>";
+        div_pico_html += "<th>tx_power</th>";
+        div_pico_html += "<th>state</th>";
+        macros.forEach(function (macro) {
+            div_pico_html += "<th class='pico-macro'>" + macro.idx + "</th>";
+        });
+        mobiles.forEach(function (mobile) {
+            div_pico_html += "<th class='pico-mobile'>" + mobile.idx + "</th>";
+        });
+    }
+    div_pico_html += "</tr>";
+    // - - -
+    picos.forEach(function (pico) {
+        div_pico_html += "<tr>";
+        {
+            div_pico_html += "<td>" + pico.idx + "</td>";
+            div_pico_html += "<td class='numeric'>" + round(pico.x, 2) + "</td>";
+            div_pico_html += "<td class='numeric'>" + round(pico.y, 2) + "</td>";
+            div_pico_html += "<td class='numeric'>" + round(pico.tx_power, 2) + "</td>";
+            div_pico_html += "<td class='state pico-state-" + pico.idx + "' id='pico-" + pico.idx + "-state'>" + (pico.is_abs ? "ABS" : "non") + "</td>";
+            macros.forEach(function (macro) {
+                var css = "numeric pico-macro";
+                for (var i = 0; i < pico.macros_interfering.length; i++) {
+                    if (pico.macros_interfering[i].idx == macro.idx) {
+                        css += " active";
+                        break;
+                    }
+                }
+                div_pico_html += "<td class='" + css + "'>" + round(distance_of(pico, macro), 2) + "</td>";
+            });
+            mobiles.forEach(function (mobile) {
+                var css = "numeric pico-mobile";
+                if (mobile.pico_edge.pico.idx == pico.idx)
+                    css += " active";
+                div_pico_html += "<td class='" + css + "'>" + round(distance_of(pico, mobile), 2) + "</td>";
+            });
+        }
+        div_pico_html += "</tr>";
+    });
+}
+div_pico_html += "</table>";
+$id("div-pico").innerHTML = div_pico_html;
+
+// - - -
+
+var div_mobile_html = "";
+div_mobile_html += "<table>";
+{
+    div_mobile_html += "<tr>";
+    {
+        div_mobile_html += "<th rowspan='2'>Mobile</th>";
+        div_mobile_html += "<th rowspan='2'>x</th>";
+        div_mobile_html += "<th rowspan='2'>y</th>";
+        div_mobile_html += "<th rowspan='2'>lambda</th>";
+        div_mobile_html += "<th colspan='7'>Macro</th>";
+        div_mobile_html += "<th colspan='7'>Pico</th>";
+        macros.forEach(function (macro) {
+            div_mobile_html += "<th rowspan='2' class='mobile-macro'>" + macro.idx + "</th>";
+        });
+        picos.forEach(function (pico) {
+            div_mobile_html += "<th rowspan='2' class='mobile-pico'>" + pico.idx + "</th>";
+        });
+    }
+    div_mobile_html += "</tr>";
+    // - - -
+    div_mobile_html += "<tr>";
+    {
+        div_mobile_html += "<th>idx</th>";
+        div_mobile_html += "<th>dist</th>";
+        div_mobile_html += "<th>state</th>";
+        div_mobile_html += "<th>factor</th>";
+        div_mobile_html += "<th>sort</th>";
+        div_mobile_html += "<th>channel_gain</th>";
+        div_mobile_html += "<th>throughput</th>";
+        //div_mobile_html += "<th>OnThroughput</th>";
+        // - - -
+        div_mobile_html += "<th>idx</th>";
+        div_mobile_html += "<th>dist</th>";
+        div_mobile_html += "<th>state</th>";
+        div_mobile_html += "<th>factor</th>";
+        div_mobile_html += "<th>sort</th>";
+        div_mobile_html += "<th>channel_gain</th>";
+        div_mobile_html += "<th>throughput</th>";
+        //div_mobile_html += "<th>OnThroughput</th>";
+        // - - -
+        //div_mobile_html += "<th>____Macro____</th>";
+        //div_mobile_html += "<th>____Pico____</th>";
+        //div_mobile_html += "<th>____Macro____</th>";
+        //div_mobile_html += "<th>____Pico____</th>";
+    }
+    div_mobile_html += "</tr>";
+    // - - -
+    mobiles.forEach(function (mobile) {
+        div_mobile_html += "<tr>";
+        {
+            div_mobile_html += "<td>" + mobile.idx + "</td>";
+            div_mobile_html += "<td class='numeric'>" + round(mobile.x, 2) + "</td>";
+            div_mobile_html += "<td class='numeric'>" + round(mobile.y, 2) + "</td>";
+            div_mobile_html += "<td class='numeric'>" + round(mobile.lambda, 6) + "</td>";
+            // - - -
+            div_mobile_html += "<td class='numeric'>" + mobile.macro_edge.macro.idx + "</td>";
+            div_mobile_html += "<td class='numeric'>" + round(mobile.macro_edge.distance, 2) + "</td>";
+            div_mobile_html += "<td class='state macro-state macro-state-" + mobile.macro_edge.macro.idx + "'>" + (mobile.macro_edge.macro.state ? "ON" : "OFF") + "</td>";
+            div_mobile_html += "<td class='numeric'>" + round6(mobile.macro_edge.channel_gain_factor) + "</td>";
+            div_mobile_html += "<td class='numeric mobile-macro-sort mobile-macro-sort-" + mobile.idx + "'>" + "</td>";
+            div_mobile_html += "<td class='numeric mobile-" + mobile.idx + "-macro-sum-channel-gain'>" + "</td>";
+            div_mobile_html += "<td class='numeric mobile-" + mobile.idx + "-macro-throughput'>" + "</td>";
+            // - - -
+            div_mobile_html += "<td class='numeric'>" + mobile.pico_edge.pico.idx + "</td>";
+            div_mobile_html += "<td class='numeric'>" + round(mobile.pico_edge.distance, 2) + "</td>";
+            div_mobile_html += "<td class='state pico-state-" + mobile.pico_edge.pico.idx + "'>" + (mobile.pico_edge.pico.is_abs ? "ABS" : "non") + "</td>";
+            div_mobile_html += "<td class='numeric'>" + round6(mobile.pico_edge.channel_gain_factor) + "</td>";
+            div_mobile_html += "<td class='numeric mobile-macro-sort mobile-pico-sort-" + mobile.idx + "'>" + "</td>";
+            div_mobile_html += "<td class='numeric mobile-" + mobile.idx + "-pico-sum-channel-gain'>" + "</td>";
+            div_mobile_html += "<td class='numeric mobile-" + mobile.idx + "-pico-throughput'>" + "</td>";
+            // - - -
+            //div_mobile_html += "<td class='numeric mobile-" + mobile.idx + "-macro-sum-channel-gain'>" + "</td>";
+            //div_mobile_html += "<td class='numeric mobile-" + mobile.idx + "-pico-sum-channel-gain'>" + "</td>";
+            //div_mobile_html += "<td class='numeric mobile-" + mobile.idx + "-macro-OnThroughput'>" + "</td>";
+            //div_mobile_html += "<td class='numeric mobile-" + mobile.idx + "-pico-OnThroughput'>" + "</td>";
+
+            macros.forEach(function (macro) {
+                var css = "numeric mobile-macro";
+                if (mobile.macro_edge.macro.idx == macro.idx)
+                    css += " active";
+                div_mobile_html += "<td class='" + css + "'>"
+                    + round(distance_of(mobile, macro), 2)
+                    //+ "<br>" + round(macro.tx_power / Math.pow(distance_of(mobile, macro), 4) * 1000000000000, 6)
+                    + "</td>";
+            });
+            picos.forEach(function (pico) {
+                var css = "numeric mobile-pico";
+                if (mobile.pico_edge.pico.idx == pico.idx)
+                    css += " active";
+                div_mobile_html += "<td class='" + css + "'>"
+                    + round(distance_of(mobile, pico), 2)
+                    //+ "<br>" + round(pico.tx_power / Math.pow(distance_of(mobile, pico), 4) * 1000000000000, 6)
+                    + "</td>";
+            });
+        }
+        div_mobile_html += "</tr>";
+    });
+}
+div_mobile_html += "</table>";
+$id("div-mobile").innerHTML = div_mobile_html;
+
+// - - -
+
+$id("check-macro-mobile").addEventListener("click", function (e) {
+    var display = this.checked ? "" : "none";
+    $css("macro-mobile").forEach(function (elem) {
+        elem.style.display = display;
+    });
+});
+$id("check-macro-pico").addEventListener("click", function (e) {
+    var display = this.checked ? "" : "none";
+    $css("macro-pico").forEach(function (elem) {
+        elem.style.display = display;
+    });
+});
+
+$id("check-pico-macro").addEventListener("click", function (e) {
+    var display = this.checked ? "" : "none";
+    $css("pico-macro").forEach(function (elem) {
+        elem.style.display = display;
+    });
+});
+$id("check-pico-mobile").addEventListener("click", function (e) {
+    var display = this.checked ? "" : "none";
+    $css("pico-mobile").forEach(function (elem) {
+        elem.style.display = display;
+    });
+});
+
+$id("check-mobile-macro").addEventListener("click", function (e) {
+    var display = this.checked ? "" : "none";
+    $css("mobile-macro").forEach(function (elem) {
+        elem.style.display = display;
+    });
+});
+$id("check-mobile-pico").addEventListener("click", function (e) {
+    var display = this.checked ? "" : "none";
+    $css("mobile-pico").forEach(function (elem) {
+        elem.style.display = display;
+    });
+});
+
+$css("macro-state").forEach(function (checkbox) {
+    //console.log(checkbox.className.split(/ +/));
+    checkbox.addEventListener("click", function (e) {
+        var idx = null;
+        this.className.split(/ +/).forEach(function (name) {
+            var prefix = "macro-state-";
+            if (name.startsWith(prefix)) {
+                idx = parseInt(name.substring(prefix.length));
+            }
+        });
+        //console.log(idx); return;
+        macros[idx].state = !macros[idx].state;
+        $css("macro-state-" + idx).forEach(function (checkbox) {
+            checkbox.innerText = macros[idx].state ? "ON" : "OFF";
+        });
+        macros[idx].picos_interfered.forEach(function (pico) {
+            pico.update_abs.call(pico);
+        });
+        calc();
+    });
+});
+
+$id("button-gen").addEventListener("click", function (e) { gen(); });
+//$id("button-calc").addEventListener("click", function (e) { calc(); });
+
+function gen() {
+
+    // Generate Channel Gain
+    RBS.forEach(function (ri) {
+        mobiles.forEach(function (mobile) {
+            mobile.macro_edges.forEach(function (macro_edge) {
+                    macro_edge.channel_gains[ri]
+                    = mobile.macro_edge.channel_gain_factor
+                    * rayleigh()
+                    * log_normal()
+                ;
+            });
+            mobile.pico_edges.forEach(function (pico_edge) {
+                    pico_edge.channel_gains[ri]
+                    = mobile.pico_edge.channel_gain_factor
+                    * rayleigh()
+                    * log_normal()
+                ;
+            });
+        });
+    });
+
+    calc();
+
+}
+
+function sort(arr, cmp) {
+    if (arr.length == 0)
+        return [];
+    var base = arr[0];
+    var smaller = [];
+    var larger = [];
+    for (var i = 1; i < arr.length; i++) {
+        if (cmp(base, arr[i]) < 0) {
+            larger.push(arr[i]);
+        } else {
+            smaller.push(arr[i]);
+        }
+    }
+    smaller = sort(smaller, cmp);
+    larger = sort(larger, cmp);
+    return smaller.concat([base]).concat(larger);
+}
+
+function calc() {
+    var all_sum = 0;
+    var on_sum = 0;
+
+
+
+    // Calculate Base Throughput
+    mobiles.forEach(function (mobile) {
+        mobile.sum_macro_throughput = 0;
+        mobile.sum_non_pico_througput = 0;
+        mobile.sum_abs_pico_througput = 0;
+        RBS.forEach(function (ri) {
+
+            var macro_sum_channel_gain = 0;
+            mobile.macro_edges.forEach(function (macro_edge, _i) {
+                //if (ri == 0) console.log("mobiles[" + mobile.idx + "].macro_edges[" + _i + "].channel_gains[" + ri + "]: " + macro_edge.channel_gains.length);
+                macro_sum_channel_gain += macro_edge.channel_gains[ri];
+            });
+            //if (ri == 0) console.log("mobiles[" + mobile.idx + "].macro_sum_channel_gain: " + macro_sum_channel_gain);
+
+            $css("mobile-" + mobile.idx + "-macro-sum-channel-gain").forEach(function (el) {
+                el.innerText = round6(macro_sum_channel_gain);
+            });
+
+            var pico_sum_channel_gain = 0;
+            mobile.pico_edges.forEach(function (pico_edge) {
+                pico_sum_channel_gain += pico_edge.channel_gains[ri];
+            });
+
+            $css("mobile-" + mobile.idx + "-pico-sum-channel-gain").forEach(function (el) {
+                el.innerText = round6(pico_sum_channel_gain);
+            });
+
+            mobile.macro_throughputs[ri] = calc_thourghput(
+                BW_PER_RB,
+                mobile.macro_edge.channel_gains[ri],
+                macro_sum_channel_gain + pico_sum_channel_gain - mobile.macro_edge.channel_gains[ri],
+                NOISE
+            ) / MEGA;
+            mobile.sum_macro_throughput += mobile.macro_throughputs[ri];
+
+            mobile.non_pico_throughputs[ri] = calc_thourghput(
+                BW_PER_RB,
+                mobile.pico_edge.channel_gains[ri],
+                macro_sum_channel_gain + pico_sum_channel_gain - mobile.pico_edge.channel_gains[ri],
+                NOISE
+            ) / MEGA;
+            mobile.sum_non_pico_througput += mobile.non_pico_throughputs[ri];
+
+            mobile.abs_pico_throughputs[ri] = calc_thourghput(
+                BW_PER_RB,
+                mobile.pico_edge.channel_gains[ri],
+            /*macro_sum_channel_gain +*/ pico_sum_channel_gain - mobile.pico_edge.channel_gains[ri],
+                NOISE
+            ) / MEGA;
+            mobile.sum_abs_pico_througput += mobile.abs_pico_throughputs[ri];
+
+        });
+
+    });
+
+    RBS.forEach(function (ri) {
+        picos.forEach(function (pico) {
+            pico.non_sorted_mobiles = sort(pico.mobiles_to_service, function (a, b) {
+                return
+                    b.lambda * b.non_pico_throughput
+                    - a.lambda * a.non_pico_throughput
+                ;
+            });
+
+            pico.abs_sorted_mobiles = sort(pico.mobiles_to_service, function (a, b) {
+                return
+                    b.lambda * b.abs_pico_throughput
+                    - a.lambda * a.abs_pico_throughput
+                ;
+            });
+
+            (pico.is_abs ? pico.abs_sorted_mobiles : pico.non_sorted_mobiles).forEach(function (mobile, i) {
+                //console.log("mobile-pico-sort-" + mobile.idx + ": " + (i + 1));
+                $css("mobile-pico-sort-" + mobile.idx + "").forEach(function (el) {
+                    el.innerText = (i + 1).toString();
+                });
+            });
+        });
+    });
+
+    RBS.forEach(function (ri) {
+        macros.forEach(function (macro) {
+            macro.sorted_mobiles = sort(macro.mobiles_to_service, function (a, b) {
+                function c(mobile) {
+                    var lambda_r = mobile.lambda * mobile.macro_throughputs[ri];
+                    var mmobiles = mobile.pico_edge.pico.mobiles_to_service;
+                    if (mmobiles[0] == mobile) {
+                        lambda_r += mobile.lambda * mobile.non_pico_throughputs[ri]
+                        if (mmobiles.length > 1)
+                            lambda_r += mmobiles[1].lambda * mmobiles[1].non_pico_throughputs[ri]
+                    } else {
+                        // DO NOTHING
+                    }
+                    return lambda_r;
+                }
+                return c(b) - c(a);
+            });
+            macro.sorted_mobiles.forEach(function (mobile, i) {
+                //console.log("mobile-macro-sort-" + mobile.idx + ": " + (i + 1));
+                $css("mobile-macro-sort-" + mobile.idx + "").forEach(function (el) {
+                    el.innerText = (i + 1).toString();
+                });
+            });
+        });
+    });
+
+    mobiles.forEach(function (mobile) {
+
+        $css("mobile-" + mobile.idx + "-macro-throughput").forEach(function (el) {
+            var sum_pico_througput
+                = mobile.pico_edge.pico.is_abs
+                ? mobile.sum_abs_pico_througput
+                : mobile.sum_non_pico_througput
+            ;
+            el.innerText = round(mobile.sum_macro_throughput);
+            $removeCss($removeCss($removeCss(el, "active"), "inactive"), "alternative");
+            if (sum_pico_througput < mobile.sum_macro_throughput) {
+                if (mobile.macro_edge.macro.state) {
+                    $addCss(el, "active");
+                } else {
+                    $addCss(el, "inactive");
+                }
+            }
+        });
+
+        $css("mobile-" + mobile.idx + "-pico-throughput").forEach(function (el) {
+            var sum_pico_througput
+                = mobile.pico_edge.pico.is_abs
+                ? mobile.sum_abs_pico_througput
+                : mobile.sum_non_pico_througput
+            ;
+            el.innerText = round(sum_pico_througput);
+            $removeCss($removeCss($removeCss(el, "active"), "inactive"), "alternative");
+            if (mobile.sum_macro_throughput < sum_pico_througput) {
+                $addCss(el, "active");
+            }
+        });
+
+    });
+
+    $id("all_sum").innerText = round(all_sum);
+    $id("on_sum").innerText = round(on_sum);
+
+}
+
+gen();
+
+</script>
+
+</body>
+</html>

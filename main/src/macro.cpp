@@ -1,7 +1,9 @@
 #include <stdio.h>
 
 #include <stdlib.h>
-#include <float.h>
+
+#include <math.h>
+#include <limits>
 
 #include "func.h"
 #include "macro_mobile.h"
@@ -25,7 +27,7 @@ void Macro::sort_mobiles() {
 	FOREACH_RBS {
 
 		first_mobile[ri] = NULL;
-		double first_lambda_r = DBL_MIN;
+		double first_lambda_r = -std::numeric_limits<double>::infinity();
 
 		//printf("num_mobiles_to_service: %d\n", num_mobiles_to_service);
 		for (int mm = 0; mm < num_mobiles_to_service; mm++) {

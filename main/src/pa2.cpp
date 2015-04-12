@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <float.h>
+
+#include <math.h>
+#include <limits>
 
 #include "pico_mobile.h"
 #include "func.h"
@@ -10,7 +12,7 @@
 
 void pa2(Macro** macros, Pico** picos, Mobile** mobiles) {
 
-	double best_sum_lambda_r = DBL_MIN;
+	double best_sum_lambda_r = -std::numeric_limits<double>::infinity();
 	bool best_macro_states[NUM_MACRO];
 
 	FOREACH_MACROS
@@ -36,7 +38,7 @@ void pa2(Macro** macros, Pico** picos, Mobile** mobiles) {
 
 		FOREACH_MACROS {
 
-			double macro_best_sum_lambda_r = DBL_MIN;
+			double macro_best_sum_lambda_r = -std::numeric_limits<double>::infinity();
 			pa2_find_best_mobile_state(macros[mac], &macro_best_sum_lambda_r);
 			curr_sum_lambda_r += macro_best_sum_lambda_r;
 
@@ -150,7 +152,7 @@ void pa2_find_best_mobile_state(Macro* macro, double* macro_best_sum_lambda_r) {
 			double curr_sum_lambda_r = 0.0;
 			FOREACH_RBS {
 
-				double best_allocated_mobile = DBL_MIN;
+				double best_allocated_mobile = -std::numeric_limits<double>::infinity();
 				FOREACH_MOBILES_TS {
 					Mobile* mobile = (Mobile*) mmobiles[mob]->get_mobile();
 

@@ -1,7 +1,9 @@
 #include <stdio.h>
 
 #include <stdlib.h>
-#include <float.h>
+
+#include <math.h>
+#include <limits>
 
 #include "func.h"
 #include "pa1.h"
@@ -12,7 +14,7 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 	FOREACH_MACROS
 		macros[mac]->sort_mobiles();
 
-	double best_sum_lambda_r = DBL_MIN;
+	double best_sum_lambda_r = -std::numeric_limits<double>::infinity();
 	bool best_macro_states[NUM_MACRO];
 
 	FOREACH_MOBILES

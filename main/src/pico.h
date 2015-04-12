@@ -53,6 +53,8 @@ public:
 
 	void sort_mobiles();
 
+	int get_num_mobiles_to_service() const;
+
 	////////////////////////////////////////////////////////////////////////////
 	// PA1                                                                    //
 

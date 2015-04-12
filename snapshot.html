@@ -11,6 +11,7 @@
 table, th, td {
     border: 1px solid;
     border-collapse: collapse;
+    vertical-align: top;
 }
 th {
     background-color: #f0f0f0;
@@ -35,6 +36,9 @@ th, td {
 }
 .alternative {
     background-color: #ccffcc;
+}
+div.ri {
+    display: none;
 }
 </style>
 </head>
@@ -138,6 +142,9 @@ th, td {
 / on_sum: <span id="on_sum"></span>
 
 <input type="button" id="button-gen" value="gen">
+
+<select id="select-ri"></select>
+
 </div>
 
 <div style="margin-top: 2em;">
@@ -671,6 +678,20 @@ $css("macro-state").forEach(function (checkbox) {
 $id("button-gen").addEventListener("click", function (e) { gen(); });
 //$id("button-calc").addEventListener("click", function (e) { calc(); });
 
+var select_options = "<option value=''></option>";
+RBS.forEach(function (ri) {
+    select_options += "<option value='" + ri + "'>" + ri + "</option>";
+});
+$id("select-ri").innerHTML = select_options;
+$id("select-ri").addEventListener("change", function (e) {
+    $css("ri").forEach(function (_ri) {
+        _ri.style.display = "";
+    });
+    $css("ri-" + this.value).forEach(function (_ri) {
+        _ri.style.display = "block";
+    });
+});
+
 function gen() {
 
     // Generate Channel Gain
@@ -792,18 +813,12 @@ function calc() {
                 ;
             });
 
-            (pico.is_abs ? pico.abs_sorted_mobiles : pico.non_sorted_mobiles).forEach(function (mobile, i) {
-                //console.log("mobile-pico-sort-" + mobile.idx + ": " + (i + 1));
-                $css("mobile-pico-sort-" + mobile.idx + "").forEach(function (el) {
-                    el.innerText = (i + 1).toString();
-                });
-            });
         });
     });
 
-    RBS.forEach(function (ri) {
-        macros.forEach(function (macro) {
-            macro.sorted_mobiles = sort(macro.mobiles_to_service, function (a, b) {
+    macros.forEach(function (macro) {
+        RBS.forEach(function (ri) {
+            macro.sorted_mobiles[ri] = sort(macro.mobiles_to_service, function (a, b) {
                 function c(mobile) {
                     var lambda_r = mobile.lambda * mobile.macro_throughputs[ri];
                     var mmobiles = mobile.pico_edge.pico.mobiles_to_service;
@@ -818,13 +833,51 @@ function calc() {
                 }
                 return c(b) - c(a);
             });
-            macro.sorted_mobiles.forEach(function (mobile, i) {
-                //console.log("mobile-macro-sort-" + mobile.idx + ": " + (i + 1));
-                $css("mobile-macro-sort-" + mobile.idx + "").forEach(function (el) {
-                    el.innerText = (i + 1).toString();
-                });
-            });
         });
+    });
+
+    mobiles.forEach(function (mobile) {
+        var html;
+
+        html = "";
+        $css("mobile-macro-sort-" + mobile.idx + "").forEach(function (el) {
+            el.innerText = "";
+        });
+        RBS.forEach(function (ri) {
+            var i = mobile.macro_edge.macro.sorted_mobiles[ri].indexOf(mobile);
+            //console.log("mobile-macro-sort-" + mobile.idx + ": " + (i + 1));
+            html += "<div class='ri ri-" + ri + "'>" + (i + 1) + "</div>";
+        });
+        $css("mobile-macro-sort-" + mobile.idx + "").forEach(function (el) {
+            el.innerHTML = html;
+        });
+
+        html = "";
+        $css("mobile-" + mobile.idx + "-macro-sum-channel-gain").forEach(function (el) {
+            el.innerText = "";
+        });
+        RBS.forEach(function (ri) {
+            html += "<div class='ri ri-" + ri + "'>" + round9(mobile.macro_edge.channel_gains[ri]) + "</div>";
+        });
+        $css("mobile-" + mobile.idx + "-macro-sum-channel-gain").forEach(function (el) {
+            el.innerHTML = html;
+        });
+
+        /*
+        html = "";
+        $css("mobile-pico-sort-" + mobile.idx + "").forEach(function (el) {
+            el.innerText = "";
+        });
+        RBS.forEach(function (ri) {
+            var i = mobile.pico_edge.pico.sorted_mobiles[ri].indexOf(mobile);
+            //console.log("mobile-pico-sort-" + mobile.idx + ": " + (i + 1));
+            html += "<div class='ri ri-" + ri + "'>" + (i + 1) + "</div>";
+        });
+        $css("mobile-pico-sort-" + mobile.idx + "").forEach(function (el) {
+            el.innerHTML = html;
+        });
+        */
+
     });
 
     mobiles.forEach(function (mobile) {

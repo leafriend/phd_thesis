@@ -8,8 +8,6 @@
 #include "func.h"
 #include "pa2.h"
 
-#define FOREACH_MOBILES_TS for (int mob = 0; mob < NUM_MOBILE_TS; mob++)
-
 void pa2(Macro** macros, Pico** picos, Mobile** mobiles) {
 
 	double best_sum_lambda_r = -std::numeric_limits<double>::infinity();

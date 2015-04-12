@@ -21,6 +21,8 @@ typedef struct timeval TIME;
 #endif
 int subtract_timeval(TIME* result, TIME* x, TIME* y);
 
+#define FOREACH_MOBILES_TS for (int mob = 0; mob < NUM_MOBILE_TS; mob++)
+
 double uniform(void);
 double gaussian(double mu, double sigma);
 

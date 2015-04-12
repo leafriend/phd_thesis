@@ -42,7 +42,7 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 				FOREACH_RBS {
 					Mobile* mobile = macros[mac]->get_first_mobile(ri);
 					if (mobile != NULL) {
-						curr_sum_lambda_r += mobile->lambda * mobile->get_macro_throughput(ri);
+						curr_sum_lambda_r += mobile->get_macro_lambda_r(ri);
 						curr_mobile_states[ri][mobile->idx] = 1;
 					}
 				}
@@ -67,12 +67,12 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 						if (first_macro->get_state() == OFF
 							|| first_macro->get_first_mobile(ri) != abs_first
 						) {
-							curr_sum_lambda_r += abs_first->lambda * abs_first->get_abs_pico_throughput(ri);
+							curr_sum_lambda_r += abs_first->get_abs_pico_lambda_r(ri);
 							curr_mobile_states[ri][abs_first->idx] = 2;
 							//printf("ABS - %2d = 2\n", abs_first->idx);
 
 						} else if (abs_second != NULL) {
-							curr_sum_lambda_r += abs_second->lambda * abs_second->get_abs_pico_throughput(ri);
+							curr_sum_lambda_r += abs_second->get_abs_pico_lambda_r(ri);
 							curr_mobile_states[ri][abs_second->idx] = 2;
 							//printf("ABS - %2d = 2\n", abs_second->idx);
 
@@ -98,7 +98,7 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 
 							const Mobile* second = pico->get_non_sorted_mobile(ri, 1)->get_mobile();
 							if (second != NULL && curr_mobile_states[ri][second->idx] != 1) {
-								curr_sum_lambda_r += second->lambda * second->get_abs_pico_throughput(ri);
+								curr_sum_lambda_r += second->get_abs_pico_lambda_r(ri);
 								curr_mobile_states[ri][second->idx] = 4;
 								//printf("non - %2d = 4\n", second->idx);
 							} else {
@@ -107,7 +107,7 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 
 						} else {
 
-							curr_sum_lambda_r += first->lambda * first->get_abs_pico_throughput(ri);
+							curr_sum_lambda_r += first->get_abs_pico_lambda_r(ri);
 							curr_mobile_states[ri][first->idx] = 3;
 
 						}

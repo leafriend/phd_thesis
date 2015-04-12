@@ -11,13 +11,27 @@
 #include "pico.h"
 
 int non_cmp(int ri, const Mobile* a, const Mobile* b) {
-	return (int) ((Mobile*) a)->lambda * a->get_non_pico_throughput(ri)
-		-  ((Mobile*) b)->lambda * b->get_non_pico_throughput(ri);
+	double cmp
+		= ((Mobile*) a)->get_non_pico_lambda_r(ri)
+		-  ((Mobile*) b)->get_non_pico_lambda_r(ri);
+	if (cmp < 0.0)
+		return -1;
+	else if (cmp > 0.0)
+		return 1;
+	else
+		return 0;
 }
 
 int abs_cmp(int ri, const Mobile* a, const Mobile* b) {
-	return (int) ((Mobile*) a)->lambda * a->get_abs_pico_throughput(ri)
-		-  ((Mobile*) b)->lambda * b->get_abs_pico_throughput(ri);
+	double cmp
+		= ((Mobile*) a)->get_abs_pico_lambda_r(ri)
+		- ((Mobile*) b)->get_abs_pico_lambda_r(ri);
+	if (cmp < 0.0)
+		return -1;
+	else if (cmp > 0.0)
+		return 1;
+	else
+		return 0;
 }
 
 
@@ -56,7 +70,7 @@ void Pico::sort_mobiles(int ri, Pico_Mobile** items, int size, Pico_Mobile** sor
 
 	for (int i = 1; i < size; i++) {
 		const Mobile* mobile = items[i]->get_mobile();
-		if (cmp(ri, base, mobile) > 0) {
+		if (cmp(ri, base, mobile) < 0) {
 			former[former_count++] = items[i];
 		} else {
 			latter[latter_count++] = items[i];

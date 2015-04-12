@@ -47,7 +47,7 @@ public:
 	Macro_Mobile** get_mobiles_to_service();
 
 	void set_state(bool state);
-	bool get_state();
+	bool get_state() const;
 
 	void count_allocation();
 

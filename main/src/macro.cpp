@@ -92,7 +92,7 @@ void Macro::set_state(bool state) {
 	this->state = state;
 }
 
-bool Macro::get_state() {
+bool Macro::get_state() const {
 	return state;
 }
 

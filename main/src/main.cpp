@@ -62,9 +62,6 @@ int main(int argc, char** argv) {
 		FOREACH_PICOS
 			picos[pic]->sort_mobiles();
 
-		FOREACH_MACROS
-			macros[mac]->sort_mobiles();
-
 		// /////////////////////////////////////////////////////////////////////
 		// PROCESS ALGORITHM
 

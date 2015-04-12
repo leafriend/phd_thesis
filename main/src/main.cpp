@@ -237,13 +237,9 @@ void initialize(Macro** macros, Pico** picos, Mobile** mobiles,
 		Mobile* mobile = new Mobile(mob, x, y, lambda, mu, rate_user, qos);
 		mobiles[mob] = mobile;
 
-		FOREACH_MACROS {
-			macro_mobiles[mob * NUM_MACRO + mac] = new Macro_Mobile(macros[mac], mobile);
-		}
+		FOREACH_MACROS macro_mobiles[mob * NUM_MACRO + mac] = new Macro_Mobile(macros[mac], mobile);
 
-		FOREACH_PICOS {
-			pico_mobiles[mob * NUM_PICO + pic] = new Pico_Mobile(picos[pic], mobile);
-		}
+		FOREACH_PICOS pico_mobiles[mob * NUM_PICO + pic] = new Pico_Mobile(picos[pic], mobile);
 
 		if (mobile->get_macro() == NULL) printf("Mobile at (%12.6f, %12.6f): %6.3f has no service Macro\n", x, y, qos);
 		if (mobile->get_pico() == NULL) printf("Mobile at (%12.6f, %12.6f): %6.3f has no service Pico\n", x, y, qos);

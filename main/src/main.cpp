@@ -225,6 +225,7 @@ void initialize(Macro** macros, Pico** picos, Mobile** mobiles,
 	fclose(fp);
 
 	//printf("= Mobile ===============================\n");
+	//*
 	fp = fopen(DATA_FILE_PREFIX "mobile.txt", "r");
 	FOREACH_MOBILES {
 		double x, y, lambda, mu, rate_user, qos = QOS;
@@ -245,6 +246,18 @@ void initialize(Macro** macros, Pico** picos, Mobile** mobiles,
 		if (mobile->get_pico() == NULL) printf("Mobile at (%12.6f, %12.6f): %6.3f has no service Pico\n", x, y, qos);
 
 	}
+	//*/
+	
+	/*
+	FOREACH_MOBILES {
+		double x = (500 + pow(-10.0, mob)) * cos(2 * M_PI * mob / 50);
+		double y = (500 + pow(-10.0, mob)) * sin(2 * M_PI * mob / 50);
+		mobiles[mob] = new Mobile(mob, x, y, 0.1, 0.0, 0.0, QOS);
+		
+		FOREACH_MACROS macro_mobiles[mob * NUM_MACRO + mac] = new Macro_Mobile(macros[mac], mobiles[mob]);
+		FOREACH_PICOS pico_mobiles[mob * NUM_PICO + pic] = new Pico_Mobile(picos[pic], mobiles[mob]);
+	}
+	*/
 
 	FOREACH_MOBILES {
 		FOREACH_MACROS

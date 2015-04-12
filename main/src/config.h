@@ -2,6 +2,8 @@
 
 #include <math.h>
 
+#define M_PI 3.141592
+
 #define ALGORITHM                       2                   // Proposed Algorithm ¹øÈ£
 //#define PRINT_STATE
 

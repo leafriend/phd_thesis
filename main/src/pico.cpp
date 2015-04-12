@@ -10,6 +10,17 @@
 #include "mobile.h"
 #include "pico.h"
 
+int non_cmp(int ri, const Mobile* a, const Mobile* b) {
+	return (int) ((Mobile*) a)->lambda * a->get_non_pico_throughput(ri)
+		-  ((Mobile*) b)->lambda * b->get_non_pico_throughput(ri);
+}
+
+int abs_cmp(int ri, const Mobile* a, const Mobile* b) {
+	return (int) ((Mobile*) a)->lambda * a->get_abs_pico_throughput(ri)
+		-  ((Mobile*) b)->lambda * b->get_abs_pico_throughput(ri);
+}
+
+
 Pico::Pico(int idx, double x, double y, double tx_power)
 : idx(idx), x(x), y(y), tx_power(tx_power)
 {
@@ -31,9 +42,48 @@ bool Pico::is_abs() const {
 	return true;
 }
 
+void Pico::sort_mobiles(int ri, Pico_Mobile** items, int size, Pico_Mobile** sorted, int cmp(int, const Mobile*, const Mobile*)) {
+
+	if (size == 0)
+		return;
+
+	Pico_Mobile* former[NUM_PM];
+	int former_count = 0;
+	Pico_Mobile* latter[NUM_PM];
+	int latter_count = 0;
+
+	const Mobile* base = items[0]->get_mobile();
+
+	for (int i = 1; i < size; i++) {
+		const Mobile* mobile = items[i]->get_mobile();
+		if (cmp(ri, base, mobile) > 0) {
+			former[former_count++] = items[i];
+		} else {
+			latter[latter_count++] = items[i];
+		}
+	}
+
+	Pico_Mobile* sorted_former[NUM_PM];
+	sort_mobiles(ri, former, former_count, sorted_former, cmp);
+	Pico_Mobile* sorted_latter[NUM_PM];
+	sort_mobiles(ri, latter, latter_count, sorted_latter, cmp);
+
+	for (int i = 0; i < former_count; i++)
+		sorted[i] = sorted_former[i];
+	sorted[former_count] = items[0];
+	for (int i = 0; i < latter_count; i++)
+		sorted[former_count + 1 + i] = sorted_latter[i];
+
+}
+
 void Pico::sort_mobiles() {
 
 	FOREACH_RBS {
+		
+		sort_mobiles(ri, mobiles_to_service, num_mobiles_to_service,
+			non_sorted_mobiles[ri], non_cmp);
+		sort_mobiles(ri, mobiles_to_service, num_mobiles_to_service,
+			abs_sorted_mobiles[ri], abs_cmp);
 
 		first_mobile[ri] = NULL;
 		second_mobile[ri] = NULL;

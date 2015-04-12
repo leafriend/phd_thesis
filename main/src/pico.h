@@ -10,6 +10,10 @@ class Mobile;
 class Macro;
 class Pico_Mobile;
 
+int non_cmp(int ri, const Mobile* a, const Mobile* b);
+
+int abs_cmp(int ri, const Mobile* a, const Mobile* b);
+
 class Pico {
 
 	friend class Pico_Mobile;
@@ -54,6 +58,8 @@ public:
 	bool is_abs() const;
 
 	void sort_mobiles();
+
+	void sort_mobiles(int ri, Pico_Mobile** items, int size, Pico_Mobile** sorted, int cmp(int, const Mobile*, const Mobile*));
 
 	int get_num_mobiles_to_service() const;
 

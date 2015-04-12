@@ -67,4 +67,16 @@ public:
 
 	Pico_Mobile* get_abs_sorted_mobile(int ri, int mob) const;
 
+	////////////////////////////////////////////////////////////////////////////
+	// PA1                                                                    //
+
+	Mobile* get_first_mobile(int ri);
+	Mobile* get_second_mobile(int ri);
+
+	Mobile* get_abs_first_mobile(int ri);
+	Mobile* get_abs_second_mobile(int ri);
+
+	// PA1                                                                    //
+	////////////////////////////////////////////////////////////////////////////
+
 };

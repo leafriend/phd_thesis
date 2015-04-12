@@ -45,7 +45,6 @@ int main(int argc, char** argv) {
 	initialize(macros, picos, mobiles, macro_mobiles, pico_mobiles);
 
 	PRINT_TIME(t_elapsed, t_execute)
-	for (int i = 0; i < (LOG_INTERVAL_TIME / LOG_PROGRESS_TIME); i++) printf("_"); printf("\n");
 
 	for (int t = 1; t <= SIMULATION_TIME; t++) {
 
@@ -125,11 +124,6 @@ int main(int argc, char** argv) {
 				"Rate User  (log)\t"
 				"Throughput (log)\t"
 				"lmabda  \t"
-				"mu      \t");
-			printf(
-				"Rate User  (log)\t"
-				"Throughput (log)\t"
-				"lmabda  \t"
 				"mu      \n");
 			FOREACH_MOBILES {
 				Mobile* mobile = mobiles[mob];
@@ -138,14 +132,13 @@ int main(int argc, char** argv) {
 					"%10.6f (%10.6f)\t"
 					"%10.6f (%10.6f)\t"
 					"%f\t"
-					"%f%s",
+					"%f\n",
 					mobile->get_rate_user(),
 					log(mobile->get_rate_user()),
 					mobile->get_result_throughput() / t,
 					log(mobile->get_result_throughput() / t),
 					mobile->lambda,
-					mobile->mu,
-					(mob & 1 ? "\n" : "\t")
+					mobile->mu
 				);
 			}
 
@@ -174,7 +167,6 @@ int main(int argc, char** argv) {
 			//*/
 
 			PRINT_TIME(t_elapsed, t_execute)
-			for (int i = 0; i < (LOG_INTERVAL_TIME / LOG_PROGRESS_TIME); i++) printf("_"); printf("\n");
 
 		}
 

@@ -40,9 +40,10 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 			if (macros[mac]->get_state()) {
 				FOREACH_RBS {
 					Mobile* mobile = macros[mac]->get_first_mobile(ri);
-
-					curr_sum_lambda_r += mobile->lambda * mobile->get_macro_throughput(ri);
-					curr_mobile_states[ri][mobile->idx] = 1;
+					if (mobile != NULL) {
+						curr_sum_lambda_r += mobile->lambda * mobile->get_macro_throughput(ri);
+						curr_mobile_states[ri][mobile->idx] = 1;
+					}
 				}
 			}
 		}

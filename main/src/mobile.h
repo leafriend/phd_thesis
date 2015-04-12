@@ -48,9 +48,15 @@ private:
 
 	double macro_throughput[NUM_RB];
 
+	double macro_lambda_r[NUM_RB];
+
 	double non_pico_throughput[NUM_RB];
 
+	double non_pico_lambda_r[NUM_RB];
+
 	double abs_pico_throughput[NUM_RB];
+
+	double abs_pico_lambda_r[NUM_RB];
 
 	int states[NUM_RB];
 	double result_throughput;
@@ -88,9 +94,15 @@ public:
 
 	double get_macro_throughput(int ri) const;
 
+	double get_macro_lambda_r(int ri) const;
+
 	double get_non_pico_throughput(int ri) const;
 
+	double get_non_pico_lambda_r(int ri) const;
+
 	double get_abs_pico_throughput(int ri) const;
+
+	double get_abs_pico_lambda_r(int ri) const;
 
 	void set_state(int ri, int state);
 

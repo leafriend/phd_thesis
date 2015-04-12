@@ -50,13 +50,15 @@ void Mobile::generate_channel_gain()
 			sum_macro_channel_gain + sum_pico_channel_gain - macro->get_channel_gain(ri),
 			NOISE
 		) / MEGA;
+		macro_lambda_r[ri] = lambda * macro_throughput[ri];
 
 		if (pico == NULL) {
 			
 			non_pico_throughput[ri] = 0.0;
+			non_pico_lambda_r[ri] = 0.0;
 
-			// TODO
 			abs_pico_throughput[ri] = 0.0;
+			abs_pico_lambda_r[ri] = 0.0;
 
 		} else {
 			
@@ -66,6 +68,7 @@ void Mobile::generate_channel_gain()
 				sum_macro_channel_gain + sum_pico_channel_gain - pico->get_channel_gain(ri),
 				NOISE
 			) / MEGA;
+			non_pico_lambda_r[ri] = lambda * non_pico_throughput[ri];
 
 			// TODO
 			abs_pico_throughput[ri] = THOURGHPUT(
@@ -74,6 +77,7 @@ void Mobile::generate_channel_gain()
 				/*sum_macro_channel_gain +*/ sum_pico_channel_gain - pico->get_channel_gain(ri),
 				NOISE
 			) / MEGA;
+			abs_pico_lambda_r[ri] = lambda * abs_pico_throughput[ri];
 
 		}
 
@@ -145,12 +149,24 @@ double Mobile::get_macro_throughput(int ri) const {
 	return macro_throughput[ri];
 }
 
+double Mobile::get_macro_lambda_r(int ri) const {
+	return macro_lambda_r[ri];
+}
+
 double Mobile::get_non_pico_throughput(int ri) const {
 	return non_pico_throughput[ri];
 }
 
+double Mobile::get_non_pico_lambda_r(int ri) const {
+	return non_pico_lambda_r[ri];
+}
+
 double Mobile::get_abs_pico_throughput(int ri) const {
 	return abs_pico_throughput[ri];
+}
+
+double Mobile::get_abs_pico_lambda_r(int ri) const {
+	return abs_pico_lambda_r[ri];
 }
 
 Macro_Mobile* Mobile::get_macro() const {

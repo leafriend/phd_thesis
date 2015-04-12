@@ -54,9 +54,9 @@ void Macro::sort_mobiles() {
 
 				if (mobile == pico_first_mobile) {
 
-					double lambda_r = macro_lambda_r - mobile->lambda * mobile->get_abs_pico_throughput(ri);
+					double lambda_r = macro_lambda_r - mobile->lambda * mobile->get_non_pico_throughput(ri);
 					if (pico_second_mobile != NULL)
-						lambda_r += pico_second_mobile->lambda * pico_second_mobile->get_abs_pico_throughput(ri);
+						lambda_r += pico_second_mobile->lambda * pico_second_mobile->get_non_pico_throughput(ri);
 
 					if (lambda_r > first_lambda_r) {
 						first_mobile[ri] = mobile;

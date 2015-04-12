@@ -47,16 +47,23 @@ void Macro::sort_mobiles() {
 			} else {
 
 				Pico* pico = (Pico*) mobile->get_pico()->get_pico();
-
+				const int num_pico_mobiles_to_service = pico->get_num_mobiles_to_service();
+				
+				// 이 Pico는 모바일이 서비스 받을 Pico이므로 non_sorted_mobile 값은 항상 1 이상
 				const Mobile* pico_first_mobile = pico->get_non_sorted_mobile(ri, 0)->get_mobile();
 
-				const Mobile* pico_second_mobile = pico->get_non_sorted_mobile(ri, 1)->get_mobile();
-
 				if (mobile == pico_first_mobile) {
+					// Macro에서 할당하려는 Mobile이 Pico의 첫 번째인 경우
 
 					double lambda_r = macro_lambda_r - mobile->lambda * mobile->get_non_pico_throughput(ri);
-					if (pico_second_mobile != NULL)
+					if (num_pico_mobiles_to_service > 1) {
+						const Mobile* pico_second_mobile = pico->get_non_sorted_mobile(ri, 1)->get_mobile();
+
+						// Pico의 두 번째 Mobile이 있는 경우
+						// : Pico에서 빠진 첫 번째 Mobile의 lambda r 대신 두 번째 Mobile의 값을 추가
+						// : TODO 하지만 두 번째 Mobile이 현재 Macro가 아니라 다른 Macro라면?
 						lambda_r += pico_second_mobile->lambda * pico_second_mobile->get_non_pico_throughput(ri);
+					}
 
 					if (lambda_r > first_lambda_r) {
 						first_mobile[ri] = mobile;
@@ -64,6 +71,7 @@ void Macro::sort_mobiles() {
 					}
 
 				} else {
+					// Macro에서 할당하려는 Mobile이 Pico의 첫 번째가 아닌 경우
 
 					if (macro_lambda_r > first_lambda_r) {
 						first_mobile[ri] = mobile;

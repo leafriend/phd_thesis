@@ -74,7 +74,7 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 
 				}
 
-			}
+			} CLOSE
 
 		}
 

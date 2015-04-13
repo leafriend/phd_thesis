@@ -11,9 +11,11 @@
 
 void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 
+	Mobile* mobile_allocations[NUM_MACRO][NUM_RB];
+
 	FOREACH_MACROS_TS FOREACH_RBS {
 
-		macro->first_mobile[ri] = NULL;
+		mobile_allocations[mac][ri] = NULL;
 		double first_lambda_r = -std::numeric_limits<double>::infinity();
 
 		//printf("num_mobiles_to_service: %d\n", num_mobiles_to_service);
@@ -28,7 +30,7 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 			if (mobile->get_pico() == NULL) {
 
 				if (macro_lambda_r > first_lambda_r) {
-					macro->first_mobile[ri] = (Mobile*) mobile;
+					mobile_allocations[mac][ri] = (Mobile*) mobile;
 					first_lambda_r = macro_lambda_r;
 				}
 
@@ -54,7 +56,7 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 					}
 
 					if (lambda_r > first_lambda_r) {
-						macro->first_mobile[ri] = (Mobile*) mobile;
+						mobile_allocations[mac][ri] = (Mobile*) mobile;
 						first_lambda_r = lambda_r;
 					}
 
@@ -62,7 +64,7 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 					// Macro에서 할당하려는 Mobile이 Pico의 첫 번째가 아닌 경우
 
 					if (macro_lambda_r > first_lambda_r) {
-						macro->first_mobile[ri] = (Mobile*) mobile;
+						mobile_allocations[mac][ri] = (Mobile*) mobile;
 						first_lambda_r = macro_lambda_r;
 					}
 
@@ -108,7 +110,7 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 		FOREACH_MACROS {
 			if (macros[mac]->state == ON) {
 				FOREACH_RBS {
-					Mobile* mobile = macros[mac]->first_mobile[ri];
+					Mobile* mobile = mobile_allocations[mac][ri];
 					if (mobile != NULL) {
 						curr_sum_lambda_r += mobile->get_macro_lambda_r(ri);
 						curr_mobile_states[ri][mobile->idx] = 1;
@@ -133,7 +135,7 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 						Macro* first_macro = (Macro*) abs_first->get_macro()->macro;
 
 						if (first_macro->state == OFF
-							|| first_macro->first_mobile[ri] != abs_first
+							|| mobile_allocations[first_macro->idx][ri] != abs_first
 						) {
 							curr_sum_lambda_r += abs_first->get_abs_pico_lambda_r(ri);
 							curr_mobile_states[ri][abs_first->idx] = 2;
@@ -161,7 +163,7 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 						Macro* first_macro = (Macro*) first->get_macro()->macro;
 
 						if (first_macro->state == ON
-							&& first_macro->first_mobile[ri] == first
+							|| mobile_allocations[first_macro->idx][ri] != first
 						) {
 
 							const Mobile* second = pico->get_non_sorted_mobile(ri, 1)->mobile;

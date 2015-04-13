@@ -29,19 +29,11 @@ private:
 
 	Macro_Mobile* mobiles_interfered[NUM_PM];
 	int num_mobiles_interfered;
-
-	////////////////////////////////////////////////////////////////////////////
-	// PA1                                                                    //
-
-public:
-	Mobile* first_mobile[NUM_RB];
-
-	MacroState state;
-
+	
 	int allocation_count;
 
-	// PA1                                                                    //
-	////////////////////////////////////////////////////////////////////////////
+public:
+	MacroState state;
 
 	////////////////////////////////////////////////////////////////////////////
 	// PA3                                                                    //

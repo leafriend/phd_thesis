@@ -73,47 +73,6 @@ void pa2(Macro** macros, Pico** picos, Mobile** mobiles) {
 		macro->set_state(best_macro_states[mac]);
 	}
 
-	FOREACH_MACROS {
-		Macro* macro = macros[mac];
-		int NUM_MOBILE_TS = macro->get_num_mobiles_to_service();
-		Macro_Mobile** mobiles_to_service = macro->get_mobiles_to_service();
-		//printf("\n");
-		//printf("[%d] %d : ", mac, best_macro_states[mac]);
-
-		FOREACH_RBS {
-
-			FOREACH_MOBILES_TS {
-				Mobile* mobile = (Mobile*) mobiles_to_service[mob]->get_mobile();
-				if (best_macro_states[mac]) {
-					if (macro->get_first_mobile(ri) == mobile) {
-						mobile->set_state(ri, 1);
-					} else {
-						mobile->set_state(ri, 0);
-					}
-					//printf("[%d] 1 ", mobile->idx);
-				} else {
-					if (mobile->get_pico() == NULL) {
-						mobile->set_state(ri, 0);
-					} else {
-						const Pico* pico = mobile->get_pico()->get_pico();
-						if (pico->get_non_sorted_mobile(ri, 0)->get_mobile() == mobile) {
-							if (pico->is_abs()) {
-								mobile->set_state(ri, 2);
-							} else {
-								mobile->set_state(ri, 3);
-							}
-						} else {
-							mobile->set_state(ri, 0);
-						}
-					}
-				}
-			}
-
-		}
-
-	}
-	//printf("\n");
-	
 #ifdef PRINT_STATE
 	FOREACH_MOBILES printf("\b");
 	FOREACH_MACROS printf("\b"); printf("\b" "\b\b\b\b\b\b\b\b\b\b\b\b" "\b\b\b\b" "\b\b\b\b\b\b\b\b\b\b\b\b" "\b\b\b");
@@ -137,32 +96,32 @@ void pa2_find_best_mobile_state(Macro* macro, double* macro_best_sum_lambda_r) {
 		// 매크로가 켜져 있는 경우
 		// : 각 모바일이 매크로와 피코 연결 상태의 r값 중 최대 값을 찾음
 
-		bool* best_mobile_conn_macros = (bool*) malloc(sizeof(bool) * NUM_MOBILE_TS);
+		int* best_mobile_states = (int*) malloc(sizeof(int) * NUM_MOBILE_TS * NUM_RB);
 
 		// 가능한 모든 Mobile Cell Association 상태
 		long num_mobile_state = 1 << NUM_MOBILE_TS;
 		for (int S = 1; S < num_mobile_state; S++) {
 
-			// Mobile 연결 상태 지정
-			FOREACH_MOBILES_TS {
-				Mobile* mobile = (Mobile*) mmobiles[mob]->get_mobile();
-				mobile->conn_macro = 1 == ((1 << mob) & S) >> mob;
-			}
-
 			double curr_sum_lambda_r = 0.0;
+			int curr_allocated_mob[NUM_RB];
 			FOREACH_RBS {
 
-				double best_allocated_mobile = -std::numeric_limits<double>::infinity();
+				double best_allocated_lambda_r = -std::numeric_limits<double>::infinity();
 				FOREACH_MOBILES_TS {
 					Mobile* mobile = (Mobile*) mmobiles[mob]->get_mobile();
+					mobile->set_state(ri, 0);
 
-					if (mobile->conn_macro) {
+					// Mobile 연결 상태 지정
+					bool conn_macro = ((1 << mob) & S) >> mob;
+
+					if (conn_macro) {
 						// Macro에 연결한 경우
 
 						// 현재 모바일이 현재 리소스블록에 연갤했을 때 쓰루풋
 						double curr_lambda_r = mobile->get_macro_lambda_r(ri);
-						if (best_allocated_mobile < curr_lambda_r) {
-							best_allocated_mobile = curr_lambda_r;
+						if (best_allocated_lambda_r < curr_lambda_r) {
+							best_allocated_lambda_r = curr_lambda_r;
+							curr_allocated_mob[ri] = mob;
 						}
 
 					} else {
@@ -178,9 +137,11 @@ void pa2_find_best_mobile_state(Macro* macro, double* macro_best_sum_lambda_r) {
 								if (pico->is_abs()) {
 									// ABS인 경우
 									curr_sum_lambda_r += mobile->get_abs_pico_lambda_r(ri);
+									mobile->set_state(ri, 2);
 								} else {
 									// non-ABS인 경우
 									curr_sum_lambda_r += mobile->get_non_pico_lambda_r(ri);
+									mobile->set_state(ri, 3);
 								}
 							} else {
 								// 매크로가 버린 이용자가 피코에 첫번째 유저로 연결되지 않았으므로 버림
@@ -191,28 +152,49 @@ void pa2_find_best_mobile_state(Macro* macro, double* macro_best_sum_lambda_r) {
 					}
 
 				}
-				curr_sum_lambda_r += best_allocated_mobile;
+				curr_sum_lambda_r += best_allocated_lambda_r;
 
 			}
 
 			if (curr_sum_lambda_r > *macro_best_sum_lambda_r) {
-
 				*macro_best_sum_lambda_r = curr_sum_lambda_r;
-
-				FOREACH_MOBILES_TS
-					best_mobile_conn_macros[mob] = mmobiles[mob]->get_mobile()->conn_macro;
-
+				FOREACH_RBS {
+					FOREACH_MOBILES_TS {
+						if (mmobiles[mob]->mobile->idx == 48)
+							printf("");
+						switch (mmobiles[mob]->get_mobile()->get_state(ri))
+						{
+						case 0:
+						case 1:
+							if (curr_allocated_mob[ri] == mob) {
+								best_mobile_states[mob * NUM_RB + ri] = 1;
+							} else {
+								best_mobile_states[mob * NUM_RB + ri] = 0;
+							}
+							break;
+						case 2:
+							best_mobile_states[mob * NUM_RB + ri] = 2;
+							break;
+						case 3:
+							best_mobile_states[mob * NUM_RB + ri] = 3;
+							break;
+						default:
+							break;
+						}
+					}
+				}
 			}
 
 		}
 
-		// 모바일의 매크로 연결 여부를 최대 값으로 복구
 		FOREACH_MOBILES_TS {
-			Mobile* mobile = (Mobile*) mmobiles[mob]->get_mobile();
-			mobile->conn_macro = best_mobile_conn_macros[mob];
+			FOREACH_RBS {
+				int state = best_mobile_states[mob * NUM_RB + ri];
+				((Mobile*) mmobiles[mob]->get_mobile())->set_state(ri, state);
+			}
 		}
-		
-		free(best_mobile_conn_macros);
+
+		free(best_mobile_states);
 
 	} else {
 		// 매크로가 꺼져 있는 경우
@@ -227,25 +209,28 @@ void pa2_find_best_mobile_state(Macro* macro, double* macro_best_sum_lambda_r) {
 
 				if (mobile->get_pico() != NULL) {
 
-					if (mobile->get_pico()->get_pico()->is_abs()) {
-						// ABS인 경우
-						curr_sum_lambda_r += mobile->get_abs_pico_lambda_r(ri);
+					// Pico에 연결한 경우
+					const Pico* pico = mobile->get_pico()->get_pico();
+					if (pico->get_non_sorted_mobile(ri, 0)->get_mobile() == mobile) {
+						if (pico->is_abs()) {
+							// ABS인 경우
+							curr_sum_lambda_r += mobile->get_abs_pico_lambda_r(ri);
+							mobile->set_state(ri, 2);
 
-					} else {
-						// non-ABS인 경우
-						curr_sum_lambda_r += mobile->get_abs_pico_lambda_r(ri);
+						} else {
+							// non-ABS인 경우
+							curr_sum_lambda_r += mobile->get_abs_pico_lambda_r(ri);
+							mobile->set_state(ri, 3);
+						}
 					}
+
+				} else {
+					mobile->set_state(ri, 0);
 
 				}
 
 			}
 
-		}
-
-		// 모바일의 매크로 연결 여부를 거짓으로 지정 -- 매크로가 꺼져 있으므로
-		FOREACH_MOBILES_TS {
-			Mobile* mobile = (Mobile*) mmobiles[mob]->get_mobile();
-			mobile->conn_macro = false;
 		}
 
 		*macro_best_sum_lambda_r = curr_sum_lambda_r;

@@ -64,12 +64,9 @@ void pa2(Macro** macros, Pico** picos, Mobile** mobiles) {
 
 	}
 	
-	FOREACH_MACROS {
-		Macro* macro = macros[mac];
-		int NUM_MOBILE_TS = macro->get_num_mobiles_to_service();
-		Macro_Mobile** mobiles_to_service = macro->get_mobiles_to_service();
+	FOREACH_MACROS_
 		macro->set_state(best_macro_states[mac]);
-	}
+	END
 
 #ifdef PRINT_STATE
 	FOREACH_MOBILES printf("\b");
@@ -110,9 +107,7 @@ void pa2_find_best_mobile_state(Macro* macro, double* macro_best_sum_lambda_r) {
 					mobile->set_state(ri, 0);
 
 					// Mobile 연결 상태 지정
-					bool conn_macro = ((1 << mob) & S) >> mob;
-
-					if (conn_macro) {
+					if (1 == ((1 << mob) & S) >> mob) {
 						// Macro에 연결한 경우
 
 						// 현재 모바일이 현재 리소스블록에 연갤했을 때 쓰루풋

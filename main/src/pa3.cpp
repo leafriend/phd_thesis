@@ -41,4 +41,8 @@ void pa3(Macro** macros, Pico** picos, Mobile** mobiles) {
 
 	}
 
+	// 서브 채널 별 throughput 계산
+
+	// Macro/Pico lambda_r
+
 }

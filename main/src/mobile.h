@@ -49,20 +49,17 @@ private:
 	Pico_Mobile* picos_interfered[NUM_PICO];
 	int num_picos_interfered;
 
-	////////////////////////////////////////////////////////////////////////////
-	// PA1                                                                    //
-
 	double macro_throughput[NUM_RB];
-
 	double macro_lambda_r[NUM_RB];
 
 	double non_pico_throughput[NUM_RB];
-
 	double non_pico_lambda_r[NUM_RB];
 
 	double abs_pico_throughput[NUM_RB];
-
 	double abs_pico_lambda_r[NUM_RB];
+
+	////////////////////////////////////////////////////////////////////////////
+	// PA1                                                                    //
 
 	// 0: 연결 안됨
 	// 1: Macro에 연결
@@ -84,9 +81,6 @@ public:
 
 	void locate_on_macro(Macro* marco);
 
-	////////////////////////////////////////////////////////////////////////////
-	// PA1                                                                    //
-
 	void generate_channel_gain();
 
 	void calculate_throughput();
@@ -106,6 +100,9 @@ public:
 	double get_abs_pico_throughput(int ri) const;
 
 	double get_abs_pico_lambda_r(int ri) const;
+
+	////////////////////////////////////////////////////////////////////////////
+	// PA1                                                                    //
 
 	void set_state(int ri, int state);
 

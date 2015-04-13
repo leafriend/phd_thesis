@@ -32,16 +32,8 @@ Macro_Mobile** Macro::get_mobiles_to_service() {
 	return mobiles_to_service;
 }
 
-void Macro::set_state(bool state) {
-	this->state = state;
-}
-
-bool Macro::get_state() const {
-	return state;
-}
-
 void Macro::count_allocation() {
-	if (state)
+	if (state == ON)
 		allocation_count++;
 }
 

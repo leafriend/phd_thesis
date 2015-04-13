@@ -21,8 +21,6 @@
 #define DATA_FILE_PREFIX                "res\\"
 
 #define MEGA                            1048576
-#define ON                              1
-#define OFF                             0
 
 #define BW                              20000000            // 전체 Bandwidth, Hz 단위
 #define BW_PER_RB                         180000            // 할당하는 단위 자원의 Bandwidth, Hz 단위, noise 계산시 사용

@@ -11,10 +11,10 @@
 void pa2(Macro** macros, Pico** picos, Mobile** mobiles) {
 
 	double best_sum_lambda_r = -std::numeric_limits<double>::infinity();
-	bool best_macro_states[NUM_MACRO];
+	MacroState best_macro_states[NUM_MACRO];
 
 	FOREACH_MACROS
-		macros[mac]->set_state(false);
+		macros[mac]->state = OFF;
 
 #ifdef PRINT_STATE
 	printf("\n");
@@ -28,7 +28,10 @@ void pa2(Macro** macros, Pico** picos, Mobile** mobiles) {
 
 		// Macro 상태(ON/OFF) 지정
 		FOREACH_MACROS
-			macros[mac]->set_state(1 == ((1 << mac) & s) >> mac);
+			macros[mac]->state
+			= ((1 << mac) & s) >> mac
+			? ON
+			: OFF;
 
 		double curr_sum_lambda_r = 0.0;
 
@@ -45,7 +48,7 @@ void pa2(Macro** macros, Pico** picos, Mobile** mobiles) {
 
 			Macro_Mobile** mmobiles = macro->get_mobiles_to_service();
 
-			if (macro->get_state()) {
+			if (macro->state == ON) {
 				// 매크로가 켜져 있는 경우
 				// : 각 모바일이 매크로와 피코 연결 상태의 r값 중 최대 값을 찾음
 
@@ -200,7 +203,7 @@ void pa2(Macro** macros, Pico** picos, Mobile** mobiles) {
 			best_sum_lambda_r = curr_sum_lambda_r;
 
 			FOREACH_MACROS
-				best_macro_states[mac] = macros[mac]->get_state();
+				best_macro_states[mac] = macros[mac]->state;
 
 		}
 
@@ -215,7 +218,7 @@ void pa2(Macro** macros, Pico** picos, Mobile** mobiles) {
 	}
 
 	FOREACH_MACROS
-		macros[mac]->set_state(best_macro_states[mac]);
+		macros[mac]->state = best_macro_states[mac];
 
 #ifdef PRINT_STATE
 	FOREACH_MOBILES printf("\b");

@@ -41,7 +41,7 @@ void pa3(Macro** macros, Pico** picos, Mobile** mobiles) {
 	bool best_macro_states[NUM_MACRO];
 
 	FOREACH_MACROS
-		macros[mac]->set_state(false);
+		macros[mac]->state = OFF;
 
 	// 가능한 모든 Macro 상태(2 ^ NUM_MACRO = 1 << NUM_MACRO)에 대한 반복문
 	int num_macro_state = 1 << NUM_MACRO;
@@ -49,7 +49,10 @@ void pa3(Macro** macros, Pico** picos, Mobile** mobiles) {
 
 		// Macro 상태(ON/OFF) 지정
 		FOREACH_MACROS
-			macros[mac]->set_state(1 == ((1 << mac) & s) >> mac);
+			macros[mac]->state
+				= ((1 << mac) & s) >> mac
+				? ON
+				: OFF;
 
 		FOREACH_MACROS_TS {
 
@@ -61,7 +64,7 @@ void pa3(Macro** macros, Pico** picos, Mobile** mobiles) {
 
 					const Mobile* mobile = mmobiles[mob]->mobile;
 
-					if (mobile->get_macro()->macro->get_state() == ON) {
+					if (mobile->get_macro()->macro->state == ON) {
 						// Mobile의 Macro가 켜졌다면
 						// 위에서 정한 Cell Association에 따라 lambda_r 가산
 						// 각 서브 채널별 할당 대상 결정

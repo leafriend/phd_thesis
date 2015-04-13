@@ -7,6 +7,11 @@
 //class Mobile;
 //class Macro_Mobile;
 
+enum MacroState {
+	OFF,
+	ON,
+};
+
 class Macro {
 
 	friend class Macro_Mobile;
@@ -30,9 +35,8 @@ private:
 
 public:
 	Mobile* first_mobile[NUM_RB];
-private:
 
-	bool state;
+	MacroState state;
 
 	int allocation_count;
 
@@ -54,9 +58,6 @@ public:
 
 	int get_num_mobiles_to_service() const;
 	Macro_Mobile** get_mobiles_to_service();
-
-	void set_state(bool state);
-	bool get_state() const;
 
 	void count_allocation();
 

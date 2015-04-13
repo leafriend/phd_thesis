@@ -75,14 +75,14 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 	} END
 
 	double best_sum_lambda_r = -std::numeric_limits<double>::infinity();
-	bool best_macro_states[NUM_MACRO];
+	MacroState best_macro_states[NUM_MACRO];
 
 	FOREACH_MOBILES
 		FOREACH_RBS
 			mobiles[mob]->set_state(ri, 0);
 
 	FOREACH_MACROS
-		macros[mac]->set_state(false);
+		macros[mac]->state = OFF;
 
 	// 가능한 모든 Macro 상태(2 ^ NUM_MACRO = 1 << NUM_MACRO)에 대한 반복문
 	int num_macro_state = 1 << NUM_MACRO;
@@ -90,7 +90,10 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 
 		// Macro 상태(ON/OFF) 지정
 		FOREACH_MACROS
-			macros[mac]->set_state(1 == ((1 << mac) & s) >> mac);
+			macros[mac]->state
+				= ((1 << mac) & s) >> mac
+				? ON
+				: OFF;
 
 		double curr_sum_lambda_r = 0.0;
 
@@ -103,7 +106,7 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 				curr_mobile_states[ri][mob] = 0;
 
 		FOREACH_MACROS {
-			if (macros[mac]->get_state()) {
+			if (macros[mac]->state == ON) {
 				FOREACH_RBS {
 					Mobile* mobile = macros[mac]->first_mobile[ri];
 					if (mobile != NULL) {
@@ -129,7 +132,7 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 
 						Macro* first_macro = (Macro*) abs_first->get_macro()->macro;
 
-						if (first_macro->get_state() == OFF
+						if (first_macro->state == OFF
 							|| first_macro->first_mobile[ri] != abs_first
 						) {
 							curr_sum_lambda_r += abs_first->get_abs_pico_lambda_r(ri);
@@ -157,7 +160,7 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 
 						Macro* first_macro = (Macro*) first->get_macro()->macro;
 
-						if (first_macro->get_state() == ON
+						if (first_macro->state == ON
 							&& first_macro->first_mobile[ri] == first
 						) {
 
@@ -196,7 +199,7 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 			best_sum_lambda_r = curr_sum_lambda_r;
 
 			FOREACH_MACROS
-				best_macro_states[mac] = macros[mac]->get_state();
+				best_macro_states[mac] = macros[mac]->state;
 
 			FOREACH_RBS
 				FOREACH_MOBILES
@@ -208,7 +211,7 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 	}
 
 	FOREACH_MACROS
-		macros[mac]->set_state(best_macro_states[mac]);
+		macros[mac]->state = best_macro_states[mac];
 
 	//gettimeofday(&stop, NULL);
 	//subtract_timeval(&ellapse, &stop, &start);

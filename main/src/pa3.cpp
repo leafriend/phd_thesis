@@ -54,7 +54,7 @@ void pa3(Macro** macros, Pico** picos, Mobile** mobiles) {
 				? ON
 				: OFF;
 
-		FOREACH_MACROS_TS {
+		FOREACH_MACROS_TS_OPEN {
 
 			int* mobile_states = (int*) malloc(sizeof(int) * NUM_MOBILE_TS * NUM_RB);
 
@@ -88,9 +88,9 @@ void pa3(Macro** macros, Pico** picos, Mobile** mobiles) {
 
 			free(mobile_states);
 
-		}
+		} CLOSE
 
-	} END
+	}
 
 	// 서브 채널 별 throughput 계산
 

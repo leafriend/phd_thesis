@@ -31,7 +31,7 @@ void pa2(Macro** macros, Pico** picos, Mobile** mobiles) {
 
 		//printf("SATAE   "); for (int mac = NUM_MACRO; mac --> 0;) printf("%d", macros[mac]->get_state()); printf("\n");
 
-		FOREACH_MACROS_ {
+		FOREACH_MACROS_OPEN {
 
 			double macro_best_sum_lambda_r = -std::numeric_limits<double>::infinity();
 
@@ -135,11 +135,10 @@ void pa2(Macro** macros, Pico** picos, Mobile** mobiles) {
 
 				}
 
-				FOREACH_MOBILES_TS_ {
-					FOREACH_RBS {
+				FOREACH_MOBILES_TS_OPEN
+					FOREACH_RBS
 						((Mobile*) mobile)->conns[ri] = best_mobile_states[mob * NUM_RB + ri];
-					}
-				} END
+				CLOSE
 
 				free(best_mobile_states);
 
@@ -186,7 +185,7 @@ void pa2(Macro** macros, Pico** picos, Mobile** mobiles) {
 
 			curr_sum_lambda_r += macro_best_sum_lambda_r;
 
-		} END
+		} CLOSE
 
 		if (curr_sum_lambda_r > best_sum_lambda_r) {
 

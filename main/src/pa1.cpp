@@ -13,68 +13,72 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 
 	Mobile* mobile_allocations[NUM_MACRO][NUM_RB];
 
-	FOREACH_MACROS_TS FOREACH_RBS {
+	FOREACH_MACROS_TS_OPEN {
 
-		mobile_allocations[mac][ri] = NULL;
-		double first_lambda_r = -std::numeric_limits<double>::infinity();
+		FOREACH_RBS {
 
-		//printf("num_mobiles_to_service: %d\n", num_mobiles_to_service);
-		FOREACH_MOBILES_TS_ {
+			mobile_allocations[mac][ri] = NULL;
+			double first_lambda_r = -std::numeric_limits<double>::infinity();
 
-			const double macro_lambda_r = mobile->get_macro_lambda_r(ri);
+			//printf("num_mobiles_to_service: %d\n", num_mobiles_to_service);
+			FOREACH_MOBILES_TS_OPEN {
 
-			//printf("lambda: %lf\n", mobile->lambda);
-			//printf("mobile->get_get_macro_throughput(): %lf\n", mobile->get_macro_throughput());
-			//printf("macro_lambda_r: %lf\n", macro_lambda_r);
+				const double macro_lambda_r = mobile->get_macro_lambda_r(ri);
 
-			if (mobile->get_pico() == NULL) {
+				//printf("lambda: %lf\n", mobile->lambda);
+				//printf("mobile->get_get_macro_throughput(): %lf\n", mobile->get_macro_throughput());
+				//printf("macro_lambda_r: %lf\n", macro_lambda_r);
 
-				if (macro_lambda_r > first_lambda_r) {
-					mobile_allocations[mac][ri] = (Mobile*) mobile;
-					first_lambda_r = macro_lambda_r;
-				}
-
-			} else {
-
-				Pico* pico = (Pico*) mobile->get_pico()->pico;
-				const int num_pico_mobiles_to_service = pico->get_num_mobiles_to_service();
-				
-				// 이 Pico는 모바일이 서비스 받을 Pico이므로 non_sorted_mobile 값은 항상 1 이상
-				const Mobile* pico_first_mobile = pico->get_non_sorted_mobile(ri, 0)->mobile;
-
-				if (mobile == pico_first_mobile) {
-					// Macro에서 할당하려는 Mobile이 Pico의 첫 번째인 경우
-
-					double lambda_r = macro_lambda_r - mobile->get_non_pico_lambda_r(ri);
-					if (num_pico_mobiles_to_service > 1) {
-						const Mobile* pico_second_mobile = pico->get_non_sorted_mobile(ri, 1)->mobile;
-
-						// Pico의 두 번째 Mobile이 있는 경우
-						// : Pico에서 빠진 첫 번째 Mobile의 lambda r 대신 두 번째 Mobile의 값을 추가
-						// : TODO 하지만 두 번째 Mobile이 현재 Macro가 아니라 다른 Macro라면?
-						lambda_r += pico_second_mobile->get_non_pico_lambda_r(ri);
-					}
-
-					if (lambda_r > first_lambda_r) {
-						mobile_allocations[mac][ri] = (Mobile*) mobile;
-						first_lambda_r = lambda_r;
-					}
-
-				} else {
-					// Macro에서 할당하려는 Mobile이 Pico의 첫 번째가 아닌 경우
+				if (mobile->get_pico() == NULL) {
 
 					if (macro_lambda_r > first_lambda_r) {
 						mobile_allocations[mac][ri] = (Mobile*) mobile;
 						first_lambda_r = macro_lambda_r;
 					}
 
+				} else {
+
+					Pico* pico = (Pico*) mobile->get_pico()->pico;
+					const int num_pico_mobiles_to_service = pico->get_num_mobiles_to_service();
+					
+					// 이 Pico는 모바일이 서비스 받을 Pico이므로 non_sorted_mobile 값은 항상 1 이상
+					const Mobile* pico_first_mobile = pico->get_non_sorted_mobile(ri, 0)->mobile;
+
+					if (mobile == pico_first_mobile) {
+						// Macro에서 할당하려는 Mobile이 Pico의 첫 번째인 경우
+
+						double lambda_r = macro_lambda_r - mobile->get_non_pico_lambda_r(ri);
+						if (num_pico_mobiles_to_service > 1) {
+							const Mobile* pico_second_mobile = pico->get_non_sorted_mobile(ri, 1)->mobile;
+
+							// Pico의 두 번째 Mobile이 있는 경우
+							// : Pico에서 빠진 첫 번째 Mobile의 lambda r 대신 두 번째 Mobile의 값을 추가
+							// : TODO 하지만 두 번째 Mobile이 현재 Macro가 아니라 다른 Macro라면?
+							lambda_r += pico_second_mobile->get_non_pico_lambda_r(ri);
+						}
+
+						if (lambda_r > first_lambda_r) {
+							mobile_allocations[mac][ri] = (Mobile*) mobile;
+							first_lambda_r = lambda_r;
+						}
+
+					} else {
+						// Macro에서 할당하려는 Mobile이 Pico의 첫 번째가 아닌 경우
+
+						if (macro_lambda_r > first_lambda_r) {
+							mobile_allocations[mac][ri] = (Mobile*) mobile;
+							first_lambda_r = macro_lambda_r;
+						}
+
+					}
+
 				}
 
 			}
 
-		} END
+		}
 
-	} END
+	} CLOSE
 
 	double best_sum_lambda_r = -std::numeric_limits<double>::infinity();
 	MacroState best_macro_states[NUM_MACRO];

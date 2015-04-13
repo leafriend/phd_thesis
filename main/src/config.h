@@ -5,7 +5,6 @@
 #define M_PI 3.141592
 
 #define ALGORITHM                       3                   // Proposed Algorithm ¹øÈ£
-//#define PRINT_STATE
 
 #if ALGORITHM == 1
 #define LOG_INTERVAL_TIME               1000

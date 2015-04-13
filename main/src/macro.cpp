@@ -20,6 +20,8 @@ Macro::Macro(int idx, double x, double y, double tx_power)
 	num_mobiles_to_service = 0;
 	num_mobiles_interfered = 0;
 	allocation_count = 0;
+
+	pa3_lambda_r = 1.0;
 }
 
 void Macro::sort_mobiles() {

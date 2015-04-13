@@ -37,6 +37,14 @@ private:
 	Pico_Mobile* mobiles_interfered[NUM_PM];
 	int num_mobiles_interfered;
 
+	////////////////////////////////////////////////////////////////////////////
+	// PA3                                                                    //
+
+	double pa1_lambda_r;
+
+	// PA3                                                                    //
+	////////////////////////////////////////////////////////////////////////////
+
 public:
 
 	Pico(int idx, double x, double y, double tx_power);

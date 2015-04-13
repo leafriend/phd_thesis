@@ -41,6 +41,8 @@ Pico::Pico(int idx, double x, double y, double tx_power)
 	num_mobiles_to_service = 0;
 	num_mobiles_interfered = 0;
 	num_macros_interfering = 0;
+
+	pa1_lambda_r = 1.0;
 }
 
 void Pico::check_interfering(Macro* macro) {

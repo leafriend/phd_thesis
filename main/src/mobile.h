@@ -18,13 +18,21 @@ class Pico_Mobile;
 
 using namespace std;
 
+enum MobileConnection {
+	NOTHING,    // 연결 안됨
+	MACRO,      // Macro에 연결
+	ABS_PICO,   // Pico에 ABS로 연결
+	NON_PICO_1, // Pico에 non-ABS 첫 번째로 연결
+	NON_PICO_2, // Pico에 non-ABS 두 번째로 연결
+};
+
 class Mobile {
 
 	friend class Macro_Mobile;
 	friend class Pico_Mobile;
 
 public:
-	
+
 	const int idx;
 	const double x;
 	const double y;
@@ -58,16 +66,13 @@ private:
 	double abs_pico_throughput[NUM_RB];
 	double abs_pico_lambda_r[NUM_RB];
 
-	// 0: 연결 안됨
-	// 1: Macro에 연결
-	// 2: Pico에 ABS로 연결
-	// 3: Pico에 non-ABS 첫 번째로 연결
-	// 4: Pico에 non-ABS 두 번째로 연결
-	int states[NUM_RB];
 	double result_throughput;
 	double rate_user;
 
 	double instant_rate;
+
+public:
+	MobileConnection conns[NUM_RB];
 
 public:
 
@@ -95,19 +100,9 @@ public:
 
 	double get_abs_pico_lambda_r(int ri) const;
 
-	////////////////////////////////////////////////////////////////////////////
-	// PA1                                                                    //
-
-	void set_state(int ri, int state);
-
-	int get_state(int ri) const;
-
 	double get_rate_user();
 
 	double get_result_throughput();
-
-	// PA1                                                                    //
-	////////////////////////////////////////////////////////////////////////////
 
 	Macro_Mobile* get_macro() const;
 	Pico_Mobile* get_pico() const;

@@ -81,7 +81,7 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 
 	FOREACH_MOBILES
 		FOREACH_RBS
-			mobiles[mob]->set_state(ri, 0);
+			mobiles[mob]->conns[ri] = NOTHING;
 
 	FOREACH_MACROS
 		macros[mac]->state = OFF;
@@ -102,10 +102,10 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 		//printf("SATAE   "); for (int mac = NUM_MACRO; mac --> 0;) printf("%d", macros[mac]->get_state()); printf("\n");
 
 		// 이용자 (연결) 상태 초기화
-		int curr_mobile_states[NUM_RB][NUM_MOBILE];
+		MobileConnection curr_mobile_states[NUM_RB][NUM_MOBILE];
 		FOREACH_RBS
 			FOREACH_MOBILES
-				curr_mobile_states[ri][mob] = 0;
+				curr_mobile_states[ri][mob] = NOTHING;
 
 		FOREACH_MACROS {
 			if (macros[mac]->state == ON) {
@@ -113,7 +113,7 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 					Mobile* mobile = mobile_allocations[mac][ri];
 					if (mobile != NULL) {
 						curr_sum_lambda_r += mobile->get_macro_lambda_r(ri);
-						curr_mobile_states[ri][mobile->idx] = 1;
+						curr_mobile_states[ri][mobile->idx] = MACRO;
 					}
 				}
 			}
@@ -138,12 +138,12 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 							|| mobile_allocations[first_macro->idx][ri] != abs_first
 						) {
 							curr_sum_lambda_r += abs_first->get_abs_pico_lambda_r(ri);
-							curr_mobile_states[ri][abs_first->idx] = 2;
+							curr_mobile_states[ri][abs_first->idx] = ABS_PICO;
 							//printf("ABS - %2d = 2\n", abs_first->idx);
 
 						} else if (abs_second != NULL) {
 							curr_sum_lambda_r += abs_second->get_abs_pico_lambda_r(ri);
-							curr_mobile_states[ri][abs_second->idx] = 2;
+							curr_mobile_states[ri][abs_second->idx] = ABS_PICO;
 							//printf("ABS - %2d = 2\n", abs_second->idx);
 
 						}
@@ -169,7 +169,7 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 							const Mobile* second = pico->get_non_sorted_mobile(ri, 1)->mobile;
 							if (second != NULL && curr_mobile_states[ri][second->idx] != 1) {
 								curr_sum_lambda_r += second->get_abs_pico_lambda_r(ri);
-								curr_mobile_states[ri][second->idx] = 4;
+								curr_mobile_states[ri][second->idx] = NON_PICO_2;
 								//printf("non - %2d = 4\n", second->idx);
 							} else {
 								//printf("non\n");
@@ -178,7 +178,7 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 						} else {
 
 							curr_sum_lambda_r += first->get_abs_pico_lambda_r(ri);
-							curr_mobile_states[ri][first->idx] = 3;
+							curr_mobile_states[ri][first->idx] = NON_PICO_1;
 
 						}
 
@@ -205,7 +205,7 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 
 			FOREACH_RBS
 				FOREACH_MOBILES
-					mobiles[mob]->set_state(ri, curr_mobile_states[ri][mob]);
+					mobiles[mob]->conns[ri] = curr_mobile_states[ri][mob];
 
 
 		}

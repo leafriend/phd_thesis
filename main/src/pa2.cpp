@@ -52,7 +52,8 @@ void pa2(Macro** macros, Pico** picos, Mobile** mobiles) {
 				// 매크로가 켜져 있는 경우
 				// : 각 모바일이 매크로와 피코 연결 상태의 r값 중 최대 값을 찾음
 
-				int* best_mobile_states = (int*) malloc(sizeof(int) * NUM_MOBILE_TS * NUM_RB);
+				MobileConnection* best_mobile_states
+					= (MobileConnection*) malloc(sizeof(MobileConnection) * NUM_MOBILE_TS * NUM_RB);
 
 				// 가능한 모든 Mobile Cell Association 상태
 				long num_mobile_state = 1 << NUM_MOBILE_TS;
@@ -65,7 +66,7 @@ void pa2(Macro** macros, Pico** picos, Mobile** mobiles) {
 						double best_allocated_lambda_r = -std::numeric_limits<double>::infinity();
 						FOREACH_MOBILES_TS {
 							Mobile* mobile = (Mobile*) mmobiles[mob]->mobile;
-							mobile->set_state(ri, 0);
+							mobile->conns[ri] = NOTHING;
 
 							// Mobile 연결 상태 지정
 							if (1 == ((1 << mob) & S) >> mob) {
@@ -91,11 +92,11 @@ void pa2(Macro** macros, Pico** picos, Mobile** mobiles) {
 										if (pico->is_abs()) {
 											// ABS인 경우
 											curr_sum_lambda_r += mobile->get_abs_pico_lambda_r(ri);
-											mobile->set_state(ri, 2);
+											mobile->conns[ri] = ABS_PICO;
 										} else {
 											// non-ABS인 경우
 											curr_sum_lambda_r += mobile->get_non_pico_lambda_r(ri);
-											mobile->set_state(ri, 3);
+											mobile->conns[ri] = NON_PICO_1;
 										}
 									} else {
 										// 매크로가 버린 이용자가 피코에 첫번째 유저로 연결되지 않았으므로 버림
@@ -114,25 +115,24 @@ void pa2(Macro** macros, Pico** picos, Mobile** mobiles) {
 						macro_best_sum_lambda_r = curr_sum_lambda_r;
 						FOREACH_RBS {
 							FOREACH_MOBILES_TS {
-								if (mmobiles[mob]->mobile->idx == 48)
-									printf("");
-								switch (mmobiles[mob]->mobile->get_state(ri))
+								MobileConnection conn = mmobiles[mob]->mobile->conns[ri];
+								switch (conn)
 								{
-								case 0:
-								case 1:
+								case NOTHING:
+								case MACRO:
 									if (curr_allocated_mob[ri] == mob) {
-										best_mobile_states[mob * NUM_RB + ri] = 1;
+										best_mobile_states[mob * NUM_RB + ri] = MACRO;
 									} else {
-										best_mobile_states[mob * NUM_RB + ri] = 0;
+										best_mobile_states[mob * NUM_RB + ri] = NOTHING;
 									}
 									break;
-								case 2:
-									best_mobile_states[mob * NUM_RB + ri] = 2;
-									break;
-								case 3:
-									best_mobile_states[mob * NUM_RB + ri] = 3;
+								case ABS_PICO:
+								case NON_PICO_1:
+								case NON_PICO_2:
+									best_mobile_states[mob * NUM_RB + ri] = conn;
 									break;
 								default:
+									fprintf(stderr, "ERROR: Unexpected MobileConnection - %d\n", conn);
 									break;
 								}
 							}
@@ -141,12 +141,11 @@ void pa2(Macro** macros, Pico** picos, Mobile** mobiles) {
 
 				}
 
-				FOREACH_MOBILES_TS {
+				FOREACH_MOBILES_TS_ {
 					FOREACH_RBS {
-						int state = best_mobile_states[mob * NUM_RB + ri];
-						((Mobile*) mmobiles[mob]->mobile)->set_state(ri, state);
+						((Mobile*) mobile)->conns[ri] = best_mobile_states[mob * NUM_RB + ri];
 					}
-				}
+				} END
 
 				free(best_mobile_states);
 
@@ -169,17 +168,17 @@ void pa2(Macro** macros, Pico** picos, Mobile** mobiles) {
 								if (pico->is_abs()) {
 									// ABS인 경우
 									curr_sum_lambda_r += mobile->get_abs_pico_lambda_r(ri);
-									mobile->set_state(ri, 2);
+									mobile->conns[ri] = ABS_PICO;
 
 								} else {
 									// non-ABS인 경우
 									curr_sum_lambda_r += mobile->get_abs_pico_lambda_r(ri);
-									mobile->set_state(ri, 3);
+									mobile->conns[ri] = NON_PICO_1;
 								}
 							}
 
 						} else {
-							mobile->set_state(ri, 0);
+							mobile->conns[ri] = NOTHING;
 
 						}
 

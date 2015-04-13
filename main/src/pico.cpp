@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <float.h>
 
+#include <limits>
+
 #include "func.h"
 
 #include "pico_mobile.h"
@@ -102,19 +104,33 @@ void Pico::sort_mobiles() {
 			abs_sorted_mobiles[ri], abs_cmp);
 
 		/*
+		printf("%d:\n", num_mobiles_to_service);
+		double non_max = std::numeric_limits<double>::infinity();
+		double abs_max = std::numeric_limits<double>::infinity();
 		for (int mob = 0; mob < num_mobiles_to_service; mob++) {
 
-			const Mobile* mobile = mobiles_to_service[mob]->get_mobile();
+			const Mobile* mobile = mobiles_to_service[mob]->mobile;
 			printf("%2d:%f/%f\t", mobile->idx,
 				mobile->get_non_pico_lambda_r(ri),
 				mobile->get_abs_pico_lambda_r(ri)
 			);
 
-			const Mobile* non_mobile = non_sorted_mobiles[ri][mob]->get_mobile();
-			printf("%2d:%f\t", non_mobile->idx, non_mobile->get_non_pico_lambda_r(ri));
+			const Mobile* non_mobile = non_sorted_mobiles[ri][mob]->mobile;
+			double non = non_mobile->get_non_pico_lambda_r(ri);
+			printf("%2d:%f\t", non_mobile->idx, non);
+			if (non_max > non)
+				non_max = non;
+			else
+				exit(-1);
+			
+			const Mobile* abs_mobile = abs_sorted_mobiles[ri][mob]->mobile;
+			double abs = abs_mobile->get_abs_pico_lambda_r(ri);
+			printf("%2d:%f\n", abs_mobile->idx, abs);
+			if (abs_max > abs)
+				abs_max = abs;
+			else
+				exit(-1);
 
-			const Mobile* abs_mobile = abs_sorted_mobiles[ri][mob]->get_mobile();
-			printf("%2d:%f\n", abs_mobile->idx, abs_mobile->get_abs_pico_lambda_r(ri));
 		}
 		//*/
 

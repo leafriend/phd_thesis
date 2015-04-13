@@ -42,8 +42,6 @@ void Mobile::generate_channel_gain()
 
 		// /////////////////////////////////
 
-		// TODO NULL
-
 		macro_throughput[ri] = THOURGHPUT(
 			BW_PER_RB,
 			macro->get_channel_gain(ri),
@@ -70,7 +68,6 @@ void Mobile::generate_channel_gain()
 			) / MEGA;
 			non_pico_lambda_r[ri] = lambda * non_pico_throughput[ri];
 
-			// TODO
 			abs_pico_throughput[ri] = THOURGHPUT(
 				BW_PER_RB,
 				pico->get_channel_gain(ri),

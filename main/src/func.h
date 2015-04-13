@@ -21,8 +21,6 @@ typedef struct timeval TIME;
 #endif
 int subtract_timeval(TIME* result, TIME* x, TIME* y);
 
-#define FOREACH_MOBILES_TS for (int mob = 0; mob < NUM_MOBILE_TS; mob++)
-
 double uniform(void);
 double gaussian(double mu, double sigma);
 
@@ -54,6 +52,9 @@ double gaussian(double mu, double sigma);
 #define END }
 #define FOREACH_PICOS for (int pic = 0; pic < NUM_PICO; pic++)
 #define FOREACH_MOBILES for (int mob = 0; mob < NUM_MOBILE; mob++)
+#define FOREACH_MOBILES_TS for (int mob = 0; mob < NUM_MOBILE_TS; mob++)
+#define FOREACH_MOBILES_TS_ for (int mob = 0; mob < NUM_MOBILE_TS; mob++) { \
+	const Mobile* mobile = mmobiles[mob]->mobile;
 
 #define FOREACH_RBS for (int ri = 0; ri < NUM_RB; ri++)
 

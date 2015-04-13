@@ -6,12 +6,14 @@ class Pico;
 class Mobile;
 
 class Pico_Mobile {
-
-private:
+	
+public:
 
 	const Pico* pico;
 	const Mobile* mobile;
 	const double distance;
+
+private:
 
 	// Time Context
 
@@ -26,9 +28,5 @@ public:
 
 	void generate_channel_gain();
 	double get_channel_gain(int ri);
-
-	const Pico* get_pico() const;
-	const Mobile* get_mobile() const;
-	double get_distance() const;
 
 };

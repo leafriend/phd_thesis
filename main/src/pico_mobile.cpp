@@ -43,15 +43,3 @@ void Pico_Mobile::generate_channel_gain() {
 double Pico_Mobile::get_channel_gain(int ri) {
 	return channel_gain[ri];
 }
-
-const Pico* Pico_Mobile::get_pico() const {
-	return pico;
-}
-
-const Mobile* Pico_Mobile::get_mobile() const {
-	return mobile;
-}
-
-double Pico_Mobile::get_distance() const {
-	return distance;
-}

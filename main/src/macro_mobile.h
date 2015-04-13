@@ -9,13 +9,14 @@ class Mobile;
 class Macro_Mobile {
 
 public:
-private: public:
 
 	const Macro* macro;
 	const Mobile* mobile;
 	const double distance;
 
 	// Time Context
+	
+private:
 
 	const double channel_gain_factor;
 	double channel_gain[NUM_RB];
@@ -28,9 +29,5 @@ public:
 
 	void generate_channel_gain();
 	double get_channel_gain(int ri);
-
-	const Macro* get_macro() const;
-	const Mobile* get_mobile() const;
-	double get_distance() const;
 
 };

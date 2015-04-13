@@ -42,15 +42,3 @@ void Macro_Mobile::generate_channel_gain() {
 double Macro_Mobile::get_channel_gain(int ri) {
 	return channel_gain[ri];
 }
-
-const Macro* Macro_Mobile::get_macro() const {
-	return macro;
-}
-
-const Mobile* Macro_Mobile::get_mobile() const {
-	return mobile;
-}
-
-double Macro_Mobile::get_distance() const {
-	return distance;
-}

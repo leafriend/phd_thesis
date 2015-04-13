@@ -62,8 +62,8 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 
 				FOREACH_RBS {
 
-					const Mobile* abs_first = pico->get_abs_sorted_mobile(ri, 0)->get_mobile();
-					const Mobile* abs_second = pico->get_abs_sorted_mobile(ri, 1)->get_mobile();
+					const Mobile* abs_first = pico->get_abs_sorted_mobile(ri, 0)->mobile;
+					const Mobile* abs_second = pico->get_abs_sorted_mobile(ri, 1)->mobile;
 
 					if (abs_first != NULL) {
 
@@ -91,7 +91,7 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 
 				FOREACH_RBS {
 
-					const Mobile* first = pico->get_non_sorted_mobile(ri, 0)->get_mobile();
+					const Mobile* first = pico->get_non_sorted_mobile(ri, 0)->mobile;
 					
 					if (first != NULL) {
 
@@ -101,7 +101,7 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 							&& first_macro->get_first_mobile(ri) == first
 						) {
 
-							const Mobile* second = pico->get_non_sorted_mobile(ri, 1)->get_mobile();
+							const Mobile* second = pico->get_non_sorted_mobile(ri, 1)->mobile;
 							if (second != NULL && curr_mobile_states[ri][second->idx] != 1) {
 								curr_sum_lambda_r += second->get_abs_pico_lambda_r(ri);
 								curr_mobile_states[ri][second->idx] = 4;

@@ -68,10 +68,10 @@ void Pico::sort_mobiles(int ri, Pico_Mobile** items, int size, Pico_Mobile** sor
 	Pico_Mobile* latter[NUM_PM];
 	int latter_count = 0;
 
-	const Mobile* base = items[0]->get_mobile();
+	const Mobile* base = items[0]->mobile;
 
 	for (int i = 1; i < size; i++) {
-		const Mobile* mobile = items[i]->get_mobile();
+		const Mobile* mobile = items[i]->mobile;
 		if (cmp(ri, base, mobile) < 0) {
 			former[former_count++] = items[i];
 		} else {

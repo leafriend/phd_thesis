@@ -106,7 +106,7 @@ void pa2_find_best_mobile_state(Macro* macro, double* macro_best_sum_lambda_r) {
 
 				double best_allocated_lambda_r = -std::numeric_limits<double>::infinity();
 				FOREACH_MOBILES_TS {
-					Mobile* mobile = (Mobile*) mmobiles[mob]->get_mobile();
+					Mobile* mobile = (Mobile*) mmobiles[mob]->mobile;
 					mobile->set_state(ri, 0);
 
 					// Mobile 연결 상태 지정
@@ -130,8 +130,8 @@ void pa2_find_best_mobile_state(Macro* macro, double* macro_best_sum_lambda_r) {
 						} else {
 							
 							// Pico에 연결한 경우
-							const Pico* pico = mobile->get_pico()->get_pico();
-							if (pico->get_non_sorted_mobile(ri, 0)->get_mobile() == mobile) {
+							const Pico* pico = mobile->get_pico()->pico;
+							if (pico->get_non_sorted_mobile(ri, 0)->mobile == mobile) {
 								if (pico->is_abs()) {
 									// ABS인 경우
 									curr_sum_lambda_r += mobile->get_abs_pico_lambda_r(ri);
@@ -160,7 +160,7 @@ void pa2_find_best_mobile_state(Macro* macro, double* macro_best_sum_lambda_r) {
 					FOREACH_MOBILES_TS {
 						if (mmobiles[mob]->mobile->idx == 48)
 							printf("");
-						switch (mmobiles[mob]->get_mobile()->get_state(ri))
+						switch (mmobiles[mob]->mobile->get_state(ri))
 						{
 						case 0:
 						case 1:
@@ -188,7 +188,7 @@ void pa2_find_best_mobile_state(Macro* macro, double* macro_best_sum_lambda_r) {
 		FOREACH_MOBILES_TS {
 			FOREACH_RBS {
 				int state = best_mobile_states[mob * NUM_RB + ri];
-				((Mobile*) mmobiles[mob]->get_mobile())->set_state(ri, state);
+				((Mobile*) mmobiles[mob]->mobile)->set_state(ri, state);
 			}
 		}
 
@@ -202,14 +202,14 @@ void pa2_find_best_mobile_state(Macro* macro, double* macro_best_sum_lambda_r) {
 		FOREACH_RBS {
 
 			FOREACH_MOBILES_TS {
-				Mobile* mobile = (Mobile*) mmobiles[mob]->get_mobile();
+				Mobile* mobile = (Mobile*) mmobiles[mob]->mobile;
 				// Pico에 연결한 경우
 
 				if (mobile->get_pico() != NULL) {
 
 					// Pico에 연결한 경우
-					const Pico* pico = mobile->get_pico()->get_pico();
-					if (pico->get_non_sorted_mobile(ri, 0)->get_mobile() == mobile) {
+					const Pico* pico = mobile->get_pico()->pico;
+					if (pico->get_non_sorted_mobile(ri, 0)->mobile == mobile) {
 						if (pico->is_abs()) {
 							// ABS인 경우
 							curr_sum_lambda_r += mobile->get_abs_pico_lambda_r(ri);

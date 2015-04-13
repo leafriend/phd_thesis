@@ -34,7 +34,7 @@ void Macro::sort_mobiles() {
 		//printf("num_mobiles_to_service: %d\n", num_mobiles_to_service);
 		for (int mm = 0; mm < num_mobiles_to_service; mm++) {
 
-			Mobile* mobile = (Mobile*) mobiles_to_service[mm]->get_mobile();
+			const Mobile* mobile = mobiles_to_service[mm]->mobile;
 			const double macro_lambda_r = mobile->get_macro_lambda_r(ri);
 
 			//printf("lambda: %lf\n", mobile->lambda);
@@ -44,24 +44,24 @@ void Macro::sort_mobiles() {
 			if (mobile->get_pico() == NULL) {
 
 				if (macro_lambda_r > first_lambda_r) {
-					first_mobile[ri] = mobile;
+					first_mobile[ri] = (Mobile*) mobile;
 					first_lambda_r = macro_lambda_r;
 				}
 
 			} else {
 
-				Pico* pico = (Pico*) mobile->get_pico()->get_pico();
+				Pico* pico = (Pico*) mobile->get_pico()->pico;
 				const int num_pico_mobiles_to_service = pico->get_num_mobiles_to_service();
 				
 				// 이 Pico는 모바일이 서비스 받을 Pico이므로 non_sorted_mobile 값은 항상 1 이상
-				const Mobile* pico_first_mobile = pico->get_non_sorted_mobile(ri, 0)->get_mobile();
+				const Mobile* pico_first_mobile = pico->get_non_sorted_mobile(ri, 0)->mobile;
 
 				if (mobile == pico_first_mobile) {
 					// Macro에서 할당하려는 Mobile이 Pico의 첫 번째인 경우
 
 					double lambda_r = macro_lambda_r - mobile->get_non_pico_lambda_r(ri);
 					if (num_pico_mobiles_to_service > 1) {
-						const Mobile* pico_second_mobile = pico->get_non_sorted_mobile(ri, 1)->get_mobile();
+						const Mobile* pico_second_mobile = pico->get_non_sorted_mobile(ri, 1)->mobile;
 
 						// Pico의 두 번째 Mobile이 있는 경우
 						// : Pico에서 빠진 첫 번째 Mobile의 lambda r 대신 두 번째 Mobile의 값을 추가
@@ -70,7 +70,7 @@ void Macro::sort_mobiles() {
 					}
 
 					if (lambda_r > first_lambda_r) {
-						first_mobile[ri] = mobile;
+						first_mobile[ri] = (Mobile*) mobile;
 						first_lambda_r = lambda_r;
 					}
 
@@ -78,7 +78,7 @@ void Macro::sort_mobiles() {
 					// Macro에서 할당하려는 Mobile이 Pico의 첫 번째가 아닌 경우
 
 					if (macro_lambda_r > first_lambda_r) {
-						first_mobile[ri] = mobile;
+						first_mobile[ri] = (Mobile*) mobile;
 						first_lambda_r = macro_lambda_r;
 					}
 

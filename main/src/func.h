@@ -45,6 +45,13 @@ double gaussian(double mu, double sigma);
 #endif
 
 #define FOREACH_MACROS for (int mac = 0; mac < NUM_MACRO; mac++)
+#define FOREACH_MACROS_ for (int mac = 0; mac < NUM_MACRO; mac++) { \
+	Macro* macro = macros[mac];
+#define FOREACH_MACROS_TS for (int mac = 0; mac < NUM_MACRO; mac++) { \
+	Macro* macro = macros[mac]; \
+	const int NUM_MOBILE_TS = macro->get_num_mobiles_to_service(); \
+	Macro_Mobile** mmobiles = macro->get_mobiles_to_service();
+#define END }
 #define FOREACH_PICOS for (int pic = 0; pic < NUM_PICO; pic++)
 #define FOREACH_MOBILES for (int mob = 0; mob < NUM_MOBILE; mob++)
 

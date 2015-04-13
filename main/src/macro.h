@@ -28,7 +28,9 @@ private:
 	////////////////////////////////////////////////////////////////////////////
 	// PA1                                                                    //
 
+public:
 	Mobile* first_mobile[NUM_RB];
+private:
 
 	bool state;
 
@@ -50,8 +52,6 @@ public:
 
 	Macro(int idx, double x, double y, double tx_power);
 
-	void sort_mobiles();
-
 	int get_num_mobiles_to_service() const;
 	Macro_Mobile** get_mobiles_to_service();
 
@@ -59,8 +59,6 @@ public:
 	bool get_state() const;
 
 	void count_allocation();
-
-	Mobile* get_first_mobile(int ri) const;
 
 	int get_allocation_count();
 

@@ -3,29 +3,6 @@
 
 #include "func.h"
 
-// http://www.gnu.org/software/libc/manual/html_node/Elapsed-Time.html
-int subtract_timeval(TIME* result, TIME* x, TIME* y) {
-
-	// Perform the carry for the later subtraction by updating y.
-	if (TIME_MSEC(x) < TIME_MSEC(y)) {
-		int nsec = (TIME_MSEC(y) - TIME_MSEC(x)) / 1000000 + 1;
-		TIME_MSEC(y) -= 1000000 * nsec;
-		TIME_SEC(y) += nsec;
-	}
-	if (TIME_MSEC(x) - TIME_MSEC(y) > 1000000) {
-		int nsec = (TIME_MSEC(x) - TIME_MSEC(y)) / 1000000;
-		TIME_MSEC(y) += 1000000 * nsec;
-		TIME_SEC(y) -= nsec;
-	}
-
-	// Compute the time remaining to wait tv_usec is certainly positive.
-	TIME_SEC(result) = TIME_SEC(x) - TIME_SEC(y);
-	TIME_MSEC(result) = TIME_MSEC(x) - TIME_MSEC(y);
-
-	// Return 1 if result is negative.
-	return TIME_SEC(x) < TIME_SEC(y);
-}
-
 double uniform(void) {
 	return ((double) (rand() & RAND_MAX) / (double) RAND_MAX);
 }

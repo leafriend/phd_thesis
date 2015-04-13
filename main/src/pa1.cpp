@@ -80,28 +80,11 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 
 	} CLOSE
 
-	double best_sum_lambda_r = -std::numeric_limits<double>::infinity();
-	MacroState best_macro_states[NUM_MACRO];
-
 	FOREACH_MOBILES
 		FOREACH_RBS
 			mobiles[mob]->conns[ri] = NOTHING;
 
-	FOREACH_MACROS
-		macros[mac]->state = OFF;
-
-	// 가능한 모든 Macro 상태(2 ^ NUM_MACRO = 1 << NUM_MACRO)에 대한 반복문
-	int num_macro_state = 1 << NUM_MACRO;
-	for (int s = 0; s < num_macro_state; s++) {
-
-		// Macro 상태(ON/OFF) 지정
-		FOREACH_MACROS
-			macros[mac]->state
-				= ((1 << mac) & s) >> mac
-				? ON
-				: OFF;
-
-		double curr_sum_lambda_r = 0.0;
+	FIND_BEST_MACRO_STATE_OPEN {
 
 		//printf("SATAE   "); for (int mac = NUM_MACRO; mac --> 0;) printf("%d", macros[mac]->get_state()); printf("\n");
 
@@ -214,18 +197,6 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 
 		}
 
-	}
-
-	FOREACH_MACROS
-		macros[mac]->state = best_macro_states[mac];
-
-	//gettimeofday(&stop, NULL);
-	//subtract_timeval(&ellapse, &stop, &start);
-	//printf("                        :%6d.%06d s\n", ellapse.tv_sec, ellapse.tv_usec);
-
-	//printf("BEST    %12.6lf - ", best_sum_lambda_r);
-	//for (int mac = NUM_MACRO; mac --> 0;) printf(macros[mac]->get_state() ? "%d" : "-", macros[mac]->get_state());
-	//printf("    MOBILE             "); FOREACH_RBS for (int mac = NUM_MACRO; mac --> 0;) printf(macros[mac]->get_state() ? "%d" : "-", macros[mac]->get_first_mobile(ri)->get_state(ri) ); printf("\n");
-	//printf("\n"); printf("\n");
+	} FIND_BEST_MACRO_STATE_CLOSE
 
 }

@@ -37,22 +37,7 @@ void pa3(Macro** macros, Pico** picos, Mobile** mobiles) {
 
 	}
 
-	double best_sum_lambda_r = -std::numeric_limits<double>::infinity();
-	bool best_macro_states[NUM_MACRO];
-
-	FOREACH_MACROS
-		macros[mac]->state = OFF;
-
-	// 가능한 모든 Macro 상태(2 ^ NUM_MACRO = 1 << NUM_MACRO)에 대한 반복문
-	int num_macro_state = 1 << NUM_MACRO;
-	for (int s = 0; s < num_macro_state; s++) {
-
-		// Macro 상태(ON/OFF) 지정
-		FOREACH_MACROS
-			macros[mac]->state
-				= ((1 << mac) & s) >> mac
-				? ON
-				: OFF;
+	FIND_BEST_MACRO_STATE_OPEN {
 
 		FOREACH_MACROS_TS_OPEN {
 
@@ -90,7 +75,7 @@ void pa3(Macro** macros, Pico** picos, Mobile** mobiles) {
 
 		} CLOSE
 
-	}
+	} FIND_BEST_MACRO_STATE_CLOSE
 
 	// 서브 채널 별 throughput 계산
 

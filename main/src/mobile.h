@@ -6,6 +6,12 @@
 //#include "macro_mobile.h"
 //#include "pico_mobile.h"
 
+#define STATE_CONN_NOTHING    0
+#define STATE_CONN_MACRO      1
+#define STATE_CONN_ABS_PICO   2
+#define STATE_CONN_NON_PICO_1 3
+#define STATE_CONN_NON_PICO_2 4
+
 class Macro;
 class Macro_Mobile;
 class Pico_Mobile;
@@ -58,6 +64,11 @@ private:
 
 	double abs_pico_lambda_r[NUM_RB];
 
+	// 0: 연결 안됨
+	// 1: Macro에 연결
+	// 2: Pico에 ABS로 연결
+	// 3: Pico에 non-ABS 첫 번째로 연결
+	// 4: Pico에 non-ABS 두 번째로 연결
 	int states[NUM_RB];
 	double result_throughput;
 	double rate_user;

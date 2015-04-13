@@ -58,9 +58,6 @@ private:
 	double abs_pico_throughput[NUM_RB];
 	double abs_pico_lambda_r[NUM_RB];
 
-	////////////////////////////////////////////////////////////////////////////
-	// PA1                                                                    //
-
 	// 0: 연결 안됨
 	// 1: Macro에 연결
 	// 2: Pico에 ABS로 연결
@@ -69,11 +66,8 @@ private:
 	int states[NUM_RB];
 	double result_throughput;
 	double rate_user;
-public:
-	double instant_rate;
 
-	// PA1                                                                    //
-	////////////////////////////////////////////////////////////////////////////
+	double instant_rate;
 
 public:
 

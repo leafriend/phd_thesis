@@ -63,10 +63,9 @@ void pa2(Macro** macros, Pico** picos, Mobile** mobiles) {
 #endif
 
 	}
-	
-	FOREACH_MACROS_
-		macro->set_state(best_macro_states[mac]);
-	END
+
+	FOREACH_MACROS
+		macros[mac]->set_state(best_macro_states[mac]);
 
 #ifdef PRINT_STATE
 	FOREACH_MOBILES printf("\b");

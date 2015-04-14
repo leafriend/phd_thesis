@@ -12,7 +12,7 @@ class Edge {
 
 public:
 
-	const BaseStation* macro;
+	const BaseStation* bs;
 	const Mobile* mobile;
 	const double distance;
 

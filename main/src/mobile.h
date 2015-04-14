@@ -13,8 +13,6 @@
 #define STATE_CONN_NON_PICO_2 4
 
 class Macro;
-class Macro_Mobile;
-class Pico_Mobile;
 class Edge;
 
 using namespace std;
@@ -51,12 +49,12 @@ public:
 
 private:
 
-	Macro_Mobile* macro;
-	Pico_Mobile* pico;
+	Edge* macro;
+	Edge* pico;
 
-	Macro_Mobile* macros_interfered[NUM_MACRO];
+	Edge* macros_interfered[NUM_MACRO];
 	int num_macros_interfered;
-	Pico_Mobile* picos_interfered[NUM_PICO];
+	Edge* picos_interfered[NUM_PICO];
 	int num_picos_interfered;
 
 	double macro_throughput[NUM_RB];
@@ -106,7 +104,7 @@ public:
 
 	double get_result_throughput();
 
-	Macro_Mobile* get_macro() const;
-	Pico_Mobile* get_pico() const;
+	Edge* get_macro() const;
+	Edge* get_pico() const;
 
 };

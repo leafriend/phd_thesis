@@ -23,7 +23,7 @@ void pa3(Macro** macros, Pico** picos, Mobile** mobiles) {
 		}
 		double ratio_macro_lambda_r
 			= sum_macro_lambda_r
-			/ mobile->get_macro()->macro->pa3_lambda_r;
+			/ mobile->get_macro()->bs->pa3_lambda_r;
 
 		double sum_pico_lambda_r = 0.0;
 		FOREACH_RBS {
@@ -31,7 +31,7 @@ void pa3(Macro** macros, Pico** picos, Mobile** mobiles) {
 		}
 		double ratio_pico_lambda_r
 			= sum_pico_lambda_r
-			/ mobile->get_pico()->pico->pa3_lambda_r;
+			/ mobile->get_pico()->bs->pa3_lambda_r;
 
 		conn_macros[mob] = ratio_macro_lambda_r > ratio_pico_lambda_r;
 

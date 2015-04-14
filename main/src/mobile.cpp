@@ -166,11 +166,11 @@ double Mobile::get_abs_pico_lambda_r(int ri) const {
 	return abs_pico_lambda_r[ri];
 }
 
-Macro_Mobile* Mobile::get_macro() const {
+Edge* Mobile::get_macro() const {
 	return macro;
 }
 
-Pico_Mobile* Mobile::get_pico() const {
+Edge* Mobile::get_pico() const {
 	return pico;
 }
 

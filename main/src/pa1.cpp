@@ -38,7 +38,7 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 
 				} else {
 
-					Pico* pico = (Pico*) mobile->get_pico()->pico;
+					Pico* pico = (Pico*) mobile->get_pico()->bs;
 					const int num_pico_mobiles_to_service = pico->get_num_mobiles_to_service();
 					
 					// 이 Pico는 모바일이 서비스 받을 Pico이므로 non_sorted_mobile 값은 항상 1 이상
@@ -119,7 +119,7 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 
 					if (abs_first != NULL) {
 
-						Macro* first_macro = (Macro*) abs_first->get_macro()->macro;
+						Macro* first_macro = (Macro*) abs_first->get_macro()->bs;
 
 						if (first_macro->state == OFF
 							|| mobile_allocations[first_macro->idx][ri] != abs_first
@@ -147,7 +147,7 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 
 					if (first != NULL) {
 
-						Macro* first_macro = (Macro*) first->get_macro()->macro;
+						Macro* first_macro = (Macro*) first->get_macro()->bs;
 
 						if (first_macro->state == ON
 							|| mobile_allocations[first_macro->idx][ri] != first

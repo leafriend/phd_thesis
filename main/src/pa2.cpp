@@ -88,7 +88,7 @@ void pa2(Macro** macros, Pico** picos, Mobile** mobiles) {
 						if (mobile->get_pico() != NULL) {
 
 							// Pico에 연결한 경우
-							const Pico* pico = mobile->get_pico()->pico;
+							const Pico* pico = (const Pico*) mobile->get_pico()->bs;
 							if (pico->get_non_sorted_mobile(ri, 0)->mobile == mobile) {
 								if (pico->is_abs()) {
 									// ABS인 경우
@@ -168,7 +168,7 @@ double pa2_calculate_lambda_r(long mobile_state, Macro_Mobile** mmobiles, int NU
 				} else {
 									
 					// Pico에 연결한 경우
-					const Pico* pico = mobile->get_pico()->pico;
+					const Pico* pico = (const Pico*) mobile->get_pico()->bs;
 					if (pico->get_non_sorted_mobile(ri, 0)->mobile == mobile) {
 						if (pico->is_abs()) {
 							// ABS인 경우

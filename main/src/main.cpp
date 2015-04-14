@@ -91,21 +91,31 @@ int main(int argc, char** argv) {
 
 		// /////////////////////////////////////////////////////////////////////
 
-		if (t % LOG_PROGRESS_TIME == 0)
+		if (t % LOG_PROGRESS_TIME == 0) {
+			double sum_utility = 0.0;
+			FOREACH_MOBILES {
+				double utility = log(mobiles[mob]->get_result_throughput() / t);
+				//if (!isinf(utility))
+					sum_utility += utility;
+			}
 			printf(
+				"\b\b\b\b\b\b\b\b"
 				"\b\b\b\b\b\b\b\b"
 				"\b"
 				"\b\b\b\b\b\b\b\b"
 				"\b\b\b\b\b\b\b"
+				"%7.3f "
 				"%8d"
 				"/"
 				"%8d"
 				"       ",
+				sum_utility,
 				((t % LOG_INTERVAL_TIME) / LOG_PROGRESS_TIME) == 0
 				? (LOG_INTERVAL_TIME / LOG_PROGRESS_TIME)
 				: ((t % LOG_INTERVAL_TIME) / LOG_PROGRESS_TIME),
 				(LOG_INTERVAL_TIME / LOG_PROGRESS_TIME)
 			);
+		}
 
 		// /////////////////////////////////////////////////////////////////////
 

@@ -6,12 +6,6 @@
 //#include "macro_mobile.h"
 //#include "pico_mobile.h"
 
-#define STATE_CONN_NOTHING    0
-#define STATE_CONN_MACRO      1
-#define STATE_CONN_ABS_PICO   2
-#define STATE_CONN_NON_PICO_1 3
-#define STATE_CONN_NON_PICO_2 4
-
 class Macro;
 class Edge;
 

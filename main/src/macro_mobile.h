@@ -1,7 +1,6 @@
 #pragma once
 
-//#include "macro.h"
-//#include "mobile.h"
+#include "config.h"
 
 class Macro;
 class Mobile;

@@ -36,7 +36,7 @@ double gaussian(double mu, double sigma);
         const int NUM_MOBILE_TS = macro->get_num_mobiles_to_service(); \
         Macro_Mobile** mmobiles = macro->get_mobiles_to_service();
 
-#define FIND_BEST_MACRO_STATE_OPEN \
+#define FIND_BEST_MACRO_STATE_OPEN(macros, best_macro_states) {                 \
     double best_sum_lambda_r = -std::numeric_limits<double>::infinity();        \
     MacroState best_macro_states[NUM_MACRO];                                    \
                                                                                 \
@@ -53,10 +53,11 @@ double gaussian(double mu, double sigma);
                                                                                 \
         double curr_sum_lambda_r = 0.0;
 
-#define FIND_BEST_MACRO_STATE_CLOSE                                             \
-    }                                                                           \
-    FOREACH_MACROS                                                              \
-        macros[mac]->state = best_macro_states[mac];
+#define FIND_BEST_MACRO_STATE_CLOSE(best_macro_states)                          \
+        }                                                                       \
+        FOREACH_MACROS                                                          \
+            macros[mac]->state = best_macro_states[mac];                        \
+    }
 
 #define FOREACH_PICOS \
     for (int pic = 0; pic < NUM_PICO; pic++)

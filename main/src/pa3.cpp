@@ -37,7 +37,7 @@ void pa3(Macro** macros, Pico** picos, Mobile** mobiles) {
 
 	}
 
-	FIND_BEST_MACRO_STATE_OPEN(best_sum_lambda_r, best_macro_states, curr_sum_lambda_r) {
+	FIND_BEST_MACRO_STATE_OPEN(macros, best_macro_states) {
 
 		FOREACH_MACROS_TS_OPEN {
 
@@ -47,22 +47,19 @@ void pa3(Macro** macros, Pico** picos, Mobile** mobiles) {
 
 
 
+
+
+
 			if (macro->state == ON) {
 				// Mobile의 Macro가 켜졌다면
 				// 위에서 정한 Cell Association에 따라 lambda_r 가산
 				// 각 서브 채널별 할당 대상 결정
-				MobileConnection* best_mobile_states
-					= (MobileConnection*) malloc(sizeof(MobileConnection) * NUM_MOBILE_TS * NUM_RB);
 
-				FOREACH_MOBILES_TS {
+				//if (conn_macros[mobile->idx]) {
 
-					if (conn_macros[mob]) {
+				//} else {
 
-					} else {
-
-					}
-
-				}
+				//}
 
 			} else {
 				// Mobile의 Macro가 꺼졌다면
@@ -97,9 +94,3 @@ void pa3(Macro** macros, Pico** picos, Mobile** mobiles) {
 	// Macro/Pico lambda_r
 
 }
-
-
-
-
-
-

@@ -1,7 +1,5 @@
 #pragma once
 
-#include "macro_mobile.h"
-#include "pico_mobile.h"
 #include "edge.h"
 #include "mobile.h"
 

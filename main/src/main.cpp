@@ -8,8 +8,6 @@
 #include "macro.h"
 #include "pico.h"
 #include "mobile.h"
-#include "macro_mobile.h"
-#include "pico_mobile.h"
 #include "pa1.h"
 #include "pa2.h"
 #include "pa3.h"

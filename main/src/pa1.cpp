@@ -7,7 +7,6 @@
 
 #include "func.h"
 #include "pa1.h"
-#include "pico_mobile.h"
 
 void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 

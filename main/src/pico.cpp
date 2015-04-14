@@ -7,7 +7,6 @@
 
 #include "func.h"
 
-#include "pico_mobile.h"
 #include "macro.h"
 #include "mobile.h"
 #include "pico.h"

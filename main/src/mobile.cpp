@@ -3,8 +3,6 @@
 #include <stdlib.h>
 
 #include "func.h"
-#include "macro_mobile.h"
-#include "pico_mobile.h"
 #include "macro.h"
 #include "pico.h"
 #include "mobile.h"

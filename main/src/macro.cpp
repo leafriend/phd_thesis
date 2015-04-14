@@ -6,8 +6,6 @@
 #include <limits>
 
 #include "func.h"
-#include "macro_mobile.h"
-#include "pico_mobile.h"
 #include "mobile.h"
 #include "pico.h"
 #include "macro.h"

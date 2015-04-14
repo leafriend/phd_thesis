@@ -4,7 +4,6 @@
 #include <math.h>
 #include <limits>
 
-#include "pico_mobile.h"
 #include "func.h"
 #include "pa2.h"
 

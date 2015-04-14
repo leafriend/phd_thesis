@@ -2,8 +2,6 @@
 #include <limits>
 #include <float.h>
 
-#include "pico_mobile.h"
-#include "macro_mobile.h"
 #include "func.h"
 #include "pa2.h"
 

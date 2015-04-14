@@ -3,7 +3,6 @@
 #include "config.h"
 
 #include "mobile.h"
-#include "macro_mobile.h"
 #include "basestation.h"
 
 enum MacroState {

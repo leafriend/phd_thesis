@@ -7,13 +7,13 @@
 #define ALGORITHM                       3                   // Proposed Algorithm ¹øÈ£
 
 #if ALGORITHM == 1
-#define LOG_INTERVAL_TIME               1000
+#define LOG_INTERVAL_TIME               5000
 #define LOG_PROGRESS_TIME               1
 #elif ALGORITHM == 2
-#define LOG_INTERVAL_TIME               1000
+#define LOG_INTERVAL_TIME               5000
 #define LOG_PROGRESS_TIME               1
 #elif ALGORITHM == 3
-#define LOG_INTERVAL_TIME               1000
+#define LOG_INTERVAL_TIME               5000
 #define LOG_PROGRESS_TIME               1
 #endif
 
@@ -48,11 +48,12 @@
 #define NOISE_FACTOR                    -174                // dB
 #define NOISE                           (BW_PER_RB * powl(10, (NOISE_FACTOR / 10)))
 
-#define SIMULATION_TIME                 2000000
+//#define SIMULATION_TIME                 2000000
 //#define SIMULATION_TIME                 1000000
 //#define SIMULATION_TIME                 500000
 //#define SIMULATION_TIME                 100000
 //#define SIMULATION_TIME                 10000
+#define SIMULATION_TIME                 5000
 //#define SIMULATION_TIME                 1000
 //#define SIMULATION_TIME                 100
 

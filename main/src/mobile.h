@@ -15,6 +15,7 @@
 class Macro;
 class Macro_Mobile;
 class Pico_Mobile;
+class Edge;
 
 using namespace std;
 
@@ -30,6 +31,7 @@ class Mobile {
 
 	friend class Macro_Mobile;
 	friend class Pico_Mobile;
+	friend class Edge;
 
 public:
 

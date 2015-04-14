@@ -37,36 +37,36 @@ void pa3(Macro** macros, Pico** picos, Mobile** mobiles) {
 
 	}
 
-	FIND_BEST_MACRO_STATE_OPEN {
+	FIND_BEST_MACRO_STATE_OPEN(macros, best_macro_states) {
+
+		best_macro_states[0] = 1;
 
 		FOREACH_MACROS_TS_OPEN {
 
 			int* mobile_states = (int*) malloc(sizeof(int) * NUM_MOBILE_TS * NUM_RB);
 
-			FOREACH_RBS {
 
-				FOREACH_MOBILES_TS {
 
-					const Mobile* mobile = mmobiles[mob]->mobile;
 
-					if (mobile->get_macro()->macro->state == ON) {
-						// Mobile의 Macro가 켜졌다면
-						// 위에서 정한 Cell Association에 따라 lambda_r 가산
-						// 각 서브 채널별 할당 대상 결정
 
-						if (conn_macros[mob]) {
 
-						} else {
 
-						}
 
-					} else {
-						// Mobile의 Macro가 꺼졌다면
-						// Mobile의 Pico의 ABS 여부에 따라 lambda_r 가산
+			if (macro->state == ON) {
+				// Mobile의 Macro가 켜졌다면
+				// 위에서 정한 Cell Association에 따라 lambda_r 가산
+				// 각 서브 채널별 할당 대상 결정
 
-					}
+				//if (conn_macros[mobile->idx]) {
 
-				}
+				//} else {
+
+				//}
+
+			} else {
+				// Mobile의 Macro가 꺼졌다면
+				// Mobile의 Pico의 ABS 여부에 따라 lambda_r 가산
+
 			}
 
 			// 이전까지 최고 lambda_r과 현 상태의 lambda_r 비교
@@ -82,3 +82,32 @@ void pa3(Macro** macros, Pico** picos, Mobile** mobiles) {
 	// Macro/Pico lambda_r
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

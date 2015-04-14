@@ -10,10 +10,8 @@
 
 void pa2(Macro** macros, Pico** picos, Mobile** mobiles) {
 
-	FIND_BEST_MACRO_STATE_OPEN {
-
+	FIND_BEST_MACRO_STATE_OPEN(macros, best_macro_states) {
 		//printf("SATAE   "); for (int mac = NUM_MACRO; mac --> 0;) printf("%d", macros[mac]->get_state()); printf("\n");
-
 		FOREACH_MACROS_OPEN {
 
 			double macro_best_sum_lambda_r = -std::numeric_limits<double>::infinity();

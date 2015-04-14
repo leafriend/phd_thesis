@@ -10,7 +10,7 @@
 #include "pico_mobile.h"
 
 Pico_Mobile::Pico_Mobile(Pico* pico, Mobile* mobile)
-	: pico(pico), Edge(pico, mobile)
+	: pico(pico), Edge(EDGE_PICO, pico, mobile)
 {
 
 	mobile->picos_interfered[mobile->num_picos_interfered++] = this;

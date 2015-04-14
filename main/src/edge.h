@@ -8,10 +8,16 @@
 class BaseStation;
 class Mobile;
 
+enum EdgeType {
+	EDGE_MACRO,
+	EDGE_PICO,
+};
+
 class Edge {
 
 public:
 
+	const EdgeType type;
 	const BaseStation* bs;
 	const Mobile* mobile;
 	const double distance;
@@ -25,7 +31,7 @@ private:
 
 public:
 
-	Edge(BaseStation* macro, Mobile* mobile);
+	Edge(EdgeType type, BaseStation* macro, Mobile* mobile);
 
 	virtual void register_mobile() {};
 

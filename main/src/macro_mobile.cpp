@@ -10,7 +10,7 @@
 #include "macro_mobile.h"
 
 Macro_Mobile::Macro_Mobile(Macro* macro, Mobile* mobile)
-	: macro(macro), Edge(macro, mobile)
+	: macro(macro), Edge(EDGE_MACRO, macro, mobile)
 {
 
 	mobile->macros_interfered[mobile->num_macros_interfered++] = this;

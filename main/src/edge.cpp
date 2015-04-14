@@ -5,8 +5,8 @@
 #include "mobile.h"
 #include "edge.h"
 
-Edge::Edge(BaseStation* bs, Mobile* mobile)
-	: bs(bs), mobile(mobile), distance(sqrt(pow((bs->x - mobile->x), 2) + pow((bs->y - mobile->y), 2)))
+Edge::Edge(EdgeType type, BaseStation* bs, Mobile* mobile)
+	: type(type), bs(bs), mobile(mobile), distance(sqrt(pow((bs->x - mobile->x), 2) + pow((bs->y - mobile->y), 2)))
 , channel_gain_factor(bs->tx_power * pow((1 / distance), (double) PATH_LOSS_EXPO))
 {
 }

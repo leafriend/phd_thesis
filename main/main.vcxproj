@@ -81,7 +81,7 @@
     <Text Include="res\pico.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="basestation.cpp" />
+    <ClCompile Include="src\basestation.cpp" />
     <ClCompile Include="src\func.cpp" />
     <ClCompile Include="src\macro.cpp" />
     <ClCompile Include="src\macro_mobile.cpp" />
@@ -94,7 +94,7 @@
     <ClCompile Include="src\pico_mobile.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="basestation.h" />
+    <ClInclude Include="src\basestation.h" />
     <ClInclude Include="src\config.h" />
     <ClInclude Include="src\func.h" />
     <ClInclude Include="src\macro.h" />

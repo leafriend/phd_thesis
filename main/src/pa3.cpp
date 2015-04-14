@@ -37,48 +37,69 @@ void pa3(Macro** macros, Pico** picos, Mobile** mobiles) {
 
 	}
 
-	FIND_BEST_MACRO_STATE_OPEN {
+	FIND_BEST_MACRO_STATE_OPEN(best_sum_lambda_r, best_macro_states, curr_sum_lambda_r) {
 
 		FOREACH_MACROS_TS_OPEN {
 
 			int* mobile_states = (int*) malloc(sizeof(int) * NUM_MOBILE_TS * NUM_RB);
 
-			FOREACH_RBS {
+
+
+
+
+			if (macro->state == ON) {
+				// Mobile의 Macro가 켜졌다면
+				// 위에서 정한 Cell Association에 따라 lambda_r 가산
+				// 각 서브 채널별 할당 대상 결정
+				MobileConnection* best_mobile_states
+					= (MobileConnection*) malloc(sizeof(MobileConnection) * NUM_MOBILE_TS * NUM_RB);
 
 				FOREACH_MOBILES_TS {
 
-					const Mobile* mobile = mmobiles[mob]->mobile;
-
-					if (mobile->get_macro()->macro->state == ON) {
-						// Mobile의 Macro가 켜졌다면
-						// 위에서 정한 Cell Association에 따라 lambda_r 가산
-						// 각 서브 채널별 할당 대상 결정
-
-						if (conn_macros[mob]) {
-
-						} else {
-
-						}
+					if (conn_macros[mob]) {
 
 					} else {
-						// Mobile의 Macro가 꺼졌다면
-						// Mobile의 Pico의 ABS 여부에 따라 lambda_r 가산
 
 					}
 
 				}
+
+			} else {
+				// Mobile의 Macro가 꺼졌다면
+				// Mobile의 Pico의 ABS 여부에 따라 lambda_r 가산
+
 			}
 
 			// 이전까지 최고 lambda_r과 현 상태의 lambda_r 비교
+
+			//curr_sum_lambda_r = ...;
 
 			free(mobile_states);
 
 		} CLOSE
 
-	} FIND_BEST_MACRO_STATE_CLOSE
+		if (curr_sum_lambda_r > best_sum_lambda_r) {
+
+			//printf("  BETTER%12.6lf > %12.6lf - ", curr_sum_lambda_r, best_sum_lambda_r);
+			//FOREACH_MACROS printf("%d", macros[mac]->get_state()); printf("\n");
+
+			best_sum_lambda_r = curr_sum_lambda_r;
+
+			FOREACH_MACROS
+				best_macro_states[mac] = macros[mac]->state;
+
+		}
+
+	} FIND_BEST_MACRO_STATE_CLOSE(best_macro_states)
 
 	// 서브 채널 별 throughput 계산
 
 	// Macro/Pico lambda_r
 
 }
+
+
+
+
+
+

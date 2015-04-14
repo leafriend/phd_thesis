@@ -13,12 +13,6 @@ Pico_Mobile::Pico_Mobile(Pico* pico, Mobile* mobile)
 	: pico(pico), Edge(EDGE_PICO, pico, mobile)
 {
 
-	mobile->picos_interfered[mobile->num_picos_interfered++] = this;
-
-	if (mobile->pico == NULL || distance < mobile->pico->distance)
-		if (RANGE_PICO < 0 || distance < RANGE_PICO)
-			mobile->pico = this;
-
 }
 
 void Pico_Mobile::register_mobile() {

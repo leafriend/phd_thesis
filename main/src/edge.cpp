@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "func.h"
@@ -25,6 +26,8 @@ Edge::Edge(EdgeType type, BaseStation* bs, Mobile* mobile)
 				mobile->pico = this;
 		break;
 	default:
+		fprintf(stderr, "ERROR: Unexpected Edge Type: %d\n", type);
+		exit(-1);
 		break;
 	}
 }
@@ -40,4 +43,26 @@ void Edge::generate_channel_gain() {
 
 double Edge::get_channel_gain(int ri) {
 	return channel_gain[ri];
+}
+
+void Edge::register_mobile() {
+	switch (type)
+	{
+	case EDGE_MACRO:
+		if (mobile->macro == this) {
+			BaseStation* bs = (BaseStation*) this->bs;
+			bs->mobiles_to_service[bs->num_mobiles_to_service++] = this;
+		}
+		break;
+	case EDGE_PICO:
+		if (mobile->pico == this) {
+			BaseStation* bs = (BaseStation*) this->bs;
+			bs->mobiles_to_service[bs->num_mobiles_to_service++] = this;
+		}
+		break;
+	default:
+		fprintf(stderr, "ERROR: Unexpected Edge Type: %d\n", type);
+		exit(-1);
+		break;
+	}
 }

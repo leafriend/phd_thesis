@@ -27,8 +27,6 @@ enum MobileConnection {
 
 class Mobile {
 
-	friend class Macro_Mobile;
-	friend class Pico_Mobile;
 	friend class Edge;
 
 public:

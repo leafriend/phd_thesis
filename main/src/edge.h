@@ -33,7 +33,7 @@ public:
 
 	Edge(EdgeType type, BaseStation* macro, Mobile* mobile);
 
-	virtual void register_mobile() {};
+	void register_mobile();
 
 	void generate_channel_gain();
 	double get_channel_gain(int ri);

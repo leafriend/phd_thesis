@@ -34,7 +34,7 @@ double gaussian(double mu, double sigma);
     for (int mac = 0; mac < NUM_MACRO; mac++) { \
         Macro* macro = macros[mac]; \
         const int NUM_MOBILE_TS = macro->get_num_mobiles_to_service(); \
-        Macro_Mobile** mmobiles = macro->get_mobiles_to_service();
+        Edge** mmobiles = macro->get_mobiles_to_service();
 
 #define FIND_BEST_MACRO_STATE_OPEN(macros, best_macro_states) {                 \
     double best_sum_lambda_r = -std::numeric_limits<double>::infinity();        \

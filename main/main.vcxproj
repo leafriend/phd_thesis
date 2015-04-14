@@ -85,14 +85,12 @@
     <ClCompile Include="src\edge.cpp" />
     <ClCompile Include="src\func.cpp" />
     <ClCompile Include="src\macro.cpp" />
-    <ClCompile Include="src\macro_mobile.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\mobile.cpp" />
     <ClCompile Include="src\pa1.cpp" />
     <ClCompile Include="src\pa2.cpp" />
     <ClCompile Include="src\pa3.cpp" />
     <ClCompile Include="src\pico.cpp" />
-    <ClCompile Include="src\pico_mobile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\basestation.h" />
@@ -100,14 +98,12 @@
     <ClInclude Include="src\edge.h" />
     <ClInclude Include="src\func.h" />
     <ClInclude Include="src\macro.h" />
-    <ClInclude Include="src\macro_mobile.h" />
     <ClInclude Include="src\main.h" />
     <ClInclude Include="src\mobile.h" />
     <ClInclude Include="src\pa1.h" />
     <ClInclude Include="src\pa2.h" />
     <ClInclude Include="src\pa3.h" />
     <ClInclude Include="src\pico.h" />
-    <ClInclude Include="src\pico_mobile.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

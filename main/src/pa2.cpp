@@ -21,7 +21,7 @@ void pa2(Macro** macros, Pico** picos, Mobile** mobiles) {
 			if (NUM_MOBILE_TS > sizeof(long) * 8)
 				fprintf(stderr, "Number of Mobile in range is over %d\n", sizeof(long));
 
-			Macro_Mobile** mmobiles = macro->get_mobiles_to_service();
+			Edge** mmobiles = macro->get_mobiles_to_service();
 
 			if (macro->state == ON) {
 				// 매크로가 켜져 있는 경우
@@ -139,7 +139,7 @@ void pa2(Macro** macros, Pico** picos, Mobile** mobiles) {
 /// This is summary.
 /// </summary>
 /// <param name="mobile_state">Noted Macro-Mobile connection in bit</param>
-double pa2_calculate_lambda_r(long mobile_state, Macro_Mobile** mmobiles, int NUM_MOBILE_TS, int* curr_allocated_mob) {
+double pa2_calculate_lambda_r(long mobile_state, Edge** mmobiles, int NUM_MOBILE_TS, int* curr_allocated_mob) {
 
 	double curr_sum_lambda_r = 0.0;
 	FOREACH_RBS {

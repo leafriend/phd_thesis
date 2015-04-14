@@ -5,8 +5,6 @@
 #include "mobile.h"
 #include "macro_mobile.h"
 #include "basestation.h"
-//class Mobile;
-//class Macro_Mobile;
 
 enum MacroState {
 	OFF,
@@ -14,8 +12,6 @@ enum MacroState {
 };
 
 class Macro : public BaseStation {
-
-	friend class Macro_Mobile;
 
 private:
 

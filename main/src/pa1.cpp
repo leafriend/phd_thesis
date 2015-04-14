@@ -39,7 +39,7 @@ void pa1(Macro** macros, Pico** picos, Mobile** mobiles) {
 				} else {
 
 					Pico* pico = (Pico*) mobile->get_pico()->bs;
-					const int num_pico_mobiles_to_service = pico->get_num_mobiles_to_service();
+					const int num_pico_mobiles_to_service = mobile->get_pico()->bs->get_num_mobiles_to_service();
 					
 					// 이 Pico는 모바일이 서비스 받을 Pico이므로 non_sorted_mobile 값은 항상 1 이상
 					const Mobile* pico_first_mobile = pico->get_non_sorted_mobile(ri, 0)->mobile;

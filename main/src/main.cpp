@@ -36,8 +36,8 @@ int main(int argc, char** argv) {
 	// Initialize //////////////////////////////////////////////////////////////
 	Macro* macros[NUM_MACRO];
 	Pico* picos[NUM_PICO];
-	Macro_Mobile* macro_mobiles[NUM_MM];
-	Pico_Mobile* pico_mobiles[NUM_PICO * NUM_MOBILE];
+	Edge* macro_mobiles[NUM_MM];
+	Edge* pico_mobiles[NUM_PICO * NUM_MOBILE];
 	Mobile* mobiles[NUM_MOBILE];
 	initialize(macros, picos, mobiles, macro_mobiles, pico_mobiles);
 
@@ -181,7 +181,7 @@ int main(int argc, char** argv) {
 }
 
 void initialize(Macro** macros, Pico** picos, Mobile** mobiles,
-	Macro_Mobile** macro_mobiles, Pico_Mobile** pico_mobiles) {
+	Edge** macro_mobiles, Edge** pico_mobiles) {
 
 	FILE* fp;
 
@@ -226,9 +226,9 @@ void initialize(Macro** macros, Pico** picos, Mobile** mobiles,
 		Mobile* mobile = new Mobile(mob, x, y, lambda, mu, rate_user, qos);
 		mobiles[mob] = mobile;
 
-		FOREACH_MACROS macro_mobiles[mob * NUM_MACRO + mac] = new Macro_Mobile(macros[mac], mobile);
+		FOREACH_MACROS macro_mobiles[mob * NUM_MACRO + mac] = new Edge(EDGE_MACRO, macros[mac], mobile);
 
-		FOREACH_PICOS pico_mobiles[mob * NUM_PICO + pic] = new Pico_Mobile(picos[pic], mobile);
+		FOREACH_PICOS pico_mobiles[mob * NUM_PICO + pic] = new Edge(EDGE_PICO, picos[pic], mobile);
 
 		if (mobile->get_macro() == NULL) printf("Mobile at (%12.6f, %12.6f): %6.3f has no service Macro\n", x, y, qos);
 		if (mobile->get_pico() == NULL) printf("Mobile at (%12.6f, %12.6f): %6.3f has no service Pico\n", x, y, qos);
@@ -242,8 +242,8 @@ void initialize(Macro** macros, Pico** picos, Mobile** mobiles,
 		double y = (500 + pow(-10.0, mob)) * sin(2 * M_PI * mob / 50);
 		mobiles[mob] = new Mobile(mob, x, y, 0.1, 0.0, 0.0, QOS);
 		
-		FOREACH_MACROS macro_mobiles[mob * NUM_MACRO + mac] = new Macro_Mobile(macros[mac], mobiles[mob]);
-		FOREACH_PICOS pico_mobiles[mob * NUM_PICO + pic] = new Pico_Mobile(picos[pic], mobiles[mob]);
+		FOREACH_MACROS macro_mobiles[mob * NUM_MACRO + mac] = new Edge(EDGE_MACRO, macros[mac], mobiles[mob]);
+		FOREACH_PICOS pico_mobiles[mob * NUM_PICO + pic] = new Edge(EDGE_PICO, picos[pic], mobiles[mob]);
 	}
 	*/
 
@@ -272,7 +272,7 @@ void initialize(Macro** macros, Pico** picos, Mobile** mobiles,
 }
 
 void finalize(Macro** macros, Pico** picos, Mobile** mobiles,
-	Macro_Mobile** macro_mobiles, Pico_Mobile** pico_mobiles) {
+	Edge** macro_mobiles, Edge** pico_mobiles) {
 
 	for (int mm = 0; mm < NUM_MM; mm++)
 		delete macro_mobiles[mm];

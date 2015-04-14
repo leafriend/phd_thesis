@@ -2,12 +2,12 @@
 
 #include "macro_mobile.h"
 #include "pico_mobile.h"
+#include "edge.h"
 #include "mobile.h"
 
 class BaseStation {
 
-	friend class Macro_Mobile;
-	friend class Pico_Mobile;
+	friend class Edge;
 
 public:
 	const int idx;
@@ -15,9 +15,9 @@ public:
 	const double y;
 	const double tx_power;
 
-private:
+protected:
 
-	Macro_Mobile* mobiles_to_service[NUM_MM];
+	Edge* mobiles_to_service[NUM_MM];
 	int num_mobiles_to_service;
 
 	////////////////////////////////////////////////////////////////////////////
@@ -34,6 +34,6 @@ public:
 	BaseStation(int idx, double x, double y, double tx_power);
 
 	int get_num_mobiles_to_service() const;
-	Macro_Mobile** get_mobiles_to_service();
+	Edge** get_mobiles_to_service();
 
 };

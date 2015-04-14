@@ -12,6 +12,6 @@ int BaseStation::get_num_mobiles_to_service() const {
 	return num_mobiles_to_service;
 }
 
-Macro_Mobile** BaseStation::get_mobiles_to_service() {
+Edge** BaseStation::get_mobiles_to_service() {
 	return mobiles_to_service;
 }

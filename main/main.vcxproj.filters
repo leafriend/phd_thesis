@@ -32,9 +32,6 @@
     <ClCompile Include="src\macro.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\macro_mobile.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="src\main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -42,9 +39,6 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="src\pico.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="src\pico_mobile.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="src\pa1.cpp">
@@ -73,16 +67,10 @@
     <ClInclude Include="src\macro.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="src\macro_mobile.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="src\mobile.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="src\pico.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="src\pico_mobile.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="src\pa1.h">

@@ -40,7 +40,6 @@ int abs_cmp(int ri, const Mobile* a, const Mobile* b) {
 Pico::Pico(int idx, double x, double y, double tx_power)
 	: BaseStation(idx, x, y, tx_power)
 {
-	num_mobiles_to_service = 0;
 	num_macros_interfering = 0;
 
 	pa3_lambda_r = 1.0;
@@ -59,14 +58,14 @@ bool Pico::is_abs() const {
 	return true;
 }
 
-void Pico::sort_mobiles(int ri, Pico_Mobile** items, int size, Pico_Mobile** sorted, int cmp(int, const Mobile*, const Mobile*)) {
+void Pico::sort_mobiles(int ri, Edge** items, int size, Edge** sorted, int cmp(int, const Mobile*, const Mobile*)) {
 
 	if (size == 0)
 		return;
 
-	Pico_Mobile* former[NUM_PM];
+	Edge* former[NUM_PM];
 	int former_count = 0;
-	Pico_Mobile* latter[NUM_PM];
+	Edge* latter[NUM_PM];
 	int latter_count = 0;
 
 	const Mobile* base = items[0]->mobile;
@@ -80,9 +79,9 @@ void Pico::sort_mobiles(int ri, Pico_Mobile** items, int size, Pico_Mobile** sor
 		}
 	}
 
-	Pico_Mobile* sorted_former[NUM_PM];
+	Edge* sorted_former[NUM_PM];
 	sort_mobiles(ri, former, former_count, sorted_former, cmp);
-	Pico_Mobile* sorted_latter[NUM_PM];
+	Edge* sorted_latter[NUM_PM];
 	sort_mobiles(ri, latter, latter_count, sorted_latter, cmp);
 
 	for (int i = 0; i < former_count; i++)
@@ -137,14 +136,10 @@ void Pico::sort_mobiles() {
 
 }
 
-int Pico::get_num_mobiles_to_service() const {
-	return num_mobiles_to_service;
-}
-
-Pico_Mobile* Pico::get_non_sorted_mobile(int ri, int mob) const {
+Edge* Pico::get_non_sorted_mobile(int ri, int mob) const {
 	return non_sorted_mobiles[ri][mob];
 }
 
-Pico_Mobile* Pico::get_abs_sorted_mobile(int ri, int mob) const {
+Edge* Pico::get_abs_sorted_mobile(int ri, int mob) const {
 	return abs_sorted_mobiles[ri][mob];
 }

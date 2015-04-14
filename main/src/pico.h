@@ -1,6 +1,7 @@
 #pragma once
 
 #include "config.h"
+#include "basestation.h"
 
 //#include "mobile.h"
 //#include "macro.h"
@@ -14,16 +15,9 @@ int non_cmp(int ri, const Mobile* a, const Mobile* b);
 
 int abs_cmp(int ri, const Mobile* a, const Mobile* b);
 
-class Pico {
+class Pico : public BaseStation {
 
 	friend class Pico_Mobile;
-
-public:
-
-	const int idx;
-	const double x;
-	const double y;
-	const double tx_power;
 
 private:
 

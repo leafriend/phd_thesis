@@ -38,7 +38,7 @@ int abs_cmp(int ri, const Mobile* a, const Mobile* b) {
 
 
 Pico::Pico(int idx, double x, double y, double tx_power)
-: idx(idx), x(x), y(y), tx_power(tx_power)
+	: BaseStation(idx, x, y, tx_power)
 {
 	num_mobiles_to_service = 0;
 	num_mobiles_interfered = 0;

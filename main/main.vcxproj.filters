@@ -56,6 +56,9 @@
     <ClCompile Include="src\pa3.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="basestation.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\config.h">
@@ -89,6 +92,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="src\pa3.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="basestation.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

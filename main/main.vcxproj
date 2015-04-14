@@ -82,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\basestation.cpp" />
+    <ClCompile Include="src\edge.cpp" />
     <ClCompile Include="src\func.cpp" />
     <ClCompile Include="src\macro.cpp" />
     <ClCompile Include="src\macro_mobile.cpp" />
@@ -96,6 +97,7 @@
   <ItemGroup>
     <ClInclude Include="src\basestation.h" />
     <ClInclude Include="src\config.h" />
+    <ClInclude Include="src\edge.h" />
     <ClInclude Include="src\func.h" />
     <ClInclude Include="src\macro.h" />
     <ClInclude Include="src\macro_mobile.h" />

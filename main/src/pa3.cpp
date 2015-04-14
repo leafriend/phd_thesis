@@ -39,8 +39,6 @@ void pa3(Macro** macros, Pico** picos, Mobile** mobiles) {
 
 	FIND_BEST_MACRO_STATE_OPEN(macros, best_macro_states) {
 
-		best_macro_states[0] = 1;
-
 		FOREACH_MACROS_TS_OPEN {
 
 			int* mobile_states = (int*) malloc(sizeof(int) * NUM_MOBILE_TS * NUM_RB);

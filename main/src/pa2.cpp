@@ -137,8 +137,8 @@ void pa2(Macro** macros, Pico** picos, Mobile** mobiles) {
 
 /// <summary>
 /// This is summary.
-/// <param name="mobile_state">Noted Macro-Mobile connection in bit</param>
 /// </summary>
+/// <param name="mobile_state">Noted Macro-Mobile connection in bit</param>
 double pa2_calculate_lambda_r(long mobile_state, Macro_Mobile** mmobiles, int NUM_MOBILE_TS, int* curr_allocated_mob) {
 
 	double curr_sum_lambda_r = 0.0;

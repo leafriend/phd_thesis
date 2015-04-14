@@ -19,9 +19,6 @@ class Macro : public BaseStation {
 
 private:
 
-	Macro_Mobile* mobiles_interfered[NUM_PM];
-	int num_mobiles_interfered;
-	
 	int allocation_count;
 
 public:

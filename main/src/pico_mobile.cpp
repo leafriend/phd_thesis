@@ -13,7 +13,6 @@ Pico_Mobile::Pico_Mobile(Pico* pico, Mobile* mobile)
 	: pico(pico), Edge(pico, mobile)
 {
 
-	pico->mobiles_interfered[pico->num_mobiles_interfered++] = this;
 	mobile->picos_interfered[mobile->num_picos_interfered++] = this;
 
 	if (mobile->pico == NULL || distance < mobile->pico->distance)

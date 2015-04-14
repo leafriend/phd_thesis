@@ -28,8 +28,6 @@ private:
 	int num_mobiles_to_service;
 	Pico_Mobile* non_sorted_mobiles[NUM_RB][NUM_PM];
 	Pico_Mobile* abs_sorted_mobiles[NUM_RB][NUM_PM];
-	Pico_Mobile* mobiles_interfered[NUM_PM];
-	int num_mobiles_interfered;
 
 	////////////////////////////////////////////////////////////////////////////
 	// PA3                                                                    //

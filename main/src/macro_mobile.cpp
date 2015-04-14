@@ -13,7 +13,6 @@ Macro_Mobile::Macro_Mobile(Macro* macro, Mobile* mobile)
 	: macro(macro), Edge(macro, mobile)
 {
 
-	macro->mobiles_interfered[macro->num_mobiles_interfered++] = this;
 	mobile->macros_interfered[mobile->num_macros_interfered++] = this;
 
 	if (mobile->macro == NULL || distance < mobile->macro->distance)
